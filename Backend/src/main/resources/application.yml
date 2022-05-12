@@ -1,0 +1,31 @@
+server:
+#  address: localhost
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/parkcampus?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    username: park
+    password: park
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        use_sql_comments: true
+
+logging.level:
+  org.hibernate.SQL: debug
+
+jwt:
+  header: Authorization
+  #echo 'parkhjparkhjparkhjparkhjparkhjparkhjparkhjparkhj'|base64
+  secret: cGFya2hqcGFya2hqcGFya2hqcGFya2hqcGFya2hqcGFya2hqcGFya2hqcGFya2hqCg==
+  token-validity-in-seconds: 86400
