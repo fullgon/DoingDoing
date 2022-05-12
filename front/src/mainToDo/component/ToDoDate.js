@@ -1,25 +1,29 @@
-import { Axios } from "axios";
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 
 function ToDoDate(){
 
     const [todo, setTodo] = useState("");
+  
 
-    useEffect(()=>{
-        Axios.post("/api/date").then((response)=>{
+    const action = () =>{
+        axios.post("/api/account/signUp", {
+            userId:"dd",
+            password:"aa"
+        }).then((response)=>{
             if(response.data){
-                setTodo(response.data);
+                setTodo(response.data.userId);
             }
-            else{
-                alert("fail");
-            }
+        }).catch(error =>{
+            alert("fail");
         })
-    },[])
+    }
     return(
         <div>
-            <h1>{setTodo.todo}</h1>
-            <h1>{setTodo.date}</h1>
+            <button onClick={action}>프록시 연결</button>
+            <h1>{todo}</h1>
+            
         </div>
     )
 }
