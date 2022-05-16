@@ -5,3 +5,8 @@ create table user (
     email varchar(30) not null,
     company varchar(20)
 );
+
+insert into user value
+	('admin', 'phj', 'admin', 'admin@adimn.com', 'school');
+    
+select * from user where userId = 'admin';
