@@ -1,6 +1,7 @@
 import ToDo from "./component/ToDo"
 import ToDoDate from "./component/ToDoDate"
-import ToDoFinish from "./component/ToDoFinish"
+import ToDoComplete from "./component/ToDoComplete"
+import styles from "./ToDoMain.module.css"
 
 
 function TODoMain(){
@@ -8,7 +9,7 @@ function TODoMain(){
         <div>
             <ToDo/>
             <ToDoDate/>
-            <ToDoFinish/>
+            <ToDoComplete/>
         </div>
     )
 }
