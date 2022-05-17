@@ -15,11 +15,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public Schedule getScheduleByNo(Integer no) {
-        log.info(no);
-        log.info(scheduleMapper);
         Schedule schedule = scheduleMapper.selectScheduleByNo(no);
-
-        log.info(schedule);
         return schedule;
     }
 }

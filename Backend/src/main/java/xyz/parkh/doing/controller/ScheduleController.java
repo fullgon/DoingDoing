@@ -19,10 +19,7 @@ public class ScheduleController {
 
     @GetMapping("/{scheduleId}")
     public ResponseEntity<Schedule> getSchedule(@PathVariable("scheduleId") Integer scheduleId) {
-        System.out.println("scheduleId = " + scheduleId);
         Schedule schedule = scheduleService.getScheduleByNo(scheduleId);
-        System.out.println("schedule = " + schedule);
-        System.out.println("박현준");
         return ResponseEntity.ok().body(schedule);
     }
 
