@@ -29,4 +29,5 @@ public class UserController {
         log.info("userByUserId = " + userByUserId);
         return ResponseEntity.ok().body(userByUserId);
     }
+
 }

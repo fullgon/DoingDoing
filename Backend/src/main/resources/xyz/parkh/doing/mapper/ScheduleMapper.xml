@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.parkh.doing.mapper.ScheduleMapper">
+
+    <resultMap type="xyz.parkh.doing.domain.Schedule" id="scheduleSelectRM">
+        <result property="no" column="NO"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="title" column="TITLE"/>
+        <result property="content" column="CONTENT"/>
+        <result property="endTime" column="END_TIME"/>
+        <result property="isPublic" column="IS_PUBLIC"/>
+    </resultMap>
+
+    <select id="selectScheduleByNo" parameterType="INTEGER" resultType="xyz.parkh.doing.domain.Schedule"
+            resultMap="scheduleSelectRM">
+        select NO, USER_ID, TITLE, CONTENT, END_TIME, IS_PUBLIC
+        from tb_schedule
+        where no = #{no}
+    </select>
+</mapper>

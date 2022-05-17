@@ -4,12 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Schedule {
+    Integer no;
     String userId;
-    String name;
-    String email;
-    String company;
+    String title;
+    String content;
+    LocalDateTime endTime;
+    Boolean isPublic;
 }
