@@ -1,6 +1,7 @@
 package xyz.parkh.doing.controller;
 
 import lombok.extern.log4j.Log4j;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,8 @@ public class AuthController {
 
     @PostMapping("/signIn")
     public ResponseEntity<JwtResponseDTO> post_auth_signIn(User user) {
+
+
         log.info(user);
 
         ResultDTO resultDTO = new ResultDTO();

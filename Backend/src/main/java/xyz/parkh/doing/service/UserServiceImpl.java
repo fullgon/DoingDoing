@@ -2,9 +2,7 @@ package xyz.parkh.doing.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xyz.parkh.doing.domain.Schedule;
 import xyz.parkh.doing.domain.User;
-import xyz.parkh.doing.mapper.ScheduleMapper;
 import xyz.parkh.doing.mapper.UserMapper;
 
 @Service
