@@ -1,7 +1,7 @@
 package xyz.parkh.doing.mapper;
 
-import xyz.parkh.doing.domain.User;
+import xyz.parkh.doing.domain.UserVo;
 
 public interface UserMapper {
-    User selectUserByUserId(String userId);
+    UserVo selectUserByUserId(String userId);
 }

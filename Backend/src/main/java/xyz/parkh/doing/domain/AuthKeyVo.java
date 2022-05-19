@@ -4,13 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Friend {
-    String requesterId;
-    String addresseeId;
-    String status;
+public class AuthKeyVo {
+    Integer no;
+    String userId;
+    String email;
+    String authKey;
+    LocalDateTime crateTime;
 }

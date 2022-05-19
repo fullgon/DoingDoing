@@ -1,4 +1,4 @@
-package xyz.parkh.doing.service;
+package xyz.parkh.doing.service.security;
 
 import org.springframework.stereotype.Service;
 

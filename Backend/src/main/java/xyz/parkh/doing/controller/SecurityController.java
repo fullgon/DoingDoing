@@ -2,7 +2,7 @@ package xyz.parkh.doing.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import xyz.parkh.doing.service.SecurityService;
+import xyz.parkh.doing.service.security.SecurityService;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

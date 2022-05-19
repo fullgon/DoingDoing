@@ -3,17 +3,20 @@ package xyz.parkh.doing.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthKey {
+public class ScheduleVo {
     Integer no;
     String userId;
-    String email;
-    String authKey;
-    LocalDateTime crateTime;
+    String title;
+    String content;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    LocalDateTime endDate;
+    Boolean isPublic;
 }

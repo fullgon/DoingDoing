@@ -1,9 +1,8 @@
-package xyz.parkh.doing.service;
+package xyz.parkh.doing.service.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;

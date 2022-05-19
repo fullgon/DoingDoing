@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Auth {
-    String userId;
-    String password;
+public class FriendVo {
+    String requesterId;
+    String addresseeId;
+    String status;
 }

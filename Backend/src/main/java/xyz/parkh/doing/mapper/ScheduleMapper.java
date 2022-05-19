@@ -1,8 +1,12 @@
 package xyz.parkh.doing.mapper;
 
-import xyz.parkh.doing.domain.Schedule;
+import xyz.parkh.doing.domain.ScheduleVo;
+
+import java.util.List;
 
 public interface ScheduleMapper {
 
-    Schedule selectScheduleByNo(Integer no);
+    ScheduleVo selectScheduleByNo(Integer no);
+
+    List<ScheduleVo> selectScheduleList(String userId);
 }

@@ -10,13 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Schedule {
-    Integer no;
-    String userId;
-    String title;
-    String content;
-
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    LocalDateTime endTime;
-    Boolean isPublic;
+public class ScheduleStatusVo {
+    Boolean isComplete;
+    Boolean isTimeOut;
 }
