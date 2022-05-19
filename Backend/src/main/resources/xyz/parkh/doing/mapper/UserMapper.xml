@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.parkh.doing.mapper.UserMapper">
+
+    <resultMap type="xyz.parkh.doing.domain.UserVo" id="userSelectRM">
+        <result property="userId" column="USER_ID"/>
+        <result property="name" column="NAME"/>
+        <result property="email" column="EMAIL"/>
+        <result property="company" column="COMPANY"/>
+    </resultMap>
+
+    <select id="selectUserByUserId" parameterType="String" resultType="xyz.parkh.doing.domain.UserVo"
+            resultMap="userSelectRM">
+        select *
+        from tb_user
+        where USER_ID = #{userId}
+    </select>
+</mapper>
