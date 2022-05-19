@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import styles from "../css/ToDoDate.module.css"
 
 
 function ToDoDate(){
@@ -9,7 +10,7 @@ function ToDoDate(){
 
     const action = () =>{
         axios.post("/api/account/signUp", {
-            userId:"dd",
+            userId:"ad",
             password:"aa"
         }).then((response)=>{
             if(response.data){
@@ -20,9 +21,10 @@ function ToDoDate(){
         })
     }
     return(
-        <div>
+        <div className={`${styles.item} ${styles.body}`}>
+            <h1>할 일(Limit){todo}</h1>
             <button onClick={action}>프록시 연결</button>
-            <h1>{todo}</h1>
+            
             
         </div>
     )

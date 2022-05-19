@@ -1,0 +1,13 @@
+.container{
+    display: flex;
+    flex-wrap: wrap;
+    border-style: solid;
+    height: 90vh;
+}
+
+.btn{
+    height: 2em;
+    font-size: 1em;
+    float: right;
+    margin-right: 10px;
+}

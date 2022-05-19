@@ -3,17 +3,23 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import SignIn from './signIn/SignIn';
-import SignUp from './signUp/SignUp';
+import SignIn from './sign/SignIn';
+import SignUp from './sign/SignUp';
 import ToDoMain from './mainToDo/ToDoMain';
+import ReactModal from 'react-modal'
+
+import ModalsProvider from "./modals/ModalsProvider"
+
+ReactModal.setAppElement('#root');
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<SignIn/>} />
-      <Route path='signUp' element={<SignUp/>}/>
-      <Route path='main' element={<ToDoMain/>}/>
+      <Route path="/" element={<App/>} />
+      <Route path="auth/signIn" element={<SignIn/>} />
+      <Route path='auth/signUp' element={<SignUp/>}/>
+      <Route path='schedule' element={<ModalsProvider><ToDoMain/></ModalsProvider>}/>
     </Routes>
   </BrowserRouter>,
   root

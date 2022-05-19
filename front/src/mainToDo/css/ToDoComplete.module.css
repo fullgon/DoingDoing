@@ -1,0 +1,7 @@
+.body{
+    border-style: solid;
+}
+
+.item{
+    flex-basis: 100%;
+}

@@ -7,12 +7,12 @@ function SignIn(){
     
     //로그인 버튼 클릭 시 계정 확인 후 로그인 처리
     const goToMain = () =>{
-        navigate(`main`);
+        navigate(`/schedule`);
     }
 
     //회원가입 버튼 클릭 시 회원가입페이지로 이동
     const goToSignUp = () =>{
-        navigate(`signUp`);
+        navigate(`/auth/signUp`);
     }
     //useEffect();
 
