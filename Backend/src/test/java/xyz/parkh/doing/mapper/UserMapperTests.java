@@ -59,6 +59,29 @@ public class UserMapperTests {
         Assertions.assertNotNull(userList);
     }
 
+    @Test
+    @DisplayName("사용자 정보 부분 수정")
+    public void updatePartOfUser() {
+        // Given
+        UserVo testUser = generateNewUser();
+        String testUserId = testUser.getUserId();
+        int insertStatus = userMapper.insert(testUser);
+        Assert.isTrue(insertStatus == 1);
+        UserVo newUser = new UserVo().builder().userId(testUserId).name("newName").build();
+
+        // When
+        int updateStatus = userMapper.update(newUser);
+        Assert.isTrue(updateStatus == 1);
+
+        // Then
+        UserVo selectUser = userMapper.selectByUserId(testUserId);
+
+        Assert.isTrue(newUser.getUserId().equals(selectUser.getUserId()));
+        Assert.isTrue(newUser.getName().equals(selectUser.getName()));
+        Assert.isTrue(testUser.getCompany().equals(selectUser.getCompany()));
+        Assert.isTrue(testUser.getEmail().equals(selectUser.getEmail()));
+    }
+
 
     // 새 사용자 생성
     private UserVo generateNewUser() {
