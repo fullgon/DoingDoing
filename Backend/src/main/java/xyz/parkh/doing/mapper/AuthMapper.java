@@ -2,13 +2,16 @@ package xyz.parkh.doing.mapper;
 
 import xyz.parkh.doing.domain.AuthVo;
 
+import java.util.List;
+
 public interface AuthMapper {
+    int insert(AuthVo authVo);
 
-    int insertAuth(AuthVo authVo);
+    AuthVo selectByUserId(String userId);
 
-    AuthVo selectAuthByUserId(String UserId);
+    List<AuthVo> selectAll();
 
-    int updateAuth(AuthVo authVo);
+    int update(AuthVo authVo);
 
-    int deleteAuthByUserId(String UserId);
+    int delete(String authId);
 }

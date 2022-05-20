@@ -5,16 +5,13 @@ import xyz.parkh.doing.domain.ScheduleVo;
 import java.util.List;
 
 public interface ScheduleMapper {
+    int insert(ScheduleVo ScheduleVo);
 
-    int insertSchedule(ScheduleVo scheduleVo);
+    ScheduleVo selectByScheduleNo(Integer ScheduleNo);
 
-    ScheduleVo selectScheduleByNo(Integer no);
+    List<ScheduleVo> selectAll();
 
-    List<ScheduleVo> selectScheduleList(String userId);
+    int update(ScheduleVo ScheduleVo);
 
-    int updateSchedule(ScheduleVo scheduleVo);
-
-    int deleteScheduleByNo(Integer no);
-
-
+    int delete(Integer ScheduleNo);
 }
