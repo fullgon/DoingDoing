@@ -6,12 +6,17 @@ import styles from "./ToDoMain.module.css"
 import ModalsProvider from "../modals/ModalsProvider"
 import useModals from "../modals/useModals"
 import MyModal from "../modals/MyModal"
+import Modals, { modals } from "../modals/Modals"
 
 function TODoMain(){
     const { openModal } = useModals();
 
     const handleClick = () => {
-        openModal(MyModal, {foo : 'bar'});
+        openModal(modals.myModal, {
+            onSubmit: () => {
+                console.log('비지니스 로직 처리...');
+            },
+        });
     };
     return(
         
@@ -22,7 +27,7 @@ function TODoMain(){
                     <ToDoComplete/>
                 </div>
                 <button className={styles.btn} onClick={handleClick}>등록</button>
-
+                <Modals/>
         </div>
     )
 }

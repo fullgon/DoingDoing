@@ -1,12 +1,35 @@
 import React, { useContext } from "react";
-import { ModalsStateContext } from "./ModalContext";
+import { ModalsDispatchContext, ModalsStateContext } from "./ModalsContext";
+import MyModal from "./MyModal";
+
+export const modals = {
+    myModal: MyModal,
+};
 
 const Modals = () => {
     const openedModals = useContext(ModalsStateContext);
+    const { close } = useContext(ModalsDispatchContext);
+    
     return openedModals.map((modal, index) => {
         const { Component, props} = modal;
+        const { onSubmit, ...restProps} = props;
+        const onClose = () =>{
+            close(Component);
+        };
 
-        return <Component key={index} {...props}/>
+        const handleSubmit = async () =>{
+            if(typeof onSubmit === 'function'){
+                await onSubmit();
+            }
+            onClose();
+        };
+        return (
+        <Component 
+         {...restProps}
+         key={index}
+         onClose={onClose}
+         onSubmit={handleSubmit}/>
+        );
     });
 };
 
