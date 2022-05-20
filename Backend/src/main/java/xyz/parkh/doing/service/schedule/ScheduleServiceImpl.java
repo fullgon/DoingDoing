@@ -16,14 +16,12 @@ public class ScheduleServiceImpl implements ScheduleService {
     ScheduleMapper scheduleMapper;
 
     @Override
-    public ScheduleVo getScheduleByNo(Integer no) {
-        ScheduleVo scheduleVO = scheduleMapper.selectScheduleByNo(no);
-        return scheduleVO;
+    public List<ScheduleVo> getScheduleList(String userId) {
+        return null;
     }
 
     @Override
-    public List<ScheduleVo> getScheduleList(String userId) {
-        List<ScheduleVo> scheduleList = scheduleMapper.selectScheduleList(userId);
-        return scheduleList;
+    public ScheduleVo getScheduleByNo(Integer no) {
+        return null;
     }
 }
