@@ -2,10 +2,16 @@ package xyz.parkh.doing.mapper;
 
 import xyz.parkh.doing.domain.UserVo;
 
+import java.util.List;
+
 public interface UserMapper {
-    UserVo selectUserByUserId(String userId);
+    int insert(UserVo userVo);
 
-    int updateUser(UserVo userVo);
+    UserVo selectByUserId(String userId);
 
-    int deleteUser(String userId);
+    List<UserVo> selectAll();
+
+    int update(UserVo userVo);
+
+    int delete(String userId);
 }

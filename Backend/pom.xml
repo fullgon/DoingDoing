@@ -265,6 +265,13 @@
         <!--        </dependency>-->
         <!--    Test 관련 코드 끝    -->
 
-
+        <!--    테스트시 랜덤한 값을 넣기 위한 라이브러리 시작   -->
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
+        </dependency>
+        <!--    테스트시 랜덤한 값을 넣기 위한 라이브러리 끝   -->
     </dependencies>
 </project>

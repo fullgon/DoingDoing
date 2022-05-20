@@ -12,7 +12,7 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     public UserVo getUserByUserId(String userId) {
-        UserVo userVO = userMapper.selectUserByUserId(userId);
+        UserVo userVO = userMapper.selectByUserId(userId);
         return userVO;
     }
 }
