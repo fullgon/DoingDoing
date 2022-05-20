@@ -17,4 +17,10 @@
         from tb_user
         where USER_ID = #{userId}
     </select>
+
+    <update id="updateUser" parameterType="xyz.parkh.doing.domain.UserVo" >
+        update
+
+
+    </update>
 </mapper>
