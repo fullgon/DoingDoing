@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+// NO, USER_ID, EMAIL, AUTHKEY, CREATE_TIME
 public class AuthKeyVo {
     Integer no;
     String userId;

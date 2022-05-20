@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+// NO, USER_ID, TITLE, CONTENT, END_TIME, IS_PUBLIC
 public class ScheduleVo {
     Integer no;
     String userId;

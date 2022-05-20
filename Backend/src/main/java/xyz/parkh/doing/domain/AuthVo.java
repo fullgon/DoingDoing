@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+// USER_ID, PASSWORD
 public class AuthVo {
     String userId;
     String password;

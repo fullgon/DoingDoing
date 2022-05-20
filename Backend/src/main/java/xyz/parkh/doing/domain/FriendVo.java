@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+// REQUESTER_ID, ADDRESSEE_ID, STATUS
 public class FriendVo {
     String requesterId;
     String addresseeId;

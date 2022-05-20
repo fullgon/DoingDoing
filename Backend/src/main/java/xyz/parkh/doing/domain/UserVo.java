@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+// USER_ID, NAME, EMAIL, COMPANY
 public class UserVo {
     String userId;
     String name;
