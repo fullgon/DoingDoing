@@ -2,43 +2,40 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="xyz.parkh.doing.mapper.UserMapper">
+<mapper namespace="xyz.parkh.doing.mapper.AuthKeyMapper">
 
     <!--  UserVo : userId / DB user : USER_ID   -->
-    <resultMap type="xyz.parkh.doing.domain.UserVo" id="userSelectRM">
+    <resultMap type="xyz.parkh.doing.domain.AuthKeyVo" id="authKeySelectRM">
+        <result property="no" column="NO"/>
         <result property="userId" column="USER_ID"/>
-        <result property="name" column="NAME"/>
         <result property="email" column="EMAIL"/>
-        <result property="company" column="COMPANY"/>
+        <result property="authKey" column="AUTHKEY"/>
+        <result property="crateTime" column="CREATE_TIME"/>
     </resultMap>
 
-    <select id="selectByUserId" resultType="xyz.parkh.doing.domain.UserVo" resultMap="userSelectRM">
-        select USER_ID, NAME, EMAIL, COMPANY
-        from tb_user
-        where USER_ID = #{userId}
+    <select id="selectByNo" resultType="xyz.parkh.doing.domain.AuthKeyVo" resultMap="authKeySelectRM">
+        select NO, USER_ID, EMAIL, AUTHKEY, CREATE_TIME
+        from tb_authkey
+        where NO = #{no}
     </select>
 
-    <select id="selectAll" resultType="xyz.parkh.doing.domain.UserVo">
-        select USER_ID, NAME, EMAIL, COMPANY
-        from tb_user
+    <select id="selectAll" resultType="xyz.parkh.doing.domain.AuthKeyVo">
+        select NO, USER_ID, EMAIL, AUTHKEY, CREATE_TIME
+        from tb_authkey
     </select>
 
-    <insert id="insert" parameterType="xyz.parkh.doing.domain.UserVo">
-        insert into tb_user (USER_ID, NAME, EMAIL, COMPANY)
-        values (#{userId}, #{name}, #{email}, #{company})
+    <insert id="insert" useGeneratedKeys = "true" keyProperty="NO" parameterType="xyz.parkh.doing.domain.AuthKeyVo">
+        insert into tb_user (NO, USER_ID, EMAIL, AUTHKEY, CREATE_TIME)
+        values (#{no}, #{userId}, #{email}, #{authKey}, #{crateTime})
     </insert>
 
     <delete id="delete">
         delete
-        from tb_user
+        from tb_authkey
         where USER_ID = #{userId}
     </delete>
 
-    <update id="update" parameterType="xyz.parkh.doing.domain.UserVo">
-        update tb_user
-        set NAME    = #{name},
-            EMAIL   = #{email},
-            COMPANY = #{company}
-        where USER_ID = #{userId}
+    <update id="update" parameterType="xyz.parkh.doing.domain.AuthKeyVo">
+
     </update>
 </mapper>

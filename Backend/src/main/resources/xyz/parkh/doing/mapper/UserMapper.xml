@@ -36,9 +36,12 @@
 
     <update id="update" parameterType="xyz.parkh.doing.domain.UserVo">
         update tb_user
-        set NAME    = #{name},
-            EMAIL   = #{email},
-            COMPANY = #{company}
+        <set>
+            <if test="name != null">NAME = #{name}, </if>
+            <if test="email != null">EMAIL = #{email},</if>
+            <if test="company != null">COMPANY = #{company},</if>
+        </set>
         where USER_ID = #{userId}
     </update>
+
 </mapper>
