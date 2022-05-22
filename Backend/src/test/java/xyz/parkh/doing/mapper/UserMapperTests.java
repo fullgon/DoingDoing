@@ -60,8 +60,8 @@ public class UserMapperTests {
     }
 
     @Test
-    @DisplayName("사용자 정보 부분 수정")
-    public void updatePartOfUser() {
+    @DisplayName("사용자 정보 부분 수정(이름)")
+    public void updatePartOfUserName() {
         // Given
         UserVo testUser = generateNewUser();
         String testUserId = testUser.getUserId();
@@ -78,7 +78,32 @@ public class UserMapperTests {
 
         Assert.isTrue(newUser.getUserId().equals(selectUser.getUserId()));
         Assert.isTrue(newUser.getName().equals(selectUser.getName()));
+
         Assert.isTrue(testUser.getCompany().equals(selectUser.getCompany()));
+        Assert.isTrue(testUser.getEmail().equals(selectUser.getEmail()));
+    }
+
+    @Test
+    @DisplayName("사용자 정보 부분 수정(회사)")
+    public void updatePartOfUserCompany() {
+        // Given
+        UserVo testUser = generateNewUser();
+        String testUserId = testUser.getUserId();
+        int insertStatus = userMapper.insert(testUser);
+        Assert.isTrue(insertStatus == 1);
+        UserVo newUser = new UserVo().builder().userId(testUserId).company("newCompany").build();
+
+        // When
+        int updateStatus = userMapper.update(newUser);
+        Assert.isTrue(updateStatus == 1);
+
+        // Then
+        UserVo selectUser = userMapper.selectByUserId(testUserId);
+
+        Assert.isTrue(newUser.getUserId().equals(selectUser.getUserId()));
+        Assert.isTrue(newUser.getCompany().equals(selectUser.getCompany()));
+
+        Assert.isTrue(testUser.getName().equals(selectUser.getName()));
         Assert.isTrue(testUser.getEmail().equals(selectUser.getEmail()));
     }
 

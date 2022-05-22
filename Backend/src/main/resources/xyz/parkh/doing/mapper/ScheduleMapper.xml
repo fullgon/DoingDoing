@@ -13,20 +13,41 @@
         <result property="isPublic" column="IS_PUBLIC"/>
     </resultMap>
 
-    <select id="selectScheduleByNo" parameterType="INTEGER" resultType="xyz.parkh.doing.domain.ScheduleVo"
+    <select id="selectByNo" resultType="xyz.parkh.doing.domain.ScheduleVo"
             resultMap="scheduleSelectRM">
         select NO, USER_ID, TITLE, CONTENT, END_TIME, IS_PUBLIC
         from tb_schedule
         where no = #{no}
     </select>
 
-    <select id="selectScheduleList" parameterType="String" resultType="xyz.parkh.doing.domain.ScheduleVo"
+    <select id="selectByUserId" resultType="xyz.parkh.doing.domain.ScheduleVo"
             resultMap="scheduleSelectRM">
         select NO, USER_ID, TITLE, CONTENT, END_TIME, IS_PUBLIC
         from tb_schedule
         where USER_ID = #{userId}
     </select>
 
+    <insert id="insert" parameterType="xyz.parkh.doing.domain.ScheduleVo">
+        insert into tb_schedule(USER_ID, TITLE, CONTENT, END_TIME, IS_PUBLIC)
+        values (#{userId}, #{title}, #{content}, #{endTime}, #{isPublic})
+    </insert>
+
+    <update id="update" parameterType="xyz.parkh.doing.domain.ScheduleVo">
+        update tb_schedule
+        <set>
+            <if test="title != null">TITLE = #{title},</if>
+            <if test="content != null">CONTENT = #{content},</if>
+            <if test="endTime != null">END_TIME = #{endTime},</if>
+            <if test="isPublic != null">IS_PUBLIC = #{isPublic},</if>
+        </set>
+        where NO = #{no}
+    </update>
+
+    <delete id="delete">
+        DELETE
+        FROM tb_schedule
+        WHERE NO = #{no}
+    </delete>
 
 
 </mapper>

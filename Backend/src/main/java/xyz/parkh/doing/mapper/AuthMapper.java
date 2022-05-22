@@ -9,8 +9,6 @@ public interface AuthMapper {
 
     AuthVo selectByUserId(String userId);
 
-    List<AuthVo> selectAll();
-
     int update(AuthVo authVo);
 
     int delete(String authId);
