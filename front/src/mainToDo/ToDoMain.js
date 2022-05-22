@@ -3,7 +3,6 @@ import ToDoDate from "./component/ToDoDate"
 import ToDoComplete from "./component/ToDoComplete"
 import styles from "./ToDoMain.module.css"
 
-import ModalsProvider from "../modals/ModalsProvider"
 import useModals from "../modals/useModals"
 import Modals, { modals } from "../modals/Modals"
 
