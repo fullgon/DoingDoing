@@ -4,5 +4,6 @@ import xyz.parkh.doing.domain.UserVo;
 
 public interface UserService {
 
-    public UserVo getUserByUserId(String userId);
+    UserVo read(String userId);
 }
+

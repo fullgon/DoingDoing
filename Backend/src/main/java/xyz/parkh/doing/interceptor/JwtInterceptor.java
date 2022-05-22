@@ -1,7 +1,6 @@
 package xyz.parkh.doing.interceptor;
 
 import lombok.extern.log4j.Log4j;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -16,8 +15,6 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object Handler) throws Exception {
         HashMap<String, Object> tokenMap;
-        Map<String, Object> jsonData = new HashMap<>();
-
         String jwtToken = request.getHeader("Authorization");
 
         if (jwtToken != null) {
@@ -44,7 +41,7 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
         return false;
     }
 
-    
+
     // TODO 이건 왜 구현 하신건지
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {

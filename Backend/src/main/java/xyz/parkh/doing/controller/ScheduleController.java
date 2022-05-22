@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(("/schedule"))
+@RequestMapping(("/api/schedule"))
 public class ScheduleController {
 
     @Autowired

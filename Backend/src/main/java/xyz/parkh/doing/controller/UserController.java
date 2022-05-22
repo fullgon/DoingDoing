@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Log4j
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/api/user")
 public class UserController {
 
     @Autowired
@@ -22,7 +22,7 @@ public class UserController {
     @GetMapping("/{userId}")
     public Map<String, Object> getByUserId(@PathVariable("userId") String userId) {
         HashMap<String, Object> jsonData = new HashMap<>();
-        UserVo user = userService.getUserByUserId(userId);
+        UserVo user = userService.read(userId);
         jsonData.put("user", user);
 
         HashMap<String, Object> result = new HashMap<>();

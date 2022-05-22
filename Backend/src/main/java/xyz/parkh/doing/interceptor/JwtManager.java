@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Log4j
 public class JwtManager {
-    public static String generateToken(String userId, String userName, String userType) {
+    public static String generateToken(String userId, String userName) {
         String id = UUID.randomUUID().toString().replace("-", "");
         Date now = new Date();
         Date exp = new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 21));
@@ -21,7 +21,8 @@ public class JwtManager {
                 .setNotBefore(now)
                 .setExpiration(exp)
                 .claim("userId", userId)
-                .signWith(SignatureAlgorithm.HS256, "".getBytes())
+                .claim("userName", userId)
+                .signWith(SignatureAlgorithm.HS256, "parkh".getBytes())
                 .compact();
         log.info(userId + " : " + tokenStr);
         return tokenStr;
@@ -36,7 +37,7 @@ public class JwtManager {
         } else {
             try {
                 Claims claims = Jwts.parser()
-                        .setSigningKey("".getBytes())
+                        .setSigningKey("parkh".getBytes())
                         .parseClaimsJws(token).getBody();
                 tokenMap.put("userId", claims.get("userId").toString());
             } catch (ExpiredJwtException e) {

@@ -11,7 +11,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;
 
-    public UserVo getUserByUserId(String userId) {
+    @Override
+    public UserVo read(String userId) {
         UserVo userVO = userMapper.selectByUserId(userId);
         return userVO;
     }
