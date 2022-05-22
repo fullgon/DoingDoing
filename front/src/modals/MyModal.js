@@ -10,11 +10,14 @@ const MyModal = ({ onSubmit, onClose }) => {
     }
     return(
         <ReactModal isOpen>
-            <div>모달입니다.</div>
+            <div>
+                <input type="text" placeholder="제목"/>
+                <input type="date" placeholder="기한"/>
+            </div>
             <div>
                 <button onClick={handleClickSubmit}>확인</button>
                 <button onClick={handleClickCancel}>취소</button>
-            </div>
+            </div>  
         </ReactModal>
     );
 };

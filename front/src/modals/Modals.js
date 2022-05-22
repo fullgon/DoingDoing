@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
 import { ModalsDispatchContext, ModalsStateContext } from "./ModalsContext";
 import MyModal from "./MyModal";
+import NewSchedule from "./NewSchedule";
 
 export const modals = {
     myModal: MyModal,
+    newSchedule : NewSchedule,
 };
 
 const Modals = () => {
@@ -24,7 +26,7 @@ const Modals = () => {
             onClose();
         };
         return (
-        <Component 
+        <Component
          {...restProps}
          key={index}
          onClose={onClose}

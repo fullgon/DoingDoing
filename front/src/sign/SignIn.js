@@ -18,8 +18,8 @@ function SignIn(){
 
     return(
         <div>
-            아이디: <input type="text" placeholder="아이디"></input>
-            비밀번호: <input type="password" placeholder="비밀번호"></input>
+            <p>아이디: <input type="text" placeholder="아이디"></input></p>
+            <p>비밀번호: <input type="password" placeholder="비밀번호"></input></p>
             <input type="submit" onClick={goToMain} value="로그인"></input>
             <button onClick={goToSignUp}>회원가입</button>
         </div>
