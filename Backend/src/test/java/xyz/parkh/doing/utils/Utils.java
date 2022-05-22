@@ -1,14 +1,16 @@
 package xyz.parkh.doing.utils;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
+import xyz.parkh.doing.domain.AuthKeyVo;
+import xyz.parkh.doing.domain.AuthVo;
+import xyz.parkh.doing.domain.ScheduleVo;
 import xyz.parkh.doing.domain.UserVo;
-import xyz.parkh.doing.mapper.UserMapper;
+
+import java.time.LocalDateTime;
 
 public class Utils {
 
-    // 랜덤 UserVo 생성
+    // 테스트 UserVo 생성
     public static UserVo generateUser() {
         String userId = generatedStringWithInt(10);
         String name = generatedOnlyString(5);
@@ -20,6 +22,42 @@ public class Utils {
 
         return user;
     }
+
+    // 테스트 AuthKeyVo 생성
+    public static AuthKeyVo generateAuthKey(String userId) {
+        // UserId 가 외래키로 되어 있어 사용자 만들어줘야 함
+        // 너무 독립적이지 못한데.
+
+        String authKey = generatedOnlyString(6);
+        String email = generatedOnlyString(5) + "@" + generatedOnlyString(5) + "." + generatedOnlyString(3);
+        LocalDateTime now = LocalDateTime.now();
+
+        AuthKeyVo authKeyVo = new AuthKeyVo().builder()
+                .userId(userId).authKey(authKey).crateTime(now).email(email).build();
+
+        return authKeyVo;
+    }
+
+    // 테스트 AuthVo 생성
+    public static AuthVo generateAuth(String userId) {
+        String password = generatedStringWithInt(10);
+        AuthVo authVo = new AuthVo().builder()
+                .userId(userId).password(password).build();
+        return authVo;
+    }
+
+    // 테스트 ScheduleVo 생성
+    public static ScheduleVo generateSchedule(String userId) {
+        String title = generatedOnlyString(5);
+        String content = generatedOnlyString(10);
+        Boolean isPublic = true;
+        // DB 저장시 milliseconds 단위 저장 안되고 반올림 되므로 withNano(0) 추가
+        LocalDateTime endDate = LocalDateTime.now().withNano(0).plusDays(1);
+        ScheduleVo schedule = new ScheduleVo().builder()
+                .userId(userId).title(title).content(content).isPublic(isPublic).endTime(endDate).build();
+        return schedule;
+    }
+
 
     // 랜덤 String 생성 ( 문자열 )
     public static String generatedOnlyString(int length) {
@@ -38,4 +76,5 @@ public class Utils {
         String generatedString = RandomStringUtils.random(length, useLetters, useNumbers);
         return generatedString;
     }
+
 }

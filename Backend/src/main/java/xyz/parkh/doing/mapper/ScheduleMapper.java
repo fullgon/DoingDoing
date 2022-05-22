@@ -7,9 +7,9 @@ import java.util.List;
 public interface ScheduleMapper {
     int insert(ScheduleVo ScheduleVo);
 
-    ScheduleVo selectByScheduleNo(Integer ScheduleNo);
+    ScheduleVo selectByNo(Integer ScheduleNo);
 
-    List<ScheduleVo> selectAll();
+    List<ScheduleVo> selectByUserId(String userId);
 
     int update(ScheduleVo ScheduleVo);
 
