@@ -78,48 +78,37 @@ public class AuthController {
         return jsonData;
     }
 
-//    // 회원 가입
-//    @PostMapping("/signUp")
-//    public Map<String, Object> postSignUp(AuthVo authVo, UserVo userVo) {
-//        Map<String, Object> jsonData = new HashMap<>();
-//
-//        UserVo existUserId = new UserVo();
-//        existUserId.setUserId(userVo.getUserId());
-//        existUserId = userService.read(existUserId);
-//
-//        UserVo existUserPhone = new UserVo();
-//        existUserPhone.setUserPhone(userVo.getUserPhone());
-//        existUserPhone = userService.read(existUserPhone);
-//
-//        if (existUserId != null) {
-//            jsonData.put("result", "오류");
-//            jsonData.put("message", "아이디가 존재합니다.");
-//        } else if (existUserPhone != null) {
-//            jsonData.put("result", "오류");
-//            jsonData.put("message", "동일한 핸드폰번호가 존재합니다.");
-//        } else {
-//            // 비밀번호 암호화
-//            String hashedPassword = BCrypt.hashpw(userVo.getUserPassword(), BCrypt.gensalt(12));
-//            userVo.setUserPassword(hashedPassword);
-//
-//            userVo.setUserType("USER");
-//            userVo.setCreateUserId(userVo.getUserId());
-//            userVo.setUpdateUserId(userVo.getUserId());
-//            userVo = userService.create(userVo);
-//        }
-//
-//        return jsonData;
-//
-//
-//        HashMap<String, Object> jsonData = new HashMap<>();
-//
-//        HashMap<String, Object> result = new HashMap<>();
-//        result.put("result", "result");
-//        result.put("message", "message");
-//        jsonData.put("result", result);
-//
-//        return jsonData;
-//    }
+    // 회원 가입
+    @PostMapping("/signUp")
+    public Map<String, Object> postSignUp(AuthVo authVo, UserVo userVo) {
+        Map<String, Object> jsonData = new HashMap<>();
+        HashMap<String, Object> result = new HashMap<>();
+
+        String userId = authVo.getUserId();
+        String email = userVo.getEmail();
+
+        UserVo existUser = userService.read(userId);
+
+        if(existUser == null){
+            String hashedPassword = BCrypt.hashpw(authVo.getPassword(), BCrypt.gensalt(12));
+            authVo.setPassword(hashedPassword);
+
+            userService.create(userVo);
+            authService.create(authVo);
+
+            result.put("result", "성공");
+            result.put("message", "회원 가입 성공");
+        }else if (userId.equals(existUser.getUserId())) {
+            result.put("result", "오류");
+            result.put("message", "아이디가 존재합니다.");
+        } else if (email.equals(existUser.getEmail())) {
+            result.put("result", "오류");
+            result.put("message", "동일한 이메일이 존재합니다.");
+        }
+        jsonData.put("result", result);
+
+        return jsonData;
+    }
 
     // 인증 번호 전송
     @PostMapping("/sendAuthkey")

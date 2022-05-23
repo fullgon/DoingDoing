@@ -16,4 +16,9 @@ public class UserServiceImpl implements UserService {
         UserVo userVO = userMapper.selectByUserId(userId);
         return userVO;
     }
+
+    @Override
+    public void create(UserVo userVo) {
+        userMapper.insert(userVo);
+    }
 }

@@ -5,4 +5,6 @@ import xyz.parkh.doing.domain.AuthVo;
 public interface AuthService {
     AuthVo read(String userId);
 
+    void create(AuthVo authVo);
+
 }
