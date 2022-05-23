@@ -111,14 +111,14 @@ public class AuthController {
     }
 
     // 인증 번호 전송
-    @PostMapping("/sendAuthkey")
-    public Map<String, Object> postSendAuthkey(UserVo userVO) {
+    @PostMapping("/sendAuthKey")
+    public Map<String, Object> postSendAuthKey(UserVo userVO) {
         HashMap<String, Object> jsonData = new HashMap<>();
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "result");
         result.put("message", "message");
-        jsonData.put("result", result);
+        jsonData.put("result", userVO);
 
         return jsonData;
     }
@@ -132,7 +132,7 @@ public class AuthController {
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "result");
-        result.put("message", "message");
+        result.put("message", userVO);
         jsonData.put("result", result);
 
         return jsonData;
@@ -146,7 +146,7 @@ public class AuthController {
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "result");
-        result.put("message", "message");
+        result.put("message", userVO);
 
         jsonData.put("result", result);
 
@@ -161,7 +161,7 @@ public class AuthController {
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "result");
-        result.put("message", "message");
+        result.put("message", authVo.getUserId());
 
         jsonData.put("result", result);
 
