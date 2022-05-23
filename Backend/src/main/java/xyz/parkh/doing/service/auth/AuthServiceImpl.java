@@ -15,7 +15,7 @@ public class AuthServiceImpl implements AuthService {
 
     public AuthVo read(String userId) {
         AuthVo authVo = authMapper.selectByUserId(userId);
-        return null;
+        return authVo;
     }
 
     @Override
