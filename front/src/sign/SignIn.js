@@ -1,4 +1,5 @@
 import {useEffect} from "react"
+import axios from "axios";
 import {useNavigate} from "react-router-dom"
 
 function SignIn(){
@@ -7,6 +8,17 @@ function SignIn(){
     
     //로그인 버튼 클릭 시 계정 확인 후 로그인 처리
     const goToMain = () =>{
+        /*
+        axios.post("api/auth/signIn",{
+            userID:"사용자아이디",
+            password:"비밀번호",
+        }).then((response)=>{
+            변수 = response.jwt;
+            변수2 = response.result;
+        }).catch(error =>{
+            alert("fail");
+        })
+        */
         navigate(`/schedule`);
     }
 
