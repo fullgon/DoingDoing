@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import ReactModal from 'react-modal'
+import Switch from '@mui/material/Switch';
+
+const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 const NewSchedule = ({onSubmit, onClose}) =>{
     
@@ -32,7 +35,8 @@ const NewSchedule = ({onSubmit, onClose}) =>{
                 <p><input type="text" placeholder="제목" onChange={onChangeTitle}/></p>
                 <p>
                     <input type="date" placeholder="기한" onChange={onChangeDate}/>
-                    친구 허용
+                    <Switch {...label} defaultChecked />
+                    공유
                 </p>
                 <textarea placeholder='내용' onChange={onChangeContent}/>
             </div>
