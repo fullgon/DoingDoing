@@ -13,7 +13,7 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     AuthMapper authMapper;
 
-    public AuthVo read(String userId){
+    public AuthVo read(String userId) {
         AuthVo authVo = authMapper.selectByUserId(userId);
         return null;
     }

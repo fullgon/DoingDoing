@@ -37,7 +37,7 @@
     <update id="update" parameterType="xyz.parkh.doing.domain.UserVo">
         update tb_user
         <set>
-            <if test="name != null">NAME = #{name}, </if>
+            <if test="name != null">NAME = #{name},</if>
             <if test="email != null">EMAIL = #{email},</if>
             <if test="company != null">COMPANY = #{company},</if>
         </set>

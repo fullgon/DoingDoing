@@ -2,8 +2,6 @@ package xyz.parkh.doing.mapper;
 
 import xyz.parkh.doing.domain.AuthVo;
 
-import java.util.List;
-
 public interface AuthMapper {
     int insert(AuthVo authVo);
 

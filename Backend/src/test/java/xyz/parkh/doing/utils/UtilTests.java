@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 
 public class UtilTests {
 
-    //https://www.baeldung.com/java-random-string
     @Test
     public void givenUsingApache_whenGeneratingRandomStringBounded_thenCorrect() {
         int length = 10;

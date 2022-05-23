@@ -89,7 +89,7 @@ public class AuthController {
 
         UserVo existUser = userService.read(userId);
 
-        if(existUser == null){
+        if (existUser == null) {
             String hashedPassword = BCrypt.hashpw(authVo.getPassword(), BCrypt.gensalt(12));
             authVo.setPassword(hashedPassword);
 
@@ -98,7 +98,7 @@ public class AuthController {
 
             result.put("result", "성공");
             result.put("message", "회원 가입 성공");
-        }else if (userId.equals(existUser.getUserId())) {
+        } else if (userId.equals(existUser.getUserId())) {
             result.put("result", "오류");
             result.put("message", "아이디가 존재합니다.");
         } else if (email.equals(existUser.getEmail())) {
