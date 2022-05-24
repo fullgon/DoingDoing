@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom"
 
 
 
-const findPassword = () =>{
+const FindPassword = () =>{
     
     const navigate = useNavigate();
 
@@ -52,14 +52,15 @@ const findPassword = () =>{
             <p>
                 e-mail: <input type="text" placeholder="e-mail" onChange={(e)=> {setEmail(e.target.value);}}/>
                 @<input type="text" onChange={(e)=> {setAdress(e);}}/> 
+                <button onClick={sendAuth}>전송</button>
             </p>
             <p>
                 인증번호: <input type="text" placeholder="인증번호" onChange={(e)=> {setAuthkey(e.target.value);}}/>
                 <button onClick={checkAuth}>인증</button>
             </p>
-            <button onClick={sendAuth}>인증번호 전송</button>
+            <button onClick={sendAuth}>확인</button>
         </div>
     )
 }
 
-export default findPassword
+export default FindPassword
