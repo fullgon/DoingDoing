@@ -52,4 +52,54 @@ public class ScheduleController {
 
 -> getByUserId
 
-이렇게 한 이유? 나중에 API 문서 자동화 할 수 있도록 
+이렇게 한 이유? 나중에 API 문서 자동화 할 수 있도록
+
+## 디버깅
+
+### PUT, PATCH 시 form 데이터 못 읽어오는 문제
+
+* 문제
+
+  POST 로는 정상적으로 작동하는데
+
+  PUT, PATCH 시 form 데이터 못 읽어오는 문제 발생
+
+* 해결
+
+  브라우저가 GET, POST 요청을 통해 양식 제출할 수 있지만
+
+  브라우저가 아닌 클라이언트로 PUT, PATCH, DELETE 요청으로 양식 제출 할 수 있음
+
+  Servlet API 에서는 HTTP POST 에 대해서만 ServletRequest.getParameter*() 를 제공함
+
+  spring-web 이 제공하는 FormContentFilter 이용하면 PUT, PATCH, DELETE 이용해서
+
+  application/x-www-form-urlencoded 양식 제출 할 수 있음
+
+* 다음
+
+  응답만 json 으로 하지 말고 요청도 json 으로 바꾸자.
+
+```
+<filter>
+    <filter-name>putMapping</filter-name>
+    <filter-class>org.springframework.web.filter.FormContentFilter</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>putMapping</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+```
+
+검색어 : spring putmapping null
+
+참고 사이트
+
+http://hwannnn.blogspot.com/2018/07/putdeletemapping-body.html
+
+https://finkle.tistory.com/94
+
+https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#filters-http-put
+
+https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-web-handler-api
+
