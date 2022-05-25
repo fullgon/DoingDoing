@@ -62,4 +62,13 @@
     </filter-mapping>
     <!-- CORS 필터 끝 -->
 
+    <filter>
+        <filter-name>putMapping</filter-name>
+        <filter-class>org.springframework.web.filter.FormContentFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>putMapping</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
 </web-app>
