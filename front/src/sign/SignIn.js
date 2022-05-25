@@ -11,17 +11,26 @@ function SignIn(){
 
     //로그인 버튼 클릭 시 계정 확인 후 로그인 처리
     const logIn = () =>{
-        /*
-        axios.post("api/auth/signIn",{
-            userID:"사용자아이디",
-            password:"비밀번호",
-        }).then((response)=>{
-            변수 = response.jwt;
-            변수2 = response.result;
+        
+        axios.post("api/auth/sign-in",{
+            userID: id,
+            password: pwd,
+        },{
+            headers:{
+                'Content-Type' : 'application/json',
+                //'Authorization' : authToken
+            }
+        }).then((res)=>{
+            //jwt토큰 로컬저장소에 저장
+            if(res.reuslt.result == 'ok'){
+                //navigate(`/schedule`);
+            }
+            else{
+                alert("아이디 혹은 비밀번호가 잘못되었습니다.");
+            }
         }).catch(error =>{
-            alert("fail");
+            alert("에러남");
         })
-        */
         navigate(`/schedule`);
     }
 

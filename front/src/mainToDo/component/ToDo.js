@@ -1,6 +1,7 @@
 import styles from "../css/ToDo.module.css"
 import useModals from "../../modals/useModals"
 import Modals, { modals } from "../../modals/Modals"
+import { useEffect } from "react";
 
 function ToDo(){
     
@@ -15,6 +16,10 @@ function ToDo(){
             },
         });
     };
+
+    useEffect(()=>{
+        //일정 가져오기
+    },[])
 
     return(
         <div className={`${styles.body} ${styles.item}`}>
