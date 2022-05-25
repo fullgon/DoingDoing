@@ -14,13 +14,13 @@ import java.time.LocalDateTime;
 @Builder
 // NO, USER_ID, TITLE, CONTENT, END_TIME, IS_PUBLIC
 public class ScheduleVo {
-    Integer no;
-    String userId;
-    String title;
-    String content;
+    private Integer no;
+    private String userId;
+    private String title;
+    private String content;
 
-    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    LocalDateTime endTime;
-    Boolean isPublic;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime endTime;
+
+    private Boolean isPublic;
 }

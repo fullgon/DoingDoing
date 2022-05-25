@@ -14,11 +14,11 @@ import java.time.LocalDateTime;
 @Builder
 // NO, USER_ID, EMAIL, AUTHKEY, CREATE_TIME
 public class AuthKeyVo {
-    Integer no;
-    String userId;
-    String email;
-    String authKey;
+    private Integer no;
+    private String userId;
+    private String email;
+    private String authKey;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    LocalDateTime crateTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime crateTime;
 }

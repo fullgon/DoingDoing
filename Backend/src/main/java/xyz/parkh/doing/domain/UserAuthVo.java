@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-// REQUESTER_ID, ADDRESSEE_ID, STATUS
-public class FriendVo {
-    private String requesterId;
-    private String addresseeId;
-    private String status;
+public class UserAuthVo {
+    private String userId;
+    private String password;
+    private String name;
+    private String email;
+    private String company;
 }

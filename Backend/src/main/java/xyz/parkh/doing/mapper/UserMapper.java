@@ -9,6 +9,8 @@ public interface UserMapper {
 
     UserVo selectByUserId(String userId);
 
+    UserVo selectByEmail(String userId);
+
     List<UserVo> selectAll();
 
     int update(UserVo userVo);

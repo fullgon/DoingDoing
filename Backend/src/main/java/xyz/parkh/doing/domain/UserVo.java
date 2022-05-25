@@ -1,12 +1,14 @@
 package xyz.parkh.doing.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Setter
 // USER_ID, NAME, EMAIL, COMPANY
 public class UserVo {
     private String userId;

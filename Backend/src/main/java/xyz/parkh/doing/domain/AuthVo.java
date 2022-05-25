@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 // USER_ID, PASSWORD
 public class AuthVo {
-    String userId;
-    String password;
+    private String userId;
+    private String password;
 }

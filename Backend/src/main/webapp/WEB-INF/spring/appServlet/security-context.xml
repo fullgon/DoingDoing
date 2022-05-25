@@ -8,10 +8,11 @@
     <interceptors>
         <interceptor>
             <mapping path="/api/**"/>
-            <exclude-mapping path="/api/auth/signIn"/>
-            <exclude-mapping path="/api/auth/signUp"/>
-            <exclude-mapping path="/api/auth/sendAuthkey"/>
-            <exclude-mapping path="/api/auth/signUp"/>
+            <exclude-mapping path="/api/auth/sign-in"/>
+            <exclude-mapping path="/api/auth/sign-up"/>
+            <exclude-mapping path="/api/auth/send/auth-key"/>
+            <exclude-mapping path="/api/auth/check/auth-key"/>
+            <exclude-mapping path="/api/auth/check/user-id"/>
             <beans:bean class="xyz.parkh.doing.interceptor.JwtInterceptor"/>
         </interceptor>
     </interceptors>

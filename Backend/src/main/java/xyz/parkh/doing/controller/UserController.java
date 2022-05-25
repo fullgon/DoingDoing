@@ -3,10 +3,8 @@ package xyz.parkh.doing.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.web.bind.annotation.*;
-import xyz.parkh.doing.domain.AuthVo;
 import xyz.parkh.doing.domain.UserVo;
-import xyz.parkh.doing.service.auth.AuthService;
-import xyz.parkh.doing.service.user.UserService;
+import xyz.parkh.doing.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -18,25 +16,31 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
-    private final AuthService authService;
 
+    // jwt
     // 사용자 정보 조회
     @GetMapping("/{userId}")
-    public Map<String, Object> getByUserId(@PathVariable("userId") String userId) {
-        return userService.getByUserId(userId);
+    public Map<String, Object> getByUserId(@PathVariable("userId") String userId, HttpServletRequest request) {
+        String userIdInJwt = (String) request.getAttribute("userId");
+
+        return userService.readByUserId(userIdInJwt, userId);
     }
 
+    // jwt, userId, password, email, name, company
     // 사용자 정보 수정
     @PutMapping
-    public Map<String, Object> putByUserIdPut(AuthVo authVo, UserVo userVo, HttpServletRequest request) {
-        String userId = (String) request.getAttribute("userId");
-        return userService.patchByUserId(userId, userVo);
+    public Map<String, Object> putUser(@RequestBody UserVo userVo, HttpServletRequest request) {
+        String userIdInJwt = (String) request.getAttribute("userId");
+
+        return userService.modifyUser(userIdInJwt, userVo);
     }
 
+    // jwt
     // 사용자 정보 삭제
     @DeleteMapping
-    public Map<String, Object> deleteByUserId(HttpServletRequest request) {
-        String userId = (String) request.getAttribute("userId");
-        return userService.deleteByUserId(userId);
+    public Map<String, Object> deleteUser(HttpServletRequest request) {
+        String userIdInJwt = (String) request.getAttribute("userId");
+
+        return userService.removeUser(userIdInJwt);
     }
 }

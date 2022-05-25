@@ -1,5 +1,7 @@
 ## 회의 할 것
 
+아이디 중복 확인, 이메일 확인
+
 ### 2022.05.24. 이메일 관련
 
 현재 비밀번호 찾기 할때 아이디, 이메일 입력해 인증번호 전송
@@ -58,6 +60,8 @@ public class ScheduleController {
 
 ### PUT, PATCH 시 form 데이터 못 읽어오는 문제
 
+2022.05.24.
+
 * 문제
 
   POST 로는 정상적으로 작동하는데
@@ -103,3 +107,54 @@ https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#fil
 
 https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux-web-handler-api
 
+### 요청으로 LocalDateTime 받기
+
+2022.05.25.
+
+직렬화?
+
+```
+// jwt, title, content, isPublic, endTime
+// 일정 정보 등록
+@PostMapping("/{userId}")
+public Map<String, Object> postByUserIdByScheduleNo(@PathVariable("userId") String userId,
+                                                    @RequestBody ScheduleVo scheduleVo,
+                                                    HttpServletRequest request) {
+    String userIdInJwt = (String) request.getAttribute("userId");
+
+    return scheduleService.createSchedule(userIdInJwt, scheduleVo);
+}
+```
+
+```
+@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+private LocalDateTime endTime;
+```
+
+똑같이 해도 오류 발생
+
+-> 버전 변경 후 해결
+
+```
+<dependency>
+<groupId>com.fasterxml.jackson.datatype</groupId>
+<artifactId>jackson-datatype-jsr310</artifactId>
+<version>2.9.7</version>
+</dependency>
+```
+
+참고 자료
+
+https://jojoldu.tistory.com/361
+
+## JWT 유지 시간
+
+  Date exp = new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 21));
+
+의도는 21일 이나 실제로는 3일?
+
+  Date exp = new Date(System.currentTimeMillis() + (1000 * 60L * 60L * 24L * 21));
+  
+이렇게 하라고 하심.
+
+검증해보기

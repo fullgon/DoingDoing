@@ -18,6 +18,12 @@
         where USER_ID = #{userId}
     </select>
 
+    <select id="selectByEmail" resultType="xyz.parkh.doing.domain.UserVo" resultMap="userSelectRM">
+        select USER_ID, NAME, EMAIL, COMPANY
+        from tb_user
+        where EMAIL = #{email}
+    </select>
+
     <select id="selectAll" resultType="xyz.parkh.doing.domain.UserVo">
         select USER_ID, NAME, EMAIL, COMPANY
         from tb_user

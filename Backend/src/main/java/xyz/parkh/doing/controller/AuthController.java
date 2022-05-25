@@ -1,19 +1,22 @@
+/**
+ * 로그인, 회원가입, 사용자 확인 등
+ * 사용자 인증 관련된 요청을 받는 Controller
+ */
+
 package xyz.parkh.doing.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import xyz.parkh.doing.domain.AuthKeyVo;
 import xyz.parkh.doing.domain.AuthVo;
+import xyz.parkh.doing.domain.UserAuthVo;
 import xyz.parkh.doing.domain.UserVo;
-import xyz.parkh.doing.service.auth.AuthService;
+import xyz.parkh.doing.service.AuthService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 @Log4j
@@ -24,64 +27,56 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/signIn")
-    public Map<String, Object> postSignIn(AuthVo authVo, HttpServletResponse response) throws IOException {
-        return authService.postSignIn(authVo, response);
+    // UserId, Password
+    // 로그인
+    @PostMapping("/sign-in")
+    public Map<String, Object> postSignIn(@RequestBody AuthVo authVo, HttpServletResponse response) throws IOException {
+        return authService.signIn(authVo, response);
     }
 
+    // userId, password, email, name, company
     // 회원 가입
-    @PostMapping("/signUp")
-    public Map<String, Object> postSignUp(AuthVo authVo, UserVo userVo) {
-        return authService.postSignUp(authVo, userVo);
+    @PostMapping("/sign-up")
+    public Map<String, Object> postSignUp(@RequestBody UserAuthVo userAuthVo) {
+        return authService.signUp(userAuthVo);
     }
 
+    // userId, email
     // 인증 번호 전송
-    @PostMapping("/sendAuthKey")
-    public Map<String, Object> postSendAuthKey(UserVo userVO) {
-        return authService.postSendAuthKey(userVO);
+    @PostMapping("/send/auth-key")
+    public Map<String, Object> postSendAuthKey(@RequestBody UserVo userVo) {
+        return authService.sendAuthKey(userVo);
     }
 
+    // userId, authKey
     // 인증 번호 확인
-    @PostMapping("/checkAuthKey")
-    public Map<String, Object> postCheckAuthKey(UserVo userVO, AuthKeyVo authKeyVo) {
-        HashMap<String, Object> jsonData = new HashMap<>();
-        jsonData.put("jwt", "jwt");
-
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("result", "result");
-        result.put("message", userVO);
-        jsonData.put("result", result);
-
-        return jsonData;
+    @PostMapping("/check/auth-key")
+    public Map<String, Object> postCheckAuthKey(@RequestBody AuthKeyVo authKeyVo) {
+        return authService.checkAuthKey(authKeyVo);
     }
 
-    // 비밀번호 변경
-    @PatchMapping("/resetPassword")
-    public Map<String, Object> patchResetPassword(UserVo userVO, AuthVo authVo) {
-        // TODO JWT 체크
-        HashMap<String, Object> jsonData = new HashMap<>();
-
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("result", "result");
-        result.put("message", userVO);
-
-        jsonData.put("result", result);
-
-        return jsonData;
+    // userId
+    // id 중복 확인
+    @PostMapping("/check/user-id")
+    public Map<String, Object> postCheckUserId(@RequestBody AuthVo authVo) {
+        return authService.checkUserId(authVo.getUserId());
     }
 
+    // jwt, password
     // 사용자 확인을 위한 비밀번호 재확인
-    @PostMapping("/checkPassword")
-    public Map<String, Object> postCheckPassword(AuthVo authVo) {
-        // TODO JWT 체크
-        HashMap<String, Object> jsonData = new HashMap<>();
+    @PostMapping("/check/password")
+    public Map<String, Object> postCheckPassword(@RequestBody AuthVo authVo, HttpServletRequest request) {
+        String userIdInJwt = (String) request.getAttribute("userId");
 
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("result", "result");
-        result.put("message", authVo.getUserId());
+        return authService.checkPassword(userIdInJwt, authVo);
+    }
 
-        jsonData.put("result", result);
+    // jwt, userId, password
+    // 비밀번호 변경
+    @PatchMapping("/reset/password")
+    public Map<String, Object> patchResetPassword(@RequestBody AuthVo authVo, HttpServletRequest request) {
+        String userIdInJwt = (String) request.getAttribute("userId");
 
-        return jsonData;
+        return authService.changePassword(userIdInJwt, authVo);
     }
 }

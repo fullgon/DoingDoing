@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ScheduleStatusVo {
-    Boolean isComplete;
-    Boolean isTimeOut;
+    private Boolean isComplete;
+    private Boolean isTimeOut;
 }

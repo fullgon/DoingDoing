@@ -1,4 +1,4 @@
-package xyz.parkh.doing.service.user;
+package xyz.parkh.doing.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -14,36 +14,31 @@ import java.util.Map;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserService {
 
     private final UserMapper userMapper;
 
-    @Override
-    public UserVo read(String userId) {
-        UserVo userVO = userMapper.selectByUserId(userId);
-        return userVO;
-    }
+    public Map<String, Object> readByUserId(String userIdInJwt, String userId) {
+        UserVo userVo = userMapper.selectByUserId(userId);
 
-    @Override
-    public void create(UserVo userVo) {
-        userMapper.insert(userVo);
-    }
-
-    @Override
-    public Map<String, Object> getByUserId(String userId) {
         HashMap<String, Object> jsonData = new HashMap<>();
-        UserVo user = read(userId);
-        jsonData.put("user", user);
-
         HashMap<String, Object> result = new HashMap<>();
-        result.put("result", "result");
-        result.put("message", "message");
+        result.put("result", "ok");
+        result.put("message", userVo);
         jsonData.put("result", result);
         return jsonData;
     }
 
-    @Override
-    public Map<String, Object> patchByUserId(String userId, UserVo userVo) {
+    public UserVo readByEmail(String email) {
+        UserVo userVo = userMapper.selectByEmail(email);
+        return userVo;
+    }
+
+    public void create(UserVo userVo) {
+        userMapper.insert(userVo);
+    }
+
+    public Map<String, Object> modifyUser(String userIdInJwt, UserVo userVo) {
         userMapper.update(userVo);
         HashMap<String, Object> jsonData = new HashMap<>();
         HashMap<String, Object> result = new HashMap<>();
@@ -53,10 +48,20 @@ public class UserServiceImpl implements UserService {
         return jsonData;
     }
 
-    @Override
-    public Map<String, Object> deleteByUserId(String userId) {
-
+    public Map<String, Object> removeUser(String userIdInJwt) {
         HashMap<String, Object> jsonData = new HashMap<>();
+
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("result", "result");
+        result.put("message", "message");
+        jsonData.put("result", result);
+        return jsonData;
+    }
+
+    public Map<String, Object> getUser(String userIdInJwt, UserVo userVo) {
+        HashMap<String, Object> jsonData = new HashMap<>();
+        UserVo user = userMapper.selectByUserId(userIdInJwt);
+        jsonData.put("user", user);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "result");
