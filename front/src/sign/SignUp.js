@@ -24,11 +24,14 @@ function SignUp(){
         else if(email == "" || adress == ""){
             window.alert("이메일을 입력해주세요");
         }
-        else if(pwd == "" || pwd.length < 8){
+        else if(pwd == ""){
             window.alert("비밀번호를 입력해주세요");
         }
+        else if(pwd.length < 8){
+            window.alert("비밀번호는 8자리 이상입니다");
+        }
         else if(pwd != pwdConfirm){
-            window.alert("비밀번호가 일치하지 않습니다.");
+            window.alert("비밀번호가 일치하지 않습니다");
         }
         else{
             //회원가입 완료
