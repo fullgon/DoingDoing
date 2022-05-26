@@ -30,7 +30,7 @@ public class AuthController {
     // UserId, Password
     // 로그인
     @PostMapping("/sign-in")
-    public Map<String, Object> postSignIn(@RequestBody AuthVo authVo, HttpServletResponse response) throws IOException {
+    public Map<String, Object> postSignIn(@RequestBody AuthVo authVo, HttpServletResponse response){
         return authService.signIn(authVo, response);
     }
 

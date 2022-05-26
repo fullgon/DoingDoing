@@ -12,7 +12,7 @@ public class JwtManager {
     public static String generateToken(String userId) {
         String id = UUID.randomUUID().toString().replace("-", "");
         Date now = new Date();
-        Date exp = new Date(System.currentTimeMillis() + (1000 * 60L * 60L * 24L * 21)); // 테스트용 21 일
+        Date exp = new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 21)); // 테스트용 21 일
 
         String tokenStr = Jwts.builder()
                 .setHeaderParam("kid", "myKeyId")

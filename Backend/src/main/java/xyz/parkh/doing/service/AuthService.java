@@ -33,14 +33,9 @@ public class AuthService {
         return authVo;
     }
 
-    public Map<String, Object> signIn(AuthVo authVo, HttpServletResponse response) throws IOException {
+    public Map<String, Object> signIn(AuthVo authVo, HttpServletResponse response){
         HashMap<String, Object> jsonData = new HashMap<>();
-
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-        if ("".equals(authVo.getUserId()) || "".equals(authVo.getPassword())) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-        }
 
         // 사용자 정보
         AuthVo existAuthVo = new AuthVo();

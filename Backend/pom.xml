@@ -53,6 +53,20 @@
         </plugins>
     </build>
     <dependencies>
+        <!--   Swagger 관련 설정 시작     -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <!--   Swagger 관련 설정 끝     -->
+
         <!--    Spring Security 설정 시작    -->
         <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
         <dependency>

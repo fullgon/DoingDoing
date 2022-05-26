@@ -149,12 +149,47 @@ https://jojoldu.tistory.com/361
 
 ## JWT 유지 시간
 
-  Date exp = new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 21));
+Date exp = new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 21));
 
-의도는 21일 이나 실제로는 3일?
+의도는 21일 이나 실제로는 3일이고
 
-  Date exp = new Date(System.currentTimeMillis() + (1000 * 60L * 60L * 24L * 21));
-  
-이렇게 하라고 하심.
+Date exp = new Date(System.currentTimeMillis() + (1000 * 60L * 60L * 24L * 21));
 
-검증해보기
+이렇게 해야한다고 하심?
+
+의문이 들어서 검증해봄
+
+```
+Date exp1 = new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 21));
+Date exp2 = new Date(System.currentTimeMillis() + (1000 * 60L * 60L * 24L * 21));
+
+System.out.println("exp1 = " + exp1);
+System.out.println("exp2 = " + exp2);
+
+long long1 = (1000 * 60 * 60 * 24 * 21);
+long long2 = (1000 * 60L * 60L * 24L * 21);
+
+System.out.println("long1 = " + long1);
+System.out.println("long2 = " + long2);
+```
+
+```
+exp1 = Wed Jun 15 21:34:56 KST 2022
+exp2 = Wed Jun 15 21:34:56 KST 2022
+long1 = 1814400000
+long2 = 1814400000
+```
+
+같은데?
+
+작은거랑 큰거 연산하면 큰거로 가지 않나?
+
+정해주지 않으면 기본이 그거 맞음.
+
+[참고](http://www.tcpschool.com/java/java_datatype_typeConversion)
+
+직접 토큰 발급해서 만료기간 비교해본 결과 차이 없음.
+
+환경에 따라 그런일이 생길 수 도 있나...
+
+혹시 다음에 그런 일이 생기면 한 번 시도해 보기 

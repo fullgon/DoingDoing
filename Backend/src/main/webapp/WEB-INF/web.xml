@@ -54,7 +54,7 @@
     <!-- CORS 필터 시작 -->
     <filter>
         <filter-name>cors</filter-name>
-        <filter-class>xyz.parkh.doing.security.CORSFilter</filter-class>
+        <filter-class>xyz.parkh.doing.filter.CORSFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>cors</filter-name>
