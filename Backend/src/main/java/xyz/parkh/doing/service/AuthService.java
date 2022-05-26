@@ -34,6 +34,7 @@ public class AuthService {
     }
 
     public Map<String, Object> signIn(AuthVo authVo, HttpServletResponse response) {
+
         HashMap<String, Object> jsonData = new HashMap<>();
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -82,10 +83,16 @@ public class AuthService {
 
 //            TODO
 //            UserAuthVo -> UserVo
+            UserVo userVo = new UserVo().builder().userId(userAuthVo.getUserId())
+                    .email(userAuthVo.getEmail()).company(userAuthVo.getCompany())
+                    .name(userAuthVo.getName()).build();
+
 //            UserAuthVo -> AuthVo
-//
-//            userService.create(userVo);
-//            authMapper.insert(authVo);
+            AuthVo authVo = new AuthVo().builder().userId(userAuthVo.getUserId())
+                    .password(userAuthVo.getPassword()).build();
+
+            userMapper.insert(userVo);
+            authMapper.insert(authVo);
 
             result.put("result", "성공");
             result.put("message", "회원 가입 성공");

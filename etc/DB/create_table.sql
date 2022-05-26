@@ -24,9 +24,7 @@ CREATE TABLE tb_authkey (
 	USER_ID varchar(20) NOT NULL COMMENT '사용자 아이디', 
 	EMAIL varchar(50) NOT NULL COMMENT '이메일', 
 	AUTHKEY varchar(50) NOT NULL COMMENT '인증키', 
-	CREATE_TIME datetime NOT NULL COMMENT '발급시간',
-    
-    FOREIGN KEY (USER_ID) references tb_user(USER_ID)
+	CREATE_TIME datetime NOT NULL COMMENT '발급시간'
 );
 
 ALTER TABLE tb_authkey COMMENT ='인증키';

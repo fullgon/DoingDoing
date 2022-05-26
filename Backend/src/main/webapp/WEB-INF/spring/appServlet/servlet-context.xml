@@ -24,8 +24,8 @@
     <mybatis-spring:scan base-package="xyz.parkh.doing.mapper"/>
 
     <context:component-scan base-package="xyz.parkh.doing"/>
-    <!-- swagger -->
-    <beans:bean id="swagger2Config" class="springfox.documentation.swagger2.configuration.Swagger2DocumentationConfiguration" />
-    <mvc:resources location="classpath:/META-INF/resources/" mapping="swagger-ui.html" />
-    <mvc:resources location="classpath:/META-INF/resources/webjars/" mapping="/webjars/**" />
+<!--    &lt;!&ndash; swagger &ndash;&gt;-->
+<!--    <beans:bean id="swagger2Config" class="springfox.documentation.swagger2.configuration.Swagger2DocumentationConfiguration" />-->
+<!--    <mvc:resources location="classpath:/META-INF/resources/" mapping="swagger-ui.html" />-->
+<!--    <mvc:resources location="classpath:/META-INF/resources/webjars/" mapping="/webjars/**" />-->
 </beans:beans>
