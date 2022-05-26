@@ -33,14 +33,9 @@ public class AuthService {
         return authVo;
     }
 
-    public Map<String, Object> signIn(AuthVo authVo, HttpServletResponse response) throws IOException {
+    public Map<String, Object> signIn(AuthVo authVo, HttpServletResponse response) {
         HashMap<String, Object> jsonData = new HashMap<>();
-
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-        if ("".equals(authVo.getUserId()) || "".equals(authVo.getPassword())) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-        }
 
         // 사용자 정보
         AuthVo existAuthVo = new AuthVo();
@@ -121,9 +116,17 @@ public class AuthService {
         HashMap<String, Object> jsonData = new HashMap<>();
         HashMap<String, Object> result = new HashMap<>();
 
-        result.put("result", "result");
-        result.put("message", userId);
-        jsonData.put("result", result);
+        UserVo userVo = userMapper.selectByUserId(userId);
+        System.out.println("userVo = " + userVo);
+        if (userVo == null) {
+            result.put("result", "ok");
+            result.put("message", userId);
+            jsonData.put("result", result);
+        } else {
+            result.put("result", "fail");
+            result.put("message", userId + "가 이미 존재합니다");
+            jsonData.put("result", result);
+        }
 
         return jsonData;
     }

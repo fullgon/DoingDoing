@@ -30,7 +30,7 @@ public class AuthController {
     // UserId, Password
     // 로그인
     @PostMapping("/sign-in")
-    public Map<String, Object> postSignIn(@RequestBody AuthVo authVo, HttpServletResponse response) throws IOException {
+    public Map<String, Object> postSignIn(@RequestBody AuthVo authVo, HttpServletResponse response) {
         return authService.signIn(authVo, response);
     }
 
@@ -59,6 +59,7 @@ public class AuthController {
     // id 중복 확인
     @PostMapping("/check/user-id")
     public Map<String, Object> postCheckUserId(@RequestBody AuthVo authVo) {
+        System.out.println("authVo = " + authVo);
         return authService.checkUserId(authVo.getUserId());
     }
 

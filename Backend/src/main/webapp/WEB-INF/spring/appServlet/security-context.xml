@@ -13,6 +13,15 @@
             <exclude-mapping path="/api/auth/send/auth-key"/>
             <exclude-mapping path="/api/auth/check/auth-key"/>
             <exclude-mapping path="/api/auth/check/user-id"/>
+
+            <!--     Swagger     -->
+            <exclude-mapping path="/swagger-ui.html/**"/>
+            <exclude-mapping path="/swagger-ui.html/**"/>
+            <exclude-mapping path="/configuration/**"/>
+            <exclude-mapping path="/swagger-resources/**"/>
+            <exclude-mapping path="/v2/api-docs"/>
+            <exclude-mapping path="/webjars/**"/>
+            <exclude-mapping path="/webjars/springfox-swagger-ui/*.{js,css}"/>
             <beans:bean class="xyz.parkh.doing.interceptor.JwtInterceptor"/>
         </interceptor>
     </interceptors>
