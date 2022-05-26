@@ -27,7 +27,7 @@ const FindPassword = () =>{
         }
         else{
             //인증번호 전송
-            axios.post("api/auth/send/auth-key",{
+            axios.post("/api/auth/send/auth-key",{
                 userId: id,
                 email: `${email}@${adress}`,
             },{
@@ -53,7 +53,7 @@ const FindPassword = () =>{
 
     const checkAuth = () =>{
         //인증번호 확인
-        axios.post("api/auth/check/auth-key",{
+        axios.post("/api/auth/check/auth-key",{
             userId: id,
             authKey: authkey,
         },{

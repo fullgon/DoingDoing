@@ -11,34 +11,41 @@ function SignIn(){
 
     //로그인 버튼 클릭 시 계정 확인 후 로그인 처리
     const logIn = () =>{
+        if(id == "" || pwd == ""){
+            alert("아이디와 비밀번호를 입력해주십시오.");
+        }
+        else{
+            axios.post("/api/auth/sign-in",{
+                userId: id,
+                password: pwd,
+            },{
+                headers:{
+                    'Content-Type' : 'application/json',
+                }
+            }).then((res)=>{
+                
+                if(res.status == 200){
+                    //jwt토큰 로컬저장소에 저장
+                    console.log(res);
+                    localStorage.setItem('accessToken', res.data.jwt);
+                    navigate(`/schedule`);
+                }
+                else{
+                    alert("아이디 혹은 비밀번호가 잘못되었습니다.");
+                }
+            }).catch(error =>{
+                alert("에러남");
+                console.log(error);
+            })
+            //navigate(`/schedule`);
+        }
         
-        axios.post("api/auth/sign-in",{
-            userID: id,
-            password: pwd,
-        },{
-            headers:{
-                'Content-Type' : 'application/json',
-                //'Authorization' : authToken
-            }
-        }).then((res)=>{
-            //jwt토큰 로컬저장소에 저장
-            if(res.reuslt.result == 'ok'){
-                //navigate(`/schedule`);
-            }
-            else{
-                alert("아이디 혹은 비밀번호가 잘못되었습니다.");
-            }
-        }).catch(error =>{
-            alert("에러남");
-        })
-        navigate(`/schedule`);
     }
 
     //회원가입 버튼 클릭 시 회원가입페이지로 이동
     const goToSignUp = () =>{
         navigate(`/auth/signUp`);
     }
-    //useEffect();
 
     const goTOFindPassword = () =>{
         navigate(`/auth/findPassword`);

@@ -5,26 +5,30 @@ import {useNavigate} from "react-router-dom"
 
 function SignUp(){
 
+    
     const navigate = useNavigate();
 
     const [name, setName] = useState("");
     const [id, setId] = useState("");
+    const [fixId, setFixId] = useState();
     const [pwd, setPwd] = useState("");
     const [pwdConfirm, setPwdConfirm] = useState("");
     const [email, setEmail] = useState("");
     const [adress, setAdress] = useState("");
     const [authkey, setAuthkey] = useState("");
+
     const [isSend, setIsSend] = useState(false);
-    let isId  = false, isEmail = false;
-    
+    const [isId, setIsId] = useState(false);
+    const [isEmail, setIsEmail] = useState(false);
+
     const signUp = () =>{
         if(name == ""){
             window.alert("이름을 입력해주세요");
         }
-        else if(idCheck){
+        else if(!isId){
             window.alert("아이디 중복확인을 해주세요");
         }
-        else if(isEmail){
+        else if(!isEmail){
             window.alert("이메일 인증을 해주세요");
         }
         else if(pwd == ""){
@@ -38,7 +42,7 @@ function SignUp(){
         }
         else{
             //회원가입 완료
-            axios.post("/api.auth/sign-up",{
+            axios.post("/api/auth/sign-up",{
                 userId: id,
                 password: pwd,
                 email: `${email}@${adress}`,
@@ -46,10 +50,9 @@ function SignUp(){
             },{
                 headers:{
                     'Content-Type' : 'application/json',
-                    //'Authorization' : authToken
                 }
             }).then(res=>{
-                if(res.result.result == 'ok'){
+                if(res.status == 200){
                     //로그인 페이지로 이동
                     window.alert("회원가입에 성공하였습니다.");
                     navigate(-1);
@@ -57,24 +60,27 @@ function SignUp(){
                 else{
                     window.alert("회원가입에 실패하였습니다.");
                 }
-            }).catch(e => alert("에러남"));
+            }).catch(e =>{
+                alert("에러남")
+                console.log(e);
+            });
             
         }
     }
 
-    const idCheck = () =>{ 
-        //중복된 아이디가 없을 때
-        axios.post("api/auth/check/user-id",{
-            userId:id
+    const idCheck = () =>{
+        axios.post("/api/auth/check/user-id",{
+            userId: id
         },{
             headers: {
                 'Content-Type' : 'application/json',
-                //'Authorization' : authToken
             }
         }).then(res => {
-            if(res.result.result == 'ok'){
+            if(res.status == 200){
                 //중복체크 완료
-                isId = true;
+                setFixId(id);
+                setIsId(true);
+                console.log(res);
             }
         }).catch(e => {
             alert("에러남");
@@ -83,6 +89,10 @@ function SignUp(){
     }
 
     const sendAuth = () =>{
+        if(id != fixId){
+            //중복확인한 아이디와 입력된 아이디가 다를경우
+            setIsId(false);
+        }
         if(!isId){
             window.alert("아이디 중복확인을 해주세요");
         }
@@ -91,13 +101,12 @@ function SignUp(){
         }
         else{
             //인증번호 전송
-            axios.post("api/auth/send/auth-key",{
+            axios.post("/api/auth/send/auth-key",{
                 userId: id,
                 email: `${email}@${adress}`,
             },{
                 headers: {
                     'Content-Type' : 'application/json',
-                    //'Authorization' : authToken
                 }
             }).then(res =>{
                 //결과랑 메시지
@@ -110,29 +119,37 @@ function SignUp(){
     }
 
     const checkAuth = () =>{
-        //인증번호 확인
-        axios.post("api/auth/check/auth-key",{
-            userId: id,
-            //accessToken주기
-            //authKey: authkey,
-        },{
-            headers: {
-                'Content-Type' : 'application/json',
-                //'Authorization' : authToken
-            }
-        }).then(res => {
-            //jwt하고 result 받음
-            //result.result가 'ok'일 때 
-            if(res.result.result == 'ok'){
-                isEmail = true;
-                alert("인증이 완료되었습니다.");
-            }
-            else{
-                alert("인증번호가 틀렸습니다.");
-            }
-        }).catch(e => {
-            alert("에러남");
-        })
+        if(id != fixId){
+            //중복확인한 아이디와 입력된 아이디가 다를경우
+            setIsId(false);
+        }
+        if(!isId){
+            window.alert("아이디 중복확인을 해주세요");
+        }
+        else{
+            //인증번호 확인
+            axios.post("/api/auth/check/auth-key",{
+                userId: id,
+                authKey: authkey,
+            },{
+                headers: {
+                    'Content-Type' : 'application/json',
+                }
+            }).then(res => {
+                //jwt하고 result 받음
+                //result.result가 'ok'일 때 
+                if(res.status == 200){
+                    setIsEmail(true);
+                    alert("인증이 완료되었습니다.");
+                }
+                else{
+                    alert("인증번호가 틀렸습니다.");
+                }
+            }).catch(e => {
+                alert("에러남");
+                console.log(e);
+            })
+        }
     }
 
     return(

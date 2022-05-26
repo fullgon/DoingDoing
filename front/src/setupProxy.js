@@ -4,7 +4,7 @@ module.exports = function(app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: "http://with.parkh.xyz:8080",
+      target: "http://with.parkh.xyz:8080/doing",
       changeOrigin: true,
     })
   );

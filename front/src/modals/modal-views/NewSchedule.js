@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import ReactModal from 'react-modal'
 import Switch from '@mui/material/Switch';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
@@ -30,7 +29,7 @@ const NewSchedule = ({onSubmit, onClose}) =>{
     }
     
     return(
-        <ReactModal isOpen>
+        <div>
             <div>                
                 <p><input type="text" placeholder="제목" onChange={onChangeTitle}/></p>
                 <p>
@@ -44,7 +43,7 @@ const NewSchedule = ({onSubmit, onClose}) =>{
                 <button onClick={handleClickSubmit}>확인</button>
                 <button onClick={handleClickCancel}>취소</button>
             </div>
-        </ReactModal>
+        </div>
     );
 };
 

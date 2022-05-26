@@ -9,6 +9,7 @@ import FindPassword from './sign/FindPassword'
 import ToDoMain from './mainToDo/ToDoMain';
 import ReactModal from 'react-modal'
 
+import Modals from "./modals/Modals"
 import ModalsProvider from "./modals/ModalsProvider"
 
 ReactModal.setAppElement('#root');
@@ -21,7 +22,11 @@ root.render(
       <Route path="auth/signIn" element={<SignIn/>} />
       <Route path='auth/signUp' element={<SignUp/>}/>
       <Route path='auth/findPassword' element={<FindPassword/>}/>
-      <Route path='schedule' element={<ModalsProvider><ToDoMain/></ModalsProvider>}/>
+      <Route path='schedule'
+       element={<ModalsProvider>
+                   <ToDoMain/>
+                   <Modals/>
+                </ModalsProvider>}/>
     </Routes>
   </BrowserRouter>,
   root
