@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { ModalsDispatchContext, ModalsStateContext } from "./ModalsContext";
-import MyModal from "./MyModal";
-import NewSchedule from "./NewSchedule";
+import MyModal from "./modal-views/MyModal";
+import NewSchedule from "./modal-views/NewSchedule";
 
 export const modals = {
     myModal: MyModal,
