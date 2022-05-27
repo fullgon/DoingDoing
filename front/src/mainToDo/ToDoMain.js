@@ -14,6 +14,7 @@ function TODoMain(){
             onSubmit: () => {
                 console.log('비지니스 로직 처리...');
             },
+            type: "New",
         });
     };
     return(

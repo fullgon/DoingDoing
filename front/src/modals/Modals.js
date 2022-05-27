@@ -13,8 +13,10 @@ const Modals = () => {
     const { close } = useContext(ModalsDispatchContext);
     
     return openedModals.map((modal, index) => {
+
         const { Component, props} = modal;
-        const { onSubmit, ...restProps} = props;
+        const { onSubmit, type,...restProps} = props;
+
         const onClose = () =>{
             close(Component);
         };
@@ -30,7 +32,8 @@ const Modals = () => {
          {...restProps}
          key={index}
          onClose={onClose}
-         onSubmit={handleSubmit}/>
+         onSubmit={handleSubmit}
+         type={type}/>
         );
     });
 };

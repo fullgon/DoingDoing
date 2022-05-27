@@ -5,9 +5,17 @@ import Switch from '@mui/material/Switch';
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 const DetailSchedule = ({onSubmit, onClose}) =>{
-    <ReactModal isOpen>
+    const handleClickSubmit = () => {
+        onSubmit();
+    }
+
+    const handleClickCancel = () =>{
+        onClose();
+    }
+    return(
+        <div>
             <div>                
-                <p><input type="text" placeholder="제목"/></p>
+                <p><input type="text" placeholder="제목" disabled/></p>
                 <p>
                     <input type="date" placeholder="기한"/>
                     <Switch {...label} defaultChecked />
@@ -19,7 +27,10 @@ const DetailSchedule = ({onSubmit, onClose}) =>{
                 <button onClick={handleClickSubmit}>확인</button>
                 <button onClick={handleClickCancel}>취소</button>
             </div>
-        </ReactModal>
+        </div>
+    )
+            
+        
 }
 
 export default DetailSchedule;
