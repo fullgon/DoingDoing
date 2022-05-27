@@ -1,7 +1,7 @@
 package xyz.parkh.doing.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import xyz.parkh.doing.domain.ScheduleStatusVo;
 import xyz.parkh.doing.domain.ScheduleVo;
@@ -10,9 +10,9 @@ import xyz.parkh.doing.service.ScheduleService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
-@Log4j
+@Slf4j
 @RestController
-@RequestMapping(("/api/schedule"))
+@RequestMapping(("/api/schedules"))
 @RequiredArgsConstructor
 public class ScheduleController {
 
@@ -52,7 +52,7 @@ public class ScheduleController {
         return scheduleService.createSchedule(userIdInJwt, scheduleVo);
     }
 
-    // jwt, no, title, content, isPublic, endTime
+    // jwt, title, content, isPublic, endTime
     // 일정 정보 수정
     @PatchMapping("/{userId}/{scheduleNo}")
     public Map<String, Object> patchByUserIdByScheduleNo(@PathVariable("userId") String userId,

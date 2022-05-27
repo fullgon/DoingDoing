@@ -6,7 +6,7 @@
 package xyz.parkh.doing.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import xyz.parkh.doing.domain.AuthKeyVo;
 import xyz.parkh.doing.domain.AuthVo;
@@ -16,10 +16,9 @@ import xyz.parkh.doing.service.AuthService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Map;
 
-@Log4j
+@Slf4j
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor

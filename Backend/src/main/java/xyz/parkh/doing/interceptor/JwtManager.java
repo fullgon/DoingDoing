@@ -1,13 +1,13 @@
 package xyz.parkh.doing.interceptor;
 
 import io.jsonwebtoken.*;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
 
-@Log4j
+@Slf4j
 public class JwtManager {
     public static String generateToken(String userId) {
         String id = UUID.randomUUID().toString().replace("-", "");

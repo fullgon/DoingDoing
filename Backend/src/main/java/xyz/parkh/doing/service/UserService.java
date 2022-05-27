@@ -1,7 +1,7 @@
 package xyz.parkh.doing.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.UserVo;
@@ -10,7 +10,7 @@ import xyz.parkh.doing.mapper.UserMapper;
 import java.util.HashMap;
 import java.util.Map;
 
-@Log4j
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor

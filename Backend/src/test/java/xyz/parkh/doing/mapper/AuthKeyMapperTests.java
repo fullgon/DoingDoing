@@ -1,7 +1,7 @@
 package xyz.parkh.doing.mapper;
 
 import io.jsonwebtoken.lang.Assert;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +13,7 @@ import xyz.parkh.doing.domain.UserVo;
 import xyz.parkh.doing.utils.Utils;
 
 
-@Log4j
+@Slf4j
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml",
         "file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"})
@@ -33,8 +33,8 @@ public class AuthKeyMapperTests {
         String testUserId = testUser.getUserId();
         AuthKeyVo authKeyVo = Utils.generateAuthKey(testUserId);
         String authKey = authKeyVo.getAuthKey();
-        log.info(testUser);
-        log.info(authKeyVo);
+        log.info(testUser.toString());
+        log.info(authKeyVo.toString());
 
         // userId 가 외래키이므로 User 생성
         int insertUserStatus = userMapper.insert(testUser);

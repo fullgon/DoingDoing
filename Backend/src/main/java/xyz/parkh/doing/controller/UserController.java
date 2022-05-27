@@ -1,7 +1,7 @@
 package xyz.parkh.doing.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import xyz.parkh.doing.domain.UserVo;
 import xyz.parkh.doing.service.UserService;
@@ -9,9 +9,9 @@ import xyz.parkh.doing.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
-@Log4j
+@Slf4j
 @RestController
-@RequestMapping(value = "/api/user")
+@RequestMapping(value = "/api/users")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -26,7 +26,7 @@ public class UserController {
         return userService.readByUserId(userIdInJwt, userId);
     }
 
-    // jwt, userId, password, email, name, company
+    // jwt, email, name, company
     // 사용자 정보 수정
     @PutMapping
     public Map<String, Object> putUser(@RequestBody UserVo userVo, HttpServletRequest request) {
