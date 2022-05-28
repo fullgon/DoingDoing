@@ -27,6 +27,18 @@ public class EmailServiceImpl implements EmailService {
         message.setText(text);
         javaMailSender.send(message);
     }
+
+    @Override
+    public void sendAuthKey(String to, String authKey) {
+        String title = "DoingDoing 확인 코드 : " + authKey;
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(email);
+        message.setTo(to);
+        message.setSubject(title);
+        message.setText(authKey);
+        javaMailSender.send(message);
+    }
 }
 
 

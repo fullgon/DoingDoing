@@ -5,7 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.UserVo;
+import xyz.parkh.doing.exception.RequiredValueNullException;
 import xyz.parkh.doing.mapper.UserMapper;
+
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -23,7 +26,7 @@ public class TestService {
 
     public void ExceptionHandlerTest(String data) {
         if ("".equals(data)) {
-            throw new NullPointerException("필수 인자가 부족합니다.");
+            throw new RequiredValueNullException("TestService 에서 넘겨준 값");
         }
     }
 
@@ -53,6 +56,12 @@ public class TestService {
 //        } catch (Exception e) {
 //            log.error(e.getMessage());
 //        }
+    }
+
+    public void customNull(String data) {
+        if (Objects.isNull(data)) {
+            throw new RequiredValueNullException("testService 에서 넘긴 메시지");
+        }
     }
 
 //    public ResponseEntity customException(String data) {

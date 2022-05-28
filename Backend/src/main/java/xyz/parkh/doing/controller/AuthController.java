@@ -7,11 +7,9 @@ package xyz.parkh.doing.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import xyz.parkh.doing.domain.AuthKeyVo;
-import xyz.parkh.doing.domain.AuthVo;
-import xyz.parkh.doing.domain.UserAuthVo;
-import xyz.parkh.doing.domain.UserVo;
+import xyz.parkh.doing.domain.*;
 import xyz.parkh.doing.service.AuthService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,43 +27,49 @@ public class AuthController {
     // UserId, Password
     // 로그인
     @PostMapping("/sign-in")
-    public Map<String, Object> postSignIn(@RequestBody AuthVo authVo, HttpServletResponse response) {
-        return authService.signIn(authVo, response);
+    public ResponseEntity postSignIn(@RequestBody AuthVo authVo) {
+        return authService.signIn(authVo);
     }
 
     // userId, password, email, name, company
     // 회원 가입
     @PostMapping("/sign-up")
-    public Map<String, Object> postSignUp(@RequestBody UserAuthVo userAuthVo) {
-        return authService.signUp(userAuthVo);
+    public void postSignUp(@RequestBody UserAuthVo userAuthVo) {
+        authService.signUp(userAuthVo);
     }
 
     // userId, email
     // 인증 번호 전송
     @PostMapping("/send/auth-key")
-    public Map<String, Object> postSendAuthKey(@RequestBody UserVo userVo) {
-        return authService.sendAuthKey(userVo);
+    public void postSendAuthKey(@RequestBody UserVo userVo) {
+        authService.sendAuthKey(userVo);
     }
 
     // userId, authKey
     // 인증 번호 확인
     @PostMapping("/check/auth-key")
-    public Map<String, Object> postCheckAuthKey(@RequestBody AuthKeyVo authKeyVo) {
+    public ResponseEntity<CheckVo> postCheckAuthKey(@RequestBody AuthKeyVo authKeyVo) {
         return authService.checkAuthKey(authKeyVo);
     }
 
     // userId
     // id 중복 확인
     @PostMapping("/check/user-id")
-    public Map<String, Object> postCheckUserId(@RequestBody AuthVo authVo) {
-        System.out.println("authVo = " + authVo);
+    public ResponseEntity<CheckVo> postCheckUserId(@RequestBody AuthVo authVo) {
         return authService.checkUserId(authVo.getUserId());
+    }
+
+    // email
+    // email 중복 확인
+    @PostMapping("/check/email")
+    public ResponseEntity<CheckVo> postCheckUserId(@RequestBody UserVo userVo) {
+        return authService.checkEmail(userVo.getEmail());
     }
 
     // jwt, password
     // 사용자 확인을 위한 비밀번호 재확인
     @PostMapping("/check/password")
-    public Map<String, Object> postCheckPassword(@RequestBody AuthVo authVo, HttpServletRequest request) {
+    public ResponseEntity<CheckVo> postCheckPassword(@RequestBody AuthVo authVo, HttpServletRequest request) {
         String userIdInJwt = (String) request.getAttribute("userId");
 
         return authService.checkPassword(userIdInJwt, authVo);
@@ -74,9 +78,9 @@ public class AuthController {
     // jwt, userId, password
     // 비밀번호 변경
     @PatchMapping("/reset/password")
-    public Map<String, Object> patchResetPassword(@RequestBody AuthVo authVo, HttpServletRequest request) {
+    public void patchResetPassword(@RequestBody AuthVo authVo, HttpServletRequest request) {
         String userIdInJwt = (String) request.getAttribute("userId");
 
-        return authService.changePassword(userIdInJwt, authVo);
+        authService.changePassword(userIdInJwt, authVo);
     }
 }

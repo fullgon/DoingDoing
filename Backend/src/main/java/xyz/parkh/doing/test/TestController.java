@@ -36,6 +36,12 @@ public class TestController {
         testService.modifyUser(userId, userVo);
     }
 
+    // 사용자 수정 예외 처리 테스트
+    @PostMapping("/custom-null")
+    public void customNull(String data) {
+        testService.customNull(data);
+    }
+
 //    @ResponseStatus(HttpStatus.BAD_GATEWAY) // 상태 코드만 이렇게 던지고 return 은 제대로 return 함, 근데 이 메서드는 항상 같은 상태 리턴..
 //    @PostMapping("/null")
 //    public ResponseEntity postSignIn(@RequestBody String data) {
