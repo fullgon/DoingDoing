@@ -23,12 +23,12 @@ public class MyAdvice {
 
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<ErrorDto> nullPointException(Exception e) {
-        ErrorDto error = ErrorDto.builder().error(e.getMessage()).build();
+        ErrorDto error = ErrorDto.builder().error(e.getClass().getName()).build();
         return ResponseEntity.badRequest().body(error);
     }
 
-    // 필수 인자가 없을 경우 발생하는 에러
-    @ExceptionHandler(RequiredValueNullException.class)
+    // 인자가 없을 경우 발생하는 에러
+    @ExceptionHandler(ValueNullException.class)
     public ResponseEntity<ErrorDto> requiredValueNullException(Exception e) {
         String message = e.getMessage();
         ErrorDto error = ErrorDto.builder().error(message).build();

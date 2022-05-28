@@ -3,10 +3,10 @@ package xyz.parkh.doing.exception;
 import lombok.Getter;
 
 @Getter
-public class RequiredValueNullException extends RuntimeException {
+public class ValueNullException extends RuntimeException {
     String message;
 
-    public RequiredValueNullException(String message) {
+    public ValueNullException(String message) {
         this.message = message;
     }
 }

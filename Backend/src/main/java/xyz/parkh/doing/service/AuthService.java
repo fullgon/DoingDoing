@@ -1,6 +1,5 @@
 package xyz.parkh.doing.service;
 
-import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -12,17 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.*;
 import xyz.parkh.doing.exception.DifferentAuthException;
 import xyz.parkh.doing.exception.ExistsException;
-import xyz.parkh.doing.exception.RequiredValueNullException;
+import xyz.parkh.doing.exception.ValueNullException;
 import xyz.parkh.doing.interceptor.JwtManager;
 import xyz.parkh.doing.mapper.AuthKeyMapper;
 import xyz.parkh.doing.mapper.AuthMapper;
 import xyz.parkh.doing.mapper.UserMapper;
 import xyz.parkh.doing.service.email.EmailService;
 
-import javax.security.sasl.AuthenticationException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -40,7 +37,7 @@ public class AuthService {
     public ResponseEntity signIn(AuthVo requestAuthVo) {
         // 필수 인자가 입력 되지 않았을 경우
         if (requestAuthVo.getUserId() == null || requestAuthVo.getUserId() == null) {
-            throw new RequiredValueNullException("필수 인자가 없습니다.");
+            throw new ValueNullException("필수 인자가 없습니다.");
         }
 
         String userId = requestAuthVo.getUserId();
@@ -80,7 +77,7 @@ public class AuthService {
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
         if (userId == null || password == null
                 || name == null || email == null) {
-            throw new RequiredValueNullException("필수 인자가 없습니다.");
+            throw new ValueNullException("필수 인자가 없습니다.");
         }
 
         UserVo existUser;
@@ -124,7 +121,7 @@ public class AuthService {
 
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
         if (userId == null || email == null) {
-            throw new RequiredValueNullException("필수 인자가 없습니다.");
+            throw new ValueNullException("필수 인자가 없습니다.");
         }
 
         // 인증 번호 생성
@@ -146,7 +143,7 @@ public class AuthService {
     public ResponseEntity<CheckVo> checkUserId(String userId) {
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
         if (userId == null) {
-            throw new RequiredValueNullException("필수 인자가 없습니다.");
+            throw new ValueNullException("필수 인자가 없습니다.");
         }
 
         UserVo existUser = userMapper.selectByUserId(userId);
@@ -164,7 +161,7 @@ public class AuthService {
     public ResponseEntity<CheckVo> checkEmail(String email) {
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
         if (email == null) {
-            throw new RequiredValueNullException("필수 인자가 없습니다.");
+            throw new ValueNullException("필수 인자가 없습니다.");
         }
 
         UserVo existUser = userMapper.selectByEmail(email);
@@ -185,10 +182,16 @@ public class AuthService {
 
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
         if (userId == null || authKey == null) {
-            throw new RequiredValueNullException("필수 인자가 없습니다.");
+            throw new ValueNullException("필수 인자가 없습니다.");
         }
 
         AuthKeyVo readAuthKeyVo = authKeyMapper.selectByUserId(userId);
+        // 인증키가 없을 경우
+        if (Objects.isNull(readAuthKeyVo)) {
+            throw new ValueNullException("조회된 인증번호가 없습니다.");
+        }
+
+
         String readAuthKey = readAuthKeyVo.getAuthKey();
         LocalDateTime readCreateTime = readAuthKeyVo.getCrateTime();
 
@@ -208,7 +211,7 @@ public class AuthService {
 
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
         if (password == null) {
-            throw new RequiredValueNullException("필수 인자가 없습니다.");
+            throw new ValueNullException("필수 인자가 없습니다.");
         }
 
         AuthVo existAuthVo = authMapper.selectByUserId(userIdInJwt);
@@ -234,7 +237,7 @@ public class AuthService {
 
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
         if (password == null) {
-            throw new RequiredValueNullException("필수 인자가 없습니다.");
+            throw new ValueNullException("필수 인자가 없습니다.");
         }
 
         // 권한이 없는 사용자 정보를 수정하려 할 경우

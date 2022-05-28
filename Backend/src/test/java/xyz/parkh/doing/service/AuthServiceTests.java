@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import xyz.parkh.doing.domain.UserVo;
-import xyz.parkh.doing.exception.RequiredValueNullException;
-import xyz.parkh.doing.test.TestService;
 
 @Slf4j
 @ExtendWith(SpringExtension.class)
