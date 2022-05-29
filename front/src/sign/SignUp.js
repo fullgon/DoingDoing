@@ -22,6 +22,7 @@ function SignUp(){
     const [isEmail, setIsEmail] = useState(false);
 
     const signUp = () =>{
+
         if(name == ""){
             window.alert("이름을 입력해주세요");
         }

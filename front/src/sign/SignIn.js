@@ -28,6 +28,7 @@ function SignIn(){
                     //jwt토큰 로컬저장소에 저장
                     console.log(res);
                     localStorage.setItem('accessToken', res.data.jwt);
+                    localStorage.setItem('userId', id);
                     navigate(`/schedule`);
                 }
                 else{

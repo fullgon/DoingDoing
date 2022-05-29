@@ -12,9 +12,9 @@ function TODoMain(){
     const handleClick = () => {
         openModal(modals.myModal, {
             onSubmit: () => {
-                console.log('비지니스 로직 처리...');
+                console.log('비지니스 로직 처리...--새로운 일정 등록');
             },
-            type: "New",
+            type: "new",
         });
     };
     return(

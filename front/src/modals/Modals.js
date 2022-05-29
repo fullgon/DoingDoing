@@ -15,7 +15,7 @@ const Modals = () => {
     return openedModals.map((modal, index) => {
 
         const { Component, props} = modal;
-        const { onSubmit, type,...restProps} = props;
+        const { onSubmit, type, scheduleNo} = props;
 
         const onClose = () =>{
             close(Component);
@@ -29,10 +29,10 @@ const Modals = () => {
         };
         return (
         <Component
-         {...restProps}
          key={index}
          onClose={onClose}
          onSubmit={handleSubmit}
+         scheduleNo={scheduleNo}
          type={type}/>
         );
     });
