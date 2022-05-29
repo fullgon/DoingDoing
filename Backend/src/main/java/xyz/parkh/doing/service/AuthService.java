@@ -8,7 +8,13 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import xyz.parkh.doing.domain.*;
+import xyz.parkh.doing.domain.model.ErrorDto;
+import xyz.parkh.doing.domain.model.JwtDto;
+import xyz.parkh.doing.domain.model.UserAuthDto;
+import xyz.parkh.doing.domain.entity.AuthKeyVo;
+import xyz.parkh.doing.domain.entity.AuthVo;
+import xyz.parkh.doing.domain.model.CheckDto;
+import xyz.parkh.doing.domain.entity.UserVo;
 import xyz.parkh.doing.exception.DifferentAuthException;
 import xyz.parkh.doing.exception.ExistsException;
 import xyz.parkh.doing.exception.ValueNullException;
@@ -54,8 +60,8 @@ public class AuthService {
         // 로그인 성공
         if (signInStatus) {
             String jwt = JwtManager.generateToken(userId);
-            JwtVo jwtVo = new JwtVo().builder().jwt(jwt).build();
-            return ResponseEntity.ok().body(jwtVo);
+            JwtDto jwtDto = new JwtDto().builder().jwt(jwt).build();
+            return ResponseEntity.ok().body(jwtDto);
         } else {
             // 로그인 실패 - 비밀번호가 틀린 경우
             ErrorDto errorDto = new ErrorDto().builder().error("비밀번호가 일치하지 않습니다.").build();
@@ -64,15 +70,15 @@ public class AuthService {
     }
 
     // 회원 가입
-    public void signUp(UserAuthVo userAuthVo) {
+    public void signUp(UserAuthDto userAuthDto) {
         // 필수 인자
-        String userId = userAuthVo.getUserId();
-        String password = userAuthVo.getPassword();
-        String name = userAuthVo.getName();
-        String email = userAuthVo.getEmail();
+        String userId = userAuthDto.getUserId();
+        String password = userAuthDto.getPassword();
+        String name = userAuthDto.getName();
+        String email = userAuthDto.getEmail();
 
         // 선택 인자
-        String company = userAuthVo.getCompany();
+        String company = userAuthDto.getCompany();
 
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
         if (userId == null || password == null
@@ -96,7 +102,7 @@ public class AuthService {
 
         // 비밀번호 암호화
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
-        userAuthVo.setPassword(hashedPassword);
+        userAuthDto.setPassword(hashedPassword);
 
         // UserAuthVo -> UserVo
         UserVo userVo = new UserVo().builder().userId(userId)
@@ -104,8 +110,8 @@ public class AuthService {
                 .name(name).build();
 
         // UserAuthVo -> AuthVo
-        AuthVo authVo = new AuthVo().builder().userId(userAuthVo.getUserId())
-                .password(userAuthVo.getPassword()).build();
+        AuthVo authVo = new AuthVo().builder().userId(userAuthDto.getUserId())
+                .password(userAuthDto.getPassword()).build();
 
         // TODO try 로 에러 처리? or ExceptionHandler 에 등록?
         // DB 에 저장
@@ -140,7 +146,7 @@ public class AuthService {
     }
 
     // 아이디 중복 확인
-    public ResponseEntity<CheckVo> checkUserId(String userId) {
+    public ResponseEntity<CheckDto> checkUserId(String userId) {
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
         if (userId == null) {
             throw new ValueNullException("필수 인자가 없습니다.");
@@ -150,15 +156,15 @@ public class AuthService {
 
         // 아이디로 조회된 사용자가 없을 경우 true / 있을 경우 false
         if (existUser != null) {
-            CheckVo checkVo = new CheckVo().builder().check(true).build();
-            return ResponseEntity.ok().body(checkVo);
+            CheckDto checkDto = new CheckDto().builder().check(true).build();
+            return ResponseEntity.ok().body(checkDto);
         }
-        CheckVo checkVo = new CheckVo().builder().check(false).build();
-        return ResponseEntity.ok().body(checkVo);
+        CheckDto checkDto = new CheckDto().builder().check(false).build();
+        return ResponseEntity.ok().body(checkDto);
     }
 
     // 이메일 중복 확인
-    public ResponseEntity<CheckVo> checkEmail(String email) {
+    public ResponseEntity<CheckDto> checkEmail(String email) {
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
         if (email == null) {
             throw new ValueNullException("필수 인자가 없습니다.");
@@ -168,15 +174,15 @@ public class AuthService {
 
         // 이메일로 조회된 사용자가 없을 경우 true / 있을 경우 false
         if (existUser != null) {
-            CheckVo checkVo = new CheckVo().builder().check(true).build();
-            return ResponseEntity.ok().body(checkVo);
+            CheckDto checkDto = new CheckDto().builder().check(true).build();
+            return ResponseEntity.ok().body(checkDto);
         }
-        CheckVo checkVo = new CheckVo().builder().check(false).build();
-        return ResponseEntity.ok().body(checkVo);
+        CheckDto checkDto = new CheckDto().builder().check(false).build();
+        return ResponseEntity.ok().body(checkDto);
     }
 
     // 인증키 확인
-    public ResponseEntity<CheckVo> checkAuthKey(AuthKeyVo authKeyVo) {
+    public ResponseEntity<CheckDto> checkAuthKey(AuthKeyVo authKeyVo) {
         String userId = authKeyVo.getUserId();
         String authKey = authKeyVo.getAuthKey();
 
@@ -195,18 +201,18 @@ public class AuthService {
         String readAuthKey = readAuthKeyVo.getAuthKey();
         LocalDateTime readCreateTime = readAuthKeyVo.getCrateTime();
 
-        CheckVo checkVo;
+        CheckDto checkDto;
         // 전송 된 지 10분 지났으면 유효하지 않은 키
         if (readCreateTime.isAfter(LocalDateTime.now().minusMinutes(10)) && authKey.equals(readAuthKey)) {
-            checkVo = new CheckVo().builder().check(true).build();
+            checkDto = new CheckDto().builder().check(true).build();
         } else {
-            checkVo = new CheckVo().builder().check(false).build();
+            checkDto = new CheckDto().builder().check(false).build();
         }
-        return ResponseEntity.ok().body(checkVo);
+        return ResponseEntity.ok().body(checkDto);
     }
 
     // 개인 정보 수정을 위한 비밀번호 확인
-    public ResponseEntity<CheckVo> checkPassword(String userIdInJwt, AuthVo authVo) {
+    public ResponseEntity<CheckDto> checkPassword(String userIdInJwt, AuthVo authVo) {
         String password = authVo.getPassword();
 
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
@@ -220,13 +226,13 @@ public class AuthService {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Boolean isSame = passwordEncoder.matches(authVo.getPassword(), existAuthVo.getPassword());
 
-        CheckVo checkVo;
+        CheckDto checkDto;
         if (isSame) {
-            checkVo = new CheckVo().builder().check(true).build();
-            return ResponseEntity.ok().body(checkVo);
+            checkDto = new CheckDto().builder().check(true).build();
+            return ResponseEntity.ok().body(checkDto);
         } else {
-            checkVo = new CheckVo().builder().check(false).build();
-            return ResponseEntity.ok().body(checkVo);
+            checkDto = new CheckDto().builder().check(false).build();
+            return ResponseEntity.ok().body(checkDto);
         }
     }
 

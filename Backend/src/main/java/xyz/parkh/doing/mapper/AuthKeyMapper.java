@@ -1,6 +1,6 @@
 package xyz.parkh.doing.mapper;
 
-import xyz.parkh.doing.domain.AuthKeyVo;
+import xyz.parkh.doing.domain.entity.AuthKeyVo;
 
 public interface AuthKeyMapper {
 

@@ -1,6 +1,6 @@
 package xyz.parkh.doing.mapper;
 
-import xyz.parkh.doing.domain.FriendVo;
+import xyz.parkh.doing.domain.entity.FriendVo;
 
 import java.util.List;
 

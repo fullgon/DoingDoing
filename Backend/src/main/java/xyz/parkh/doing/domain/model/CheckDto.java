@@ -1,4 +1,5 @@
-package xyz.parkh.doing.domain;
+package xyz.parkh.doing.domain.model;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-// USER_ID, PASSWORD
-public class AuthVo {
-    private String userId;
-    private String password;
+public class CheckDto {
+    private boolean check;
 }

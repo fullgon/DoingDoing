@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xyz.parkh.doing.mapper.ScheduleMapper">
 
-    <resultMap type="xyz.parkh.doing.domain.ScheduleVo" id="scheduleSelectRM">
+    <resultMap type="xyz.parkh.doing.domain.entity.ScheduleVo" id="scheduleSelectRM">
         <result property="no" column="NO"/>
         <result property="userId" column="USER_ID"/>
         <result property="title" column="TITLE"/>
@@ -13,26 +13,26 @@
         <result property="isPublic" column="IS_PUBLIC"/>
     </resultMap>
 
-    <select id="selectByNo" resultType="xyz.parkh.doing.domain.ScheduleVo"
+    <select id="selectByNo" resultType="xyz.parkh.doing.domain.entity.ScheduleVo"
             resultMap="scheduleSelectRM">
         select NO, USER_ID, TITLE, CONTENT, END_TIME, IS_PUBLIC
         from tb_schedule
         where no = #{no}
     </select>
 
-    <select id="selectByUserId" resultType="xyz.parkh.doing.domain.ScheduleVo"
+    <select id="selectByUserId" resultType="xyz.parkh.doing.domain.entity.ScheduleVo"
             resultMap="scheduleSelectRM">
         select NO, USER_ID, TITLE, CONTENT, END_TIME, IS_PUBLIC
         from tb_schedule
         where USER_ID = #{userId}
     </select>
 
-    <insert id="insert" parameterType="xyz.parkh.doing.domain.ScheduleVo">
+    <insert id="insert" parameterType="xyz.parkh.doing.domain.entity.ScheduleVo">
         insert into tb_schedule(USER_ID, TITLE, CONTENT, END_TIME, IS_PUBLIC)
         values (#{userId}, #{title}, #{content}, #{endTime}, #{isPublic})
     </insert>
 
-    <update id="update" parameterType="xyz.parkh.doing.domain.ScheduleVo">
+    <update id="update" parameterType="xyz.parkh.doing.domain.entity.ScheduleVo">
         update tb_schedule
         <set>
             <if test="title != null">TITLE = #{title},</if>

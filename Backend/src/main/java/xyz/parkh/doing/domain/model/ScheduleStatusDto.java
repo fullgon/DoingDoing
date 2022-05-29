@@ -1,5 +1,4 @@
-package xyz.parkh.doing.domain;
-
+package xyz.parkh.doing.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CheckVo {
-    private boolean check;
+public class ScheduleStatusDto {
+    private Boolean isComplete;
+    private Boolean isTimeOut;
 }

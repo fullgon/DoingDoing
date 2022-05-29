@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import xyz.parkh.doing.domain.UserVo;
+import xyz.parkh.doing.domain.entity.UserVo;
 import xyz.parkh.doing.service.email.EmailService;
 
 import javax.servlet.http.HttpServletRequest;

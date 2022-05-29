@@ -1,4 +1,5 @@
-package xyz.parkh.doing.domain;
+package xyz.parkh.doing.domain.model;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,9 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class ErrorDto {
-    private String error;
+public class JwtDto {
+    private String jwt;
 }

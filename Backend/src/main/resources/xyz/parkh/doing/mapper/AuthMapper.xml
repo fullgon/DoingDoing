@@ -4,18 +4,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xyz.parkh.doing.mapper.AuthMapper">
     <!--  AuthVo : userId / DB tb_auth : USER_ID   -->
-    <resultMap type="xyz.parkh.doing.domain.AuthVo" id="authSelectRM">
+    <resultMap type="xyz.parkh.doing.domain.entity.AuthVo" id="authSelectRM">
         <result property="userId" column="USER_ID"/>
         <result property="password" column="PASSWORD"/>
     </resultMap>
 
-    <select id="selectByUserId" resultType="xyz.parkh.doing.domain.AuthVo" resultMap="authSelectRM">
+    <select id="selectByUserId" resultType="xyz.parkh.doing.domain.entity.AuthVo" resultMap="authSelectRM">
         select USER_ID, PASSWORD
         from tb_auth
         where USER_ID = #{userId}
     </select>
 
-    <insert id="insert" parameterType="xyz.parkh.doing.domain.AuthVo">
+    <insert id="insert" parameterType="xyz.parkh.doing.domain.entity.AuthVo">
         insert into tb_auth (USER_ID, PASSWORD)
         values (#{userId}, #{password})
     </insert>
@@ -26,7 +26,7 @@
         where USER_ID = #{userId}
     </delete>
 
-    <update id="update" parameterType="xyz.parkh.doing.domain.AuthVo">
+    <update id="update" parameterType="xyz.parkh.doing.domain.entity.AuthVo">
         update tb_auth
         set PASSWORD = #{password}
         where USER_ID = #{userId}

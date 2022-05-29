@@ -1,6 +1,6 @@
 package xyz.parkh.doing.mapper;
 
-import xyz.parkh.doing.domain.UserVo;
+import xyz.parkh.doing.domain.entity.UserVo;
 
 import java.util.List;
 

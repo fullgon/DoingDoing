@@ -1,12 +1,10 @@
 package xyz.parkh.doing.exception;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-@Getter
+@Data
+@AllArgsConstructor
 public class ValueNullException extends RuntimeException {
     String message;
-
-    public ValueNullException(String message) {
-        this.message = message;
-    }
 }

@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import xyz.parkh.doing.domain.ScheduleStatusVo;
-import xyz.parkh.doing.domain.ScheduleVo;
+import xyz.parkh.doing.domain.model.ScheduleStatusDto;
+import xyz.parkh.doing.domain.entity.ScheduleVo;
 import xyz.parkh.doing.mapper.ScheduleMapper;
 
 import java.util.HashMap;
@@ -37,14 +37,14 @@ public class ScheduleService {
         return jsonData;
     }
 
-    public Map<String, Object> readScheduleList(String userIdInJwt, String userId, ScheduleStatusVo scheduleStatusVo) {
+    public Map<String, Object> readScheduleList(String userIdInJwt, String userId, ScheduleStatusDto scheduleStatusDto) {
         HashMap<String, Object> jsonData = new HashMap<>();
         List<ScheduleVo> scheduleList = scheduleMapper.selectByUserId(userId);
         jsonData.put("scheduleList", scheduleList);
 
         HashMap<String, Object> result = new HashMap<>();
         result.put("result", "result");
-        result.put("message", scheduleStatusVo);
+        result.put("message", scheduleStatusDto);
         jsonData.put("result", result);
 
         return jsonData;

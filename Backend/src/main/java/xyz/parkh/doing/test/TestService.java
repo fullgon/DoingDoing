@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import xyz.parkh.doing.domain.UserVo;
+import xyz.parkh.doing.domain.entity.UserVo;
 import xyz.parkh.doing.exception.ValueNullException;
 import xyz.parkh.doing.mapper.UserMapper;
 

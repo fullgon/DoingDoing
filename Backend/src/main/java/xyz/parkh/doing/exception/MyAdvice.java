@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailSendException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import xyz.parkh.doing.domain.ErrorDto;
+import xyz.parkh.doing.domain.model.ErrorDto;
 
 @Slf4j
 @RestControllerAdvice

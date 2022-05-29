@@ -1,10 +1,10 @@
 package xyz.parkh.doing.utils;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import xyz.parkh.doing.domain.AuthKeyVo;
-import xyz.parkh.doing.domain.AuthVo;
-import xyz.parkh.doing.domain.ScheduleVo;
-import xyz.parkh.doing.domain.UserVo;
+import xyz.parkh.doing.domain.entity.AuthKeyVo;
+import xyz.parkh.doing.domain.entity.AuthVo;
+import xyz.parkh.doing.domain.entity.ScheduleVo;
+import xyz.parkh.doing.domain.entity.UserVo;
 
 import java.time.LocalDateTime;
 

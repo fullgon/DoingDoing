@@ -1,6 +1,6 @@
 package xyz.parkh.doing.mapper;
 
-import xyz.parkh.doing.domain.AuthVo;
+import xyz.parkh.doing.domain.entity.AuthVo;
 
 public interface AuthMapper {
     int insert(AuthVo authVo);

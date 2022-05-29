@@ -9,12 +9,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import xyz.parkh.doing.domain.*;
+import xyz.parkh.doing.domain.model.UserAuthDto;
+import xyz.parkh.doing.domain.entity.AuthKeyVo;
+import xyz.parkh.doing.domain.entity.AuthVo;
+import xyz.parkh.doing.domain.model.CheckDto;
+import xyz.parkh.doing.domain.entity.UserVo;
 import xyz.parkh.doing.service.AuthService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -34,8 +36,8 @@ public class AuthController {
     // userId, password, email, name, company
     // 회원 가입
     @PostMapping("/sign-up")
-    public void postSignUp(@RequestBody UserAuthVo userAuthVo) {
-        authService.signUp(userAuthVo);
+    public void postSignUp(@RequestBody UserAuthDto userAuthDto) {
+        authService.signUp(userAuthDto);
     }
 
     // userId, email
@@ -48,28 +50,28 @@ public class AuthController {
     // userId, authKey
     // 인증 번호 확인
     @PostMapping("/check/auth-key")
-    public ResponseEntity<CheckVo> postCheckAuthKey(@RequestBody AuthKeyVo authKeyVo) {
+    public ResponseEntity<CheckDto> postCheckAuthKey(@RequestBody AuthKeyVo authKeyVo) {
         return authService.checkAuthKey(authKeyVo);
     }
 
     // userId
     // id 중복 확인
     @PostMapping("/check/user-id")
-    public ResponseEntity<CheckVo> postCheckUserId(@RequestBody AuthVo authVo) {
+    public ResponseEntity<CheckDto> postCheckUserId(@RequestBody AuthVo authVo) {
         return authService.checkUserId(authVo.getUserId());
     }
 
     // email
     // email 중복 확인
     @PostMapping("/check/email")
-    public ResponseEntity<CheckVo> postCheckUserId(@RequestBody UserVo userVo) {
+    public ResponseEntity<CheckDto> postCheckUserId(@RequestBody UserVo userVo) {
         return authService.checkEmail(userVo.getEmail());
     }
 
     // jwt, password
     // 사용자 확인을 위한 비밀번호 재확인
     @PostMapping("/check/password")
-    public ResponseEntity<CheckVo> postCheckPassword(@RequestBody AuthVo authVo, HttpServletRequest request) {
+    public ResponseEntity<CheckDto> postCheckPassword(@RequestBody AuthVo authVo, HttpServletRequest request) {
         String userIdInJwt = (String) request.getAttribute("userId");
 
         return authService.checkPassword(userIdInJwt, authVo);

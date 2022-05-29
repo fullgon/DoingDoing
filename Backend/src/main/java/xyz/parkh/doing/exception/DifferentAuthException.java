@@ -1,9 +1,9 @@
 package xyz.parkh.doing.exception;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 @AllArgsConstructor
 public class DifferentAuthException extends RuntimeException {
     String message;

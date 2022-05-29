@@ -1,6 +1,6 @@
 package xyz.parkh.doing.mapper;
 
-import xyz.parkh.doing.domain.ScheduleVo;
+import xyz.parkh.doing.domain.entity.ScheduleVo;
 
 import java.util.List;
 

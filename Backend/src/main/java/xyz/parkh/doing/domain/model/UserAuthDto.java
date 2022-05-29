@@ -1,4 +1,4 @@
-package xyz.parkh.doing.domain;
+package xyz.parkh.doing.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-// USER_ID, NAME, EMAIL, COMPANY
-public class UserVo {
+public class UserAuthDto {
     private String userId;
+    private String password;
     private String name;
     private String email;
     private String company;

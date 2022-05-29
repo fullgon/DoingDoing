@@ -6,7 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import xyz.parkh.doing.domain.UserVo;
+import xyz.parkh.doing.domain.entity.UserVo;
 
 @Slf4j
 @ExtendWith(SpringExtension.class)
