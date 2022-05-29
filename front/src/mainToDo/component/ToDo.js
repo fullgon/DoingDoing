@@ -23,7 +23,7 @@ function ToDo(){
     const getSchedules = async () =>{
         try{
             const userId = localStorage.getItem('userId');
-            const res = await axios.post(`/api/schedules/${userId}`,{
+            const res = await axios.get(`/api/schedules/${userId}`,{
                 isComplete: false,
                 isTimeOut: false,
             },{
