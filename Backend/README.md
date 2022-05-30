@@ -1,6 +1,49 @@
 ## 회의 할 것
 
-아이디 중복 확인, 이메일 확인
+### 메서드 명명 규칙
+
+Service
+
+```
+find~
+add~
+modify~
+remove~
+save~
+```
+
+Controller
+
+```
+~List()
+~Details()
+~Save()
+~Add()
+~Modify()
+~Remove()
+```
+
+Mapper
+
+```
+select~
+insert~
+update~
+delete~
+```
+
+구조
+
+서비스에서는 예외처리, 트랜잭션 처리를 한다.
+
+컨트롤러는 서비스를 호출하기만 한다.
+
+메서드는 한가지의 기능만 가져야 한다.
+
+
+
+
+https://cocobi.tistory.com/27
 
 ### 2022.05.24. 이메일 관련
 

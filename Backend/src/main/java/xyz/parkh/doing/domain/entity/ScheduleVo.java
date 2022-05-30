@@ -23,4 +23,5 @@ public class ScheduleVo {
     private LocalDateTime endTime;
 
     private Boolean isPublic;
+    private Boolean isComplete; // 생성 시 default : false
 }

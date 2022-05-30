@@ -237,7 +237,7 @@ public class AuthService {
     }
 
     // 비밀번호 변경
-    public void changePassword(String userIdInJwt, AuthVo authVo) {
+    public void modifyPassword(String userIdInJwt, AuthVo authVo) {
         String password = authVo.getPassword();
         String userId = authVo.getUserId();
 

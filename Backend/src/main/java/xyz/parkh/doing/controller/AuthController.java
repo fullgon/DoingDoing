@@ -38,50 +38,58 @@ public class AuthController {
             @ApiImplicitParam(name = "UserId", value = "사용자 아이디", required = true),
             @ApiImplicitParam(name = "password", value = "사용자 비밀번호", required = true)
     })
-    public ResponseEntity postSignIn(@ApiIgnore @RequestBody AuthVo authVo) {
-
+    public ResponseEntity signIn(@ApiIgnore @RequestBody AuthVo authVo) {
         return authService.signIn(authVo);
     }
 
     // userId, password, email, name, company
     // 회원 가입
     @PostMapping("/sign-up")
-    public void postSignUp(@RequestBody UserAuthDto userAuthDto) {
+    public void signUp(@RequestBody UserAuthDto userAuthDto) {
         authService.signUp(userAuthDto);
     }
 
     // userId, email
     // 인증 번호 전송
     @PostMapping("/send/auth-key")
-    public void postSendAuthKey(@RequestBody UserVo userVo) {
+    public void authKeySend(@RequestBody UserVo userVo) {
         authService.sendAuthKey(userVo);
     }
 
     // userId, authKey
     // 인증 번호 확인
     @PostMapping("/check/auth-key")
-    public ResponseEntity<CheckDto> postCheckAuthKey(@RequestBody AuthKeyVo authKeyVo) {
+    public ResponseEntity<CheckDto> authKeyCheck(@RequestBody AuthKeyVo authKeyVo) {
         return authService.checkAuthKey(authKeyVo);
     }
+
+//   Service 에서 ResopnseEntity 를 넘겨주는게 맞나? 라는 의문에 
+//    이렇게 작성했는데 이러면 지금의 Error 처리 방식 사용 불가.
+//    위의 코드 유지
+//    public ResponseEntity<CheckDto> postCheckAuthKey(@RequestBody AuthKeyVo authKeyVo) {
+//        CheckDto checkDto = authService.checkAuthKey(authKeyVo);
+//        return ResponseEntity.ok().body(checkDto);
+//    }
+
 
     // userId
     // id 중복 확인
     @PostMapping("/check/user-id")
-    public ResponseEntity<CheckDto> postCheckUserId(@RequestBody AuthVo authVo) {
+    public ResponseEntity<CheckDto> userIdCheck(@RequestBody AuthVo authVo) {
         return authService.checkUserId(authVo.getUserId());
     }
 
     // email
     // email 중복 확인
     @PostMapping("/check/email")
-    public ResponseEntity<CheckDto> postCheckUserId(@RequestBody UserVo userVo) {
+    public ResponseEntity<CheckDto> emailCheck(@RequestBody UserVo userVo) {
         return authService.checkEmail(userVo.getEmail());
     }
 
     // jwt, password
     // 사용자 확인을 위한 비밀번호 재확인
     @PostMapping("/check/password")
-    public ResponseEntity<CheckDto> postCheckPassword(@RequestBody AuthVo authVo, HttpServletRequest request) {
+    public ResponseEntity<CheckDto> passwordCheck(@RequestBody AuthVo authVo, HttpServletRequest request) {
         String userIdInJwt = (String) request.getAttribute("userId");
 
         return authService.checkPassword(userIdInJwt, authVo);
@@ -90,9 +98,9 @@ public class AuthController {
     // jwt, userId, password
     // 비밀번호 변경
     @PatchMapping("/reset/password")
-    public void patchResetPassword(@RequestBody AuthVo authVo, HttpServletRequest request) {
+    public void passwordModify(@RequestBody AuthVo authVo, HttpServletRequest request) {
         String userIdInJwt = (String) request.getAttribute("userId");
 
-        authService.changePassword(userIdInJwt, authVo);
+        authService.modifyPassword(userIdInJwt, authVo);
     }
 }

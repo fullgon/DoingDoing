@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class Utils {
 
     // 테스트 UserVo 생성
-    public static UserVo generateUser() {
+    public UserVo generateUser() {
         String userId = generatedStringWithInt(10);
         String name = generatedOnlyString(5);
         String company = generatedOnlyString(10);
