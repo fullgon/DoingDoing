@@ -17,15 +17,9 @@
     <context:property-placeholder location="classpath:application.properties"/>
     <!-- .properties 끝-->
 
-<!--    <mvc:annotation-driven>-->
-<!--        <mvc:path-matching path-matcher="pathMatcher" />-->
-<!--    </mvc:annotation-driven>-->
+    <mvc:annotation-driven/>
 
-<!--    <beans:bean id="pathMatcher" class="org.springframework.util.AntPathMatcher">-->
-<!--        <beans:property name="caseSensitive" value="false" />-->
-<!--    </beans:bean>-->
-
-    <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+    <!--     Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 
     <!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->

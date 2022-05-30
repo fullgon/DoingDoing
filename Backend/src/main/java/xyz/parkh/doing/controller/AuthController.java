@@ -5,10 +5,14 @@
 
 package xyz.parkh.doing.controller;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 import xyz.parkh.doing.domain.model.UserAuthDto;
 import xyz.parkh.doing.domain.entity.AuthKeyVo;
 import xyz.parkh.doing.domain.entity.AuthVo;
@@ -29,7 +33,13 @@ public class AuthController {
     // UserId, Password
     // 로그인
     @PostMapping("/sign-in")
-    public ResponseEntity postSignIn(@RequestBody AuthVo authVo) {
+    @ApiOperation(value = "로그인", notes = "로그인 한다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "UserId", value = "사용자 아이디", required = true),
+            @ApiImplicitParam(name = "password", value = "사용자 비밀번호", required = true)
+    })
+    public ResponseEntity postSignIn(@ApiIgnore @RequestBody AuthVo authVo) {
+
         return authService.signIn(authVo);
     }
 

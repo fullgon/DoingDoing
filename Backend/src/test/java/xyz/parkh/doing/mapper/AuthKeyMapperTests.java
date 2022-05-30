@@ -8,7 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import xyz.parkh.doing.config.WebMvcConfig;
 import xyz.parkh.doing.domain.entity.AuthKeyVo;
 import xyz.parkh.doing.domain.entity.UserVo;
 import xyz.parkh.doing.utils.Utils;
