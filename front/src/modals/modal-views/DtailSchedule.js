@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import ReactModal from 'react-modal'
 import Switch from '@mui/material/Switch';
 import axios from 'axios';
 

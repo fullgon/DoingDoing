@@ -70,6 +70,7 @@ function SignUp(){
     }
 
     const idCheck = () =>{
+        console.log(id);
         axios.post("/api/auth/check/user-id",{
             userId: id
         },{
@@ -84,7 +85,8 @@ function SignUp(){
                 console.log(res);
             }
         }).catch(e => {
-            alert("에러남");
+            alert(e);
+            console.log(e.response);
         })
         
     }

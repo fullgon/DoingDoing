@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Switch from '@mui/material/Switch';
+import axios from 'axios';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
@@ -22,12 +23,9 @@ const NewSchedule = ({onSubmit, onClose}) =>{
     const addSchedule = async () =>{
         try{
             const userId = localStorage.getItem('userId');
-            const res = await axios.post(`/api/schedules/${userId}`,{
-                title: schedule.title,
-                content: schedule.content,
-                isPublic: schedule.public,
-                endDeate: schedule.date,
-            },{
+            const res = await axios.post(`/api/schedules/${userId}`,
+            schedule,
+            {
                 headers:{
                     'Content-Type' : 'application/json',
                     'Authorization' : localStorage.getItem('accessToken'),
@@ -39,12 +37,10 @@ const NewSchedule = ({onSubmit, onClose}) =>{
         }
     }
 
-    useEffect(() => {
-        addSchedule();
-    },[])
 
     const handleClickSubmit = () => {
         console.log(schedule);
+        addSchedule();
         onSubmit();
     }
 
