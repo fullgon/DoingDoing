@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ValueNullException extends RuntimeException {
+public class ValueException extends RuntimeException {
     String message;
 }

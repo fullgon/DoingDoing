@@ -2,6 +2,7 @@ package xyz.parkh.doing.exception;
 
 import com.sun.mail.smtp.SMTPAddressFailedException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailSendException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,17 +29,8 @@ public class MyAdvice {
     }
 
     // 인자가 없을 경우 발생하는 에러
-    @ExceptionHandler(ValueNullException.class)
-    public ResponseEntity<ErrorDto> requiredValueNullException(Exception e) {
-        String message = e.getMessage();
-        ErrorDto error = ErrorDto.builder().error(message).build();
-
-        return ResponseEntity.badRequest().body(error);
-    }
-
-    // 조회하는 값이 이미 존재할 경우 발생하는 에러
-    @ExceptionHandler(ExistsException.class)
-    public ResponseEntity<ErrorDto> existException(Exception e) {
+    @ExceptionHandler(ValueException.class)
+    public ResponseEntity<ErrorDto> requiredValueException(Exception e) {
         String message = e.getMessage();
         ErrorDto error = ErrorDto.builder().error(message).build();
 
@@ -71,6 +63,6 @@ public class MyAdvice {
         String message = e.getMessage();
         ErrorDto error = ErrorDto.builder().error(message).build();
 
-        return ResponseEntity.badRequest().body(error);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 }

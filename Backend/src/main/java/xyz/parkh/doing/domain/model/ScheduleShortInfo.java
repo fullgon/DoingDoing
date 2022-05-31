@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ScheduleShortInfo {
 
-    private int no;
+    private Integer no;
     private String title;
-    private boolean isPublic;
+    private Boolean overDeadLine;
 }

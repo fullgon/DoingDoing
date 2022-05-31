@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class CheckDto {
-    private boolean check;
+    private Boolean check;
 }

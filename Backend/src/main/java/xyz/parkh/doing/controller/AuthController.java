@@ -13,11 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
-import xyz.parkh.doing.domain.model.UserAuthDto;
 import xyz.parkh.doing.domain.entity.AuthKeyVo;
 import xyz.parkh.doing.domain.entity.AuthVo;
-import xyz.parkh.doing.domain.model.CheckDto;
 import xyz.parkh.doing.domain.entity.UserVo;
+import xyz.parkh.doing.domain.model.CheckDto;
+import xyz.parkh.doing.domain.model.UserAuthDto;
 import xyz.parkh.doing.service.AuthService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,15 +45,15 @@ public class AuthController {
     // userId, password, email, name, company
     // 회원 가입
     @PostMapping("/sign-up")
-    public void signUp(@RequestBody UserAuthDto userAuthDto) {
-        authService.signUp(userAuthDto);
+    public ResponseEntity signUp(@RequestBody UserAuthDto userAuthDto) {
+        return authService.signUp(userAuthDto);
     }
 
     // userId, email
     // 인증 번호 전송
     @PostMapping("/send/auth-key")
-    public void authKeySend(@RequestBody UserVo userVo) {
-        authService.sendAuthKey(userVo);
+    public ResponseEntity authKeySend(@RequestBody UserVo userVo) {
+        return authService.sendAuthKey(userVo);
     }
 
     // userId, authKey
@@ -98,9 +98,9 @@ public class AuthController {
     // jwt, userId, password
     // 비밀번호 변경
     @PatchMapping("/reset/password")
-    public void passwordModify(@RequestBody AuthVo authVo, HttpServletRequest request) {
+    public ResponseEntity passwordModify(@RequestBody AuthVo authVo, HttpServletRequest request) {
         String userIdInJwt = (String) request.getAttribute("userId");
 
-        authService.modifyPassword(userIdInJwt, authVo);
+        return authService.modifyPassword(userIdInJwt, authVo);
     }
 }

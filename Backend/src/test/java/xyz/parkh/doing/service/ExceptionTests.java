@@ -6,7 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import xyz.parkh.doing.exception.ValueNullException;
+import xyz.parkh.doing.exception.ValueException;
 import xyz.parkh.doing.test.TestService;
 
 @Slf4j
@@ -19,8 +19,8 @@ public class ExceptionTests {
     TestService testService;
 
     @Test
-    public void requiredValueNullExceptionTest() {
-        throw new ValueNullException("Test 에서 준 코드");
+    public void requiredValueExceptionTest() {
+        throw new ValueException("Test 에서 준 코드");
     }
 
 }

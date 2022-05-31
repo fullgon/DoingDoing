@@ -8,7 +8,6 @@ import xyz.parkh.doing.domain.entity.UserVo;
 import xyz.parkh.doing.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -30,18 +29,18 @@ public class UserController {
     // jwt, email, name, company
     // 사용자 정보 수정
     @PutMapping
-    public void userModify(@RequestBody UserVo userVo, HttpServletRequest request) {
+    public ResponseEntity userModify(@RequestBody UserVo userVo, HttpServletRequest request) {
         String userIdInJwt = (String) request.getAttribute("userId");
 
-        userService.modifyUser(userIdInJwt, userVo);
+        return userService.modifyUser(userIdInJwt, userVo);
     }
 
     // jwt
     // 사용자 정보 삭제
     @DeleteMapping
-    public void userRemove(HttpServletRequest request) {
+    public ResponseEntity userRemove(HttpServletRequest request) {
         String userIdInJwt = (String) request.getAttribute("userId");
 
-        userService.removeUser(userIdInJwt);
+        return userService.removeUser(userIdInJwt);
     }
 }

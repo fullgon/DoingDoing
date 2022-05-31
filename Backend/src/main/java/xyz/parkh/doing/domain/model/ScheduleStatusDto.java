@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ScheduleStatusDto {
-    private Boolean isComplete;
-    private Boolean isTimeOut;
+    private Boolean isComplete; // 완료 됐는가?
+    private Boolean hasDeadLine; // 마감 기한이 있는가?
 }

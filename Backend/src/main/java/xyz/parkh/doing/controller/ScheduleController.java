@@ -11,7 +11,6 @@ import xyz.parkh.doing.service.ScheduleService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -46,21 +45,21 @@ public class ScheduleController {
     // jwt, title, content, isPublic, endTime
     // 일정 정보 등록
     @PostMapping("/{userId}")
-    public Map<String, Object> scheduleAdd(@PathVariable("userId") String userId,
-                                           @RequestBody ScheduleVo scheduleVo,
-                                           HttpServletRequest request) {
+    public ResponseEntity scheduleAdd(@PathVariable("userId") String userId,
+                                      @RequestBody ScheduleVo scheduleVo,
+                                      HttpServletRequest request) {
         String userIdInJwt = (String) request.getAttribute("userId");
 
-        return scheduleService.addSchedule(userIdInJwt, scheduleVo);
+        return scheduleService.addSchedule(userIdInJwt, userId, scheduleVo);
     }
 
     // jwt, title, content, isPublic, endTime
     // 일정 정보 수정
     @PutMapping("/{userId}/{scheduleNo}")
-    public Map<String, Object> ScheduleModify(@PathVariable("userId") String userId,
-                                              @PathVariable("scheduleNo") Integer scheduleNo,
-                                              @RequestBody ScheduleVo scheduleVo,
-                                              HttpServletRequest request) {
+    public ResponseEntity ScheduleModify(@PathVariable("userId") String userId,
+                                         @PathVariable("scheduleNo") Integer scheduleNo,
+                                         @RequestBody ScheduleVo scheduleVo,
+                                         HttpServletRequest request) {
         String userIdInJwt = (String) request.getAttribute("userId");
 
         return scheduleService.modifySchedule(userIdInJwt, userId, scheduleVo);
@@ -68,11 +67,11 @@ public class ScheduleController {
 
     // 일정 정보 삭제
     @DeleteMapping("/{userId}/{scheduleNo}")
-    public Map<String, Object> scheduleRemove(@PathVariable("userId") String userId,
-                                              @PathVariable("scheduleNo") Integer scheduleNo,
-                                              HttpServletRequest request) {
+    public ResponseEntity scheduleRemove(@PathVariable("userId") String userId,
+                                         @PathVariable("scheduleNo") Integer scheduleNo,
+                                         HttpServletRequest request) {
         String userIdInJwt = (String) request.getAttribute("userId");
 
-        return scheduleService.removeSchedule(userIdInJwt, scheduleNo);
+        return scheduleService.removeSchedule(userIdInJwt, userId, scheduleNo);
     }
 }

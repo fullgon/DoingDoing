@@ -12,8 +12,8 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
-@EnableWebMvc // Test 시 주석 처리 / 운영시 주석 해제
-@EnableSwagger2 // Test 시 주석 처리 / 운영시 주석 해제
+//@EnableWebMvc // Test 시 주석 처리 / 운영시 주석 해제
+//@EnableSwagger2 // Test 시 주석 처리 / 운영시 주석 해제
 public class SpringFoxConfig implements WebMvcConfigurer {
     @Bean
     public Docket api() {
