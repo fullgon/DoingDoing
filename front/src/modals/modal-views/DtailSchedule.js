@@ -1,13 +1,24 @@
 import { useEffect, useState } from 'react';
+import useModals from "../../modals/useModals"
+import { modals } from "../../modals/Modals"
 import Switch from '@mui/material/Switch';
 import axios from 'axios';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-const DetailSchedule = ({onSubmit, onClose, scheduleNo}) =>{
+const DetailSchedule = ({onClose, scheduleNo}) =>{
+
+    const { openModal } = useModals();
     
-    const handleClickSubmit = () => {
-        onSubmit();
+    const handleClickModify = () => {
+        onClose();
+        openModal(modals.myModal, {
+            onSubmit: () => {
+                console.log('비지니스 로직 처리...--일정수정으로 이동');
+            },
+            type:"modify",
+            scheduleNo,
+        });
     }
 
     const handleClickCancel = () =>{
@@ -58,7 +69,7 @@ const DetailSchedule = ({onSubmit, onClose, scheduleNo}) =>{
                 <textarea value={schedule.content} disabled/>
             </div>
             <div>
-                <button onClick={handleClickSubmit}>확인</button>
+                <button onClick={handleClickModify}>수정</button>
                 <button onClick={handleClickCancel}>취소</button>
             </div>
         </div>

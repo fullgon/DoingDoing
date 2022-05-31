@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import ReactModal from 'react-modal'
 import DetailSchedule from './DtailSchedule';
+import ModifySchedule from './ModifySchedule';
 import NewSchedule from './NewSchedule';
 
 const modal = {
     new: NewSchedule,
-    detail: DetailSchedule
+    detail: DetailSchedule,
+    modify: ModifySchedule
 }
 
 const MyModal = ({ onSubmit, onClose, type, scheduleNo }) => {

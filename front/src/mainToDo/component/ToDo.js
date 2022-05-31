@@ -1,6 +1,6 @@
 import styles from "../css/ToDo.module.css"
 import useModals from "../../modals/useModals"
-import Modals, { modals } from "../../modals/Modals"
+import { modals } from "../../modals/Modals"
 import { useEffect, useState } from "react";
 import axios from "axios";
 
