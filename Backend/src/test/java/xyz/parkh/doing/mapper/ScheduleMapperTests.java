@@ -39,6 +39,7 @@ public class ScheduleMapperTests {
         int insertUserStatus = userMapper.insert(testUser);
         Assert.isTrue(insertUserStatus == 1);
 
+        // TODO 적용이 안돼도 1 을 반환하네..
         // 일정 삽입
         int insertScheduleStatus = scheduleMapper.insert(testSchedule);
         Assert.isTrue(insertScheduleStatus == 1);

@@ -44,13 +44,15 @@ https://cocobi.tistory.com/27
 
 예정 : Swagger 적용 / Test 코드 작성 / 친구 기능 추가
 
+2022.06.01. 일정 관련 버그 수정(잘 못 된 로직, DB 버전, Mapper)
+
 2022.05.31. 기능 구현 완료 1차.
 
 2022.05.29. 기능 구현 (일정 관련)
 
 2022.05.27. 기능 구현 (이메일)
 
-2022.05.~~. 구조 개선
+2022.05.~~. 구조 개선, 서버 배포
 
 2022.05.23. JWT 적용
 
@@ -222,48 +224,6 @@ long2 = 1814400000
 
 혹시 다음에 그런 일이 생기면 한 번 시도해 보기
 
-### 코드 개선
-
-2022.05.31.
-
-일단 빠르게 기능 구현하고 코드를 개선했다.
-
-```
-    if (isComplete) {
-        if (schedule.getEndTime() == null) {
-            ScheduleShortInfo scheduleShortInfo = new ScheduleShortInfo().builder().no(no).title(title).build();
-            scheduleShortInfoList.add(scheduleShortInfo);
-        }
-    } else if (hasDeadLine) {
-        // 완료 되지 않고 기한이 있는 일정 목록 조회
-        // 기한이 지난 것, 기한이 지나지 않은 것으로 구분.
-        LocalDateTime now = LocalDateTime.now();
-        Boolean overDeadLine = now.isAfter(endTime);
-        ScheduleShortInfo scheduleShortInfo = new ScheduleShortInfo().builder().no(no).title(title).overDeadLine(overDeadLine).build();
-        scheduleShortInfoList.add(scheduleShortInfo);
-    } else {
-        // 완료 되지 않고 기한이 없는 일정 목록 조회
-        ScheduleShortInfo scheduleShortInfo = new ScheduleShortInfo().builder().no(no).title(title).build();
-        scheduleShortInfoList.add(scheduleShortInfo);
-    }
-
-```
-
-```
-    if (!isComplete && hasDeadLine) {
-        // 기한이 지난 것, 기한이 지나지 않은 것으로 구분.
-        LocalDateTime now = LocalDateTime.now();
-        Boolean overDeadLine = now.isAfter(endTime);
-
-        ScheduleShortInfo scheduleShortInfo = new ScheduleShortInfo().builder().no(no).title(title).overDeadLine(overDeadLine).build();
-        scheduleShortInfoList.add(scheduleShortInfo);
-    } else {
-        // 완료 된 일정, 완료 되지 않고 기한이 없는 일정 조회.
-        ScheduleShortInfo scheduleShortInfo = new ScheduleShortInfo().builder().no(no).title(title).build();
-        scheduleShortInfoList.add(scheduleShortInfo);
-    }
-```
-
 ## Wrapper 클래스
 
 2022.05.31.
@@ -299,4 +259,43 @@ Mapper Test 를 근거로 여기까지는 이상 없다. 라는 믿음에 그 �
 로컬 DB 는 에러 안나는데 AWS DB 에 연결하니까 에러 발생
 
 이거 부터 잡자
+
+해결
+
+2022.06.01.
+
+AWS 는 5.7.38-0ubuntu0.18.04.1
+
+로컬은 8.0.26 사용 중이 었어서 생긴 오류
+
+5.7~ utf-8 을 지원 안 함
+
+DB 재설치 말고 업데이트 해 봄
+
+https://tastethelinux.com/upgrade-mysql-server-from-5-7-to-8-ubuntu-18-04/
+
+https://eehoeskrap.tistory.com/454
+
+## 로직 수정
+
+로직이 잘못 되어 있었음
+
+처음엔 생각나는대로 짜다가 머리 속에서 꼬였다.
+
+공개, 비공개 / 기한 지난 것, 기한 안 지난 것 / 기한 있는 것 ,기한 없는 것 / 완료 한 것, 완료 안 한 것
+
+이렇게 구분했어야 했다.
+
+뇌정지가 와서 하던 코딩을 멈추고 기준을 정했다.
+
+지금 내가 만들려고 하는 기능은?
+
+    목록 조회
+    1. 완료 O
+    2. 완료 X, 기한 O ( 기한 지난 것, 안 지난 것 구분)
+    3. 완료 X, 기한 X
+
+하고 순서대로 짜내려가니까 금방 짰다.
+
+알고리즘 문제 풀 듯이 짜야겠다.
 

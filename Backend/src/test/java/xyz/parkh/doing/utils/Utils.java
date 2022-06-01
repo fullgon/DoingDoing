@@ -51,10 +51,11 @@ public class Utils {
         String title = generatedOnlyString(5);
         String content = generatedOnlyString(10);
         Boolean isPublic = true;
+        Boolean isComplete = true;
         // DB 저장시 milliseconds 단위 저장 안되고 반올림 되므로 withNano(0) 추가
         LocalDateTime endDate = LocalDateTime.now().withNano(0).plusDays(1);
         ScheduleVo schedule = new ScheduleVo().builder()
-                .userId(userId).title(title).content(content).isPublic(isPublic).endTime(endDate).build();
+                .userId(userId).title(title).content(content).isPublic(isPublic).isComplete(isComplete).endTime(endDate).build();
         return schedule;
     }
 

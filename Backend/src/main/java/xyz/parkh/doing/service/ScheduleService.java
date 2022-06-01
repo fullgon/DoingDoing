@@ -41,6 +41,11 @@ public class ScheduleService {
 
         ScheduleVo schedule = scheduleMapper.selectByNo(scheduleNo);
 
+        // 일정이 없을 경우
+        if (schedule == null) {
+            throw new ValueException("조회 할 일정이 없습니다.");
+        }
+
         return ResponseEntity.ok().body(schedule);
     }
 
@@ -122,11 +127,6 @@ public class ScheduleService {
         // TODO 친구가 글 작성하는 기능 추가 시 권한 확인하는 코드 작성 필요
         if (!userIdInJwt.equals(userId)) {
             throw new DifferentAuthException("접근 할 수 있는 권한이 없습니다.");
-        }
-
-        // 공개 여부 기본 값 : 공개
-        if (isPublic == null) {
-            scheduleVo.setIsPublic(true);
         }
 
         scheduleVo.setUserId(userIdInJwt);
