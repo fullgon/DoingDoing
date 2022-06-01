@@ -25,6 +25,29 @@ const DetailSchedule = ({onClose, scheduleNo}) =>{
         onClose();
     }
 
+    const handleClickDelete = () =>{
+        deleteSchedule();
+    }
+
+    const deleteSchedule = async () =>{
+        try{
+            userId = localStorage.getItem('userId');
+            const res = await axios.delete(`/api/schedules/${userId}/${scheduleNo}`,{},
+            {
+                headers:{
+                    'Content-Type' : 'application/json',
+                    'Authorization' : localStorage.getItem('accessToken'),
+                }
+            });
+
+            if(res.status == 200){
+                console.log('게시글 삭제 완료');
+            }
+        }catch(e){
+            //에러
+        }
+    }
+
     const [schedule, setSchedule] = useState({
         title:"제목",
         content:"안녕하십니까 내용입니다.",
@@ -70,6 +93,7 @@ const DetailSchedule = ({onClose, scheduleNo}) =>{
             </div>
             <div>
                 <button onClick={handleClickModify}>수정</button>
+                <button onClick={handleClickDelete}>삭제</button>
                 <button onClick={handleClickCancel}>취소</button>
             </div>
         </div>
