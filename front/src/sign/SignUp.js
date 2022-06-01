@@ -53,7 +53,8 @@ function SignUp(){
                     'Content-Type' : 'application/json',
                 }
             }).then(res=>{
-                if(res.status == 200){
+                console.log(res);
+                if(res.status == 204){
                     //로그인 페이지로 이동
                     window.alert("회원가입에 성공하였습니다.");
                     navigate(-1);

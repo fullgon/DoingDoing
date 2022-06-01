@@ -31,8 +31,9 @@ const NewSchedule = ({onSubmit, onClose}) =>{
                     'Authorization' : localStorage.getItem('accessToken'),
                 }
             })    
-        }catch{
+        }catch(e){
             //error
+            console.log(e);
             alert("에러");
         }
     }
