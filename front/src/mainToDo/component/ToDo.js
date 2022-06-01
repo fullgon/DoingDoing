@@ -20,6 +20,8 @@ function ToDo(){
         });
     };
 
+    //체크박스 클릭 시 일정 완료 & 미완료 처리하는 api요청 필요
+
     const getSchedules = async () =>{
         try{
             const userId = localStorage.getItem('userId');

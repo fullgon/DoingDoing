@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import Switch from '@mui/material/Switch';
 import axios from 'axios';
 
+const label = { inputProps: { 'aria-label': 'Switch demo' } };
+
 const ModifySchedule = ({onSubmit, onClose, scheduleNo}) =>{
 
     const [schedule, setSchedule] = useState({

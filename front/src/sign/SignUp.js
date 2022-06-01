@@ -70,7 +70,6 @@ function SignUp(){
     }
 
     const idCheck = () =>{
-        console.log(id);
         axios.post("/api/auth/check/user-id",{
             userId: id
         },{
@@ -112,9 +111,11 @@ function SignUp(){
                     'Content-Type' : 'application/json',
                 }
             }).then(res =>{
-                //결과랑 메시지
-                window.alert("인증번호 보냈음");
-                setIsSend(true);
+                if(res.status == 200){
+                    //결과랑 메시지
+                    window.alert("인증번호 보냈음");
+                    setIsSend(true);
+                }
             }).catch(error =>{
                 window.alert("인증번호 보내기 실패");
             })
