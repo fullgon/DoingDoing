@@ -33,8 +33,7 @@ public class ScheduleService {
             throw new ValueException("필수 인자가 없습니다.");
         }
 
-        // TODO 친구 기능 추가 시 권한 확인하는 코드 작성 필요
-        // 현재는 본인 정보만 조회 가능.
+        // TODO 친구 기능 추가 시 권한 확인하는 코드 작성 필요, 현재 본인 정보만 조회 가능.
         // 본인이 아닐 경우
         if (!userId.equals(userIdInJwt)) {
             throw new DifferentAuthException("접근 할 수 있는 권한이 없습니다.");
@@ -46,23 +45,26 @@ public class ScheduleService {
     }
 
     // 목록 조회
+    // 1. 완료 O
+    // 2. 완료 X, 기한 O ( 기한 지난 것, 안 지난 것 구분)
+    // 3. 완료 X, 기한 X
     public ResponseEntity<List<ScheduleShortInfo>> findScheduleList(
             final String userIdInJwt, final String userId, final ScheduleStatusDto scheduleStatusDto) {
-        Boolean isComplete = scheduleStatusDto.getIsComplete();
-        Boolean hasDeadLine = scheduleStatusDto.getHasDeadLine();
+        Boolean requestIsComplete = scheduleStatusDto.getIsComplete();
+        Boolean requestHasDeadLine = scheduleStatusDto.getHasDeadLine();
 
         // 필수 인자가 없는 경우
-        if (userIdInJwt == null || userId == null || isComplete == null) {
+        if (userIdInJwt == null || userId == null || requestIsComplete == null) {
             throw new ValueException("필수 인자가 없습니다.");
         }
 
-        // 완료 되지 않은 일정 조회 시 기한이 있는 것 없는 것 구분 필수\
-        if (!isComplete && hasDeadLine == null) {
+        // 완료 되지 않은 일정 조회 시 기한이 있는 것 없는 것 구분 필수
+        if (!requestIsComplete && requestHasDeadLine == null) {
             throw new ValueException("필수 인자가 없습니다.");
         }
 
-        // TODO 친구 기능 추가 시 권한 확인하는 코드 작성 필요
-        // 현재는 본인 정보만 조회 가능.
+        // TODO 친구 기능 추가 시 권한 확인하는 코드 작성 필요, 현재 본인 정보만 조회 가능.
+
         // 본인이 아닐 경우
         if (!userId.equals(userIdInJwt)) {
             throw new DifferentAuthException("접근 할 수 있는 권한이 없습니다.");
@@ -76,18 +78,30 @@ public class ScheduleService {
             Integer no = schedule.getNo();
             String title = schedule.getTitle();
             LocalDateTime endTime = schedule.getEndTime();
+            Boolean isComplete = schedule.getIsComplete();
 
             // TODO 친구 기능 추가 시 조회한 schedule 의 isPublic 을 기반으로 공개 여부 추가 할 것.
-            // 완료 되지 않고 기한이 있는 일정 목록 조회
-            if (!isComplete && hasDeadLine) {
-                // 기한이 지난 것, 기한이 지나지 않은 것으로 구분.
+
+            // 완료된 일정 조회
+            if (requestIsComplete) {
+                if (!isComplete) continue; // 완료되지 않은 일정일 경우 처리하지 않음
+
+                ScheduleShortInfo scheduleShortInfo = new ScheduleShortInfo().builder().no(no).title(title).build();
+                scheduleShortInfoList.add(scheduleShortInfo);
+            } else if (requestHasDeadLine) {
+                // 완료 되지 않고 기한이 있는 일정 조회
+                if (isComplete || endTime == null) continue; // 완료 되었거나 기한이 없는 일정일 경우 처리하지 않음
+
+                // 기한이 지난 것, 기한이 지나지 않은 것으로 구분해 반환
                 LocalDateTime now = LocalDateTime.now();
                 Boolean overDeadLine = now.isAfter(endTime);
 
                 ScheduleShortInfo scheduleShortInfo = new ScheduleShortInfo().builder().no(no).title(title).overDeadLine(overDeadLine).build();
                 scheduleShortInfoList.add(scheduleShortInfo);
             } else {
-                // 완료 된 일정, 완료 되지 않고 기한이 없는 일정 조회.
+                // 완료 되지 않고 기한이 없는 일정 조회
+                if (isComplete || endTime != null) continue; // 완료 되었거나 기한이 있는 일정일 경우 처리하지 않음
+
                 ScheduleShortInfo scheduleShortInfo = new ScheduleShortInfo().builder().no(no).title(title).build();
                 scheduleShortInfoList.add(scheduleShortInfo);
             }
@@ -98,7 +112,7 @@ public class ScheduleService {
     // 일정 추가
     public ResponseEntity addSchedule(final String userIdInJwt, final String userId, final ScheduleVo scheduleVo) {
         String title = scheduleVo.getTitle();
-        scheduleVo.setUserId(userId);
+        Boolean isPublic = scheduleVo.getIsPublic();
 
         // 필수 인자가 없는 경우
         if (userIdInJwt == null || userId == null || title == null) {
@@ -110,6 +124,11 @@ public class ScheduleService {
             throw new DifferentAuthException("접근 할 수 있는 권한이 없습니다.");
         }
 
+        // 공개 여부 기본 값 : 공개
+        if (isPublic == null) {
+            scheduleVo.setIsPublic(true);
+        }
+
         scheduleVo.setUserId(userIdInJwt);
         scheduleMapper.insert(scheduleVo);
 
@@ -117,10 +136,10 @@ public class ScheduleService {
     }
 
     // 일정 수정
-    public ResponseEntity modifySchedule(final String userIdInJwt, final String userId, final ScheduleVo scheduleVo) {
+    public ResponseEntity modifySchedule(final String userIdInJwt, final String userId, final Integer scheduleNo, final ScheduleVo scheduleVo) {
 
         // 필수 인자가 없는 경우
-        if (userIdInJwt == null || userId == null) {
+        if (userIdInJwt == null || userId == null || scheduleNo == null) {
             throw new ValueException("필수 인자가 없습니다.");
         }
 
@@ -128,12 +147,12 @@ public class ScheduleService {
             throw new DifferentAuthException("접근 할 수 있는 권한이 없습니다.");
         }
 
-        Integer no = scheduleVo.getNo();
-        ScheduleVo existScheduleVo = scheduleMapper.selectByNo(no);
+        ScheduleVo existScheduleVo = scheduleMapper.selectByNo(scheduleNo);
         if (existScheduleVo == null) {
             throw new ValueException("수정 할 일정이 없습니다.");
         }
 
+        scheduleVo.setNo(scheduleNo);
         scheduleVo.setUserId(userId);
         scheduleMapper.update(scheduleVo);
 

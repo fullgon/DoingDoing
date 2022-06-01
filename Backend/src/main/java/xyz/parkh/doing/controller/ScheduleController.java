@@ -62,7 +62,7 @@ public class ScheduleController {
                                          HttpServletRequest request) {
         String userIdInJwt = (String) request.getAttribute("userId");
 
-        return scheduleService.modifySchedule(userIdInJwt, userId, scheduleVo);
+        return scheduleService.modifySchedule(userIdInJwt, userId, scheduleNo, scheduleVo);
     }
 
     // 일정 정보 삭제

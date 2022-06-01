@@ -291,3 +291,12 @@ Wrapper 가 처음엔 굳이? 였는데 왜 쓰는지 드디어 알았다.
 Mapper Test 를 근거로 여기까지는 이상 없다. 라는 믿음에 그 이후만 수정하면 됐음
 
 -> 처음 시간은 더 걸릴 수 있어도 다 합쳐 보면 오히려 효율적이고 더 안정적인 작업을 할 수 있었음
+
+## org.apache.ibatis.exceptions.PersistenceException
+
+2022.05.31.
+
+로컬 DB 는 에러 안나는데 AWS DB 에 연결하니까 에러 발생
+
+이거 부터 잡자
+
