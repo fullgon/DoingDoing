@@ -36,14 +36,16 @@ const FindPassword = () =>{
                     //'Authorization' : authToken
                 }
             }).then(res =>{
+                console.log(res);
                 //결과랑 메시지
-                if(res.result.result == 'ok'){
+                if(res.status == 204){
                     window.alert("인증번호 보냈음");
-                    setIsSend(true);
+                    setIsSend(true);   
                 }
                 else{
                     window.alert("아이디 또는 이메일이 존재하지 않습니다.");
                 }
+                
                 
             }).catch(error =>{
                 window.alert("인증번호 보내기 실패");
@@ -62,9 +64,10 @@ const FindPassword = () =>{
                 //'Authorization' : authToken
             }
         }).then(res => {
+            console.log(res);
             //jwt하고 result 받음
             //result.result가 'ok'일 때 
-            if(res.result.result == 'ok'){
+            if(res.status == 200){
                 setIsAuth(true);
                 setIsSend(false);
             }
@@ -141,7 +144,7 @@ const FindPassword = () =>{
                     e-mail: <input type="text" placeholder="e-mail"
                      onChange={(e)=> {setEmail(e.target.value);}}/>
                     @
-                    <input type="text" placeholder="직접입력" onChange={(e)=> {setAdress(e);}}/> 
+                    <input type="text" placeholder="직접입력" onChange={(e)=> {setAdress(e.target.value);}}/> 
                     <button onClick={sendAuth}>전송</button>
                 </p>
                 { isSend ?
@@ -155,9 +158,9 @@ const FindPassword = () =>{
             :
             //비밀번호 변경 양식
             <div>
-                <p>비밀번호: <input type="password" placeholder="비밀번호"
+                <p>비밀번호: <input type="password"
                 onChange={(e)=> {setPwd(e.target.value);}}/></p>
-                <p>비밀번호 확인: <input type="password" placeholder="비밀번호 확인"
+                <p>비밀번호 확인: <input type="password"
                 onChange={(e)=> {setPwdConfirm(e.target.value);}}/></p>
                 <button onClick={resetPassword}>변경</button>
             </div>
