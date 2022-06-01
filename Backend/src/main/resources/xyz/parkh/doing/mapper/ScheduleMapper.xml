@@ -29,8 +29,23 @@
     </select>
 
     <insert id="insert" parameterType="xyz.parkh.doing.domain.entity.ScheduleVo">
-        insert into tb_schedule(USER_ID, TITLE, CONTENT, END_TIME, IS_PUBLIC, IS_COMPLETE)
-        values (#{userId}, #{title}, #{content}, #{endTime}, #{isPublic}, #{isComplete})
+        -- isPublic, isComplete : Not Null
+        insert into tb_schedule(USER_ID, TITLE, CONTENT, END_TIME
+        <if test="isPublic != null">
+            , IS_PUBLIC
+        </if>
+        <if test="isComplete != null">
+            , IS_COMPLETE
+        </if>
+        )
+        values (#{userId}, #{title}, #{content}, #{endTime}
+        <if test="isPublic != null">
+            , #{isPublic}
+        </if>
+        <if test="isComplete != null">
+            , #{isComplete}
+        </if>
+        )
     </insert>
 
     <update id="update" parameterType="xyz.parkh.doing.domain.entity.ScheduleVo">
@@ -40,7 +55,7 @@
             <if test="content != null">CONTENT = #{content},</if>
             <if test="endTime != null">END_TIME = #{endTime},</if>
             <if test="isPublic != null">IS_PUBLIC = #{isPublic},</if>
-            <if test="isComplete != null">IS_COMPLETE = #{isComplete},</if>
+            <if test="isComplete != null">IS_COMPLETE = #{isComplete}</if>
         </set>
         where NO = #{no}
     </update>

@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 8.0.26, for Win64 (x86_64)
 --
--- Host: localhost    Database: doingdoing
+-- Host: with.parkh.xyz    Database: doingdoing
 -- ------------------------------------------------------
--- Server version	8.0.26
+-- Server version	8.0.29
 
 use doingdoing;
 
@@ -46,7 +46,7 @@ CREATE TABLE `tb_authkey` (
   `AUTHKEY` varchar(50) NOT NULL COMMENT '인증키',
   `CREATE_TIME` datetime NOT NULL COMMENT '발급시간',
   PRIMARY KEY (`NO`)
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,12 +79,13 @@ CREATE TABLE `tb_schedule` (
   `USER_ID` varchar(20) NOT NULL COMMENT '사용자 아이디',
   `TITLE` varchar(50) NOT NULL COMMENT '제목',
   `CONTENT` varchar(50) NOT NULL COMMENT '내용',
-  `END_TIME` datetime NOT NULL COMMENT '기한',
-  `IS_PUBLIC` tinyint(1) NOT NULL COMMENT '공개여부',
+  `END_TIME` datetime DEFAULT NULL COMMENT '기한',
+  `IS_PUBLIC` tinyint(1) NOT NULL DEFAULT '1' COMMENT '공개여부',
+  `IS_COMPLETE` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`NO`),
   KEY `USER_ID` (`USER_ID`),
   CONSTRAINT `tb_schedule_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `tb_user` (`USER_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=172 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='일정';
+) ENGINE=InnoDB AUTO_INCREMENT=191 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='일정';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,6 +103,23 @@ CREATE TABLE `tb_user` (
   PRIMARY KEY (`USER_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='사용자 정보';
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user` (
+  `userId` varchar(20) NOT NULL,
+  `name` varchar(10) NOT NULL,
+  `password` varchar(20) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `company` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`userId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -112,4 +130,4 @@ CREATE TABLE `tb_user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-06-01 16:43:20
+-- Dump completed on 2022-06-01 19:57:14
