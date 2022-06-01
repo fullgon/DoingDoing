@@ -27,7 +27,7 @@ function ToDo(){
             const userId = localStorage.getItem('userId');
             const res = await axios.get(`/api/schedules/${userId}`,{
                 isComplete: false,
-                isTimeOut: false,
+                hasDeadLine: false,
             },{
                 headers:{
                     'Content-Type' : 'application/json',
