@@ -103,6 +103,8 @@ function SignUp(){
         }
         else{
             //인증번호 전송
+            const e_mail = `${email}@${adress}`;
+            console.log(adress);
             axios.post("/api/auth/send/auth-key",{
                 userId: id,
                 email: `${email}@${adress}`,
@@ -111,7 +113,8 @@ function SignUp(){
                     'Content-Type' : 'application/json',
                 }
             }).then(res =>{
-                if(res.status == 200){
+                console.log(res);
+                if(res.status == 204){
                     //결과랑 메시지
                     window.alert("인증번호 보냈음");
                     setIsSend(true);
@@ -165,7 +168,7 @@ function SignUp(){
             </p>
             <p>
                 e-mail: <input type="text" placeholder="e-mail" onChange={(e)=> {setEmail(e.target.value);}}/>
-                @<input type="text" placeholder="직접입력" onChange={(e)=> {setAdress(e);}}/>
+                @<input type="text" placeholder="직접입력" onChange={(e)=> {setAdress(e.target.value);}}/>
                 <button onClick={sendAuth}>전송</button>
                 { isSend ?
                     <p>
