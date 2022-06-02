@@ -18,9 +18,9 @@ public class ExceptionTests {
     @Autowired
     TestService testService;
 
-    @Test
-    public void requiredValueExceptionTest() {
-        throw new ValueException("Test 에서 준 코드");
-    }
+//    @Test
+//    public void requiredValueExceptionTest() {
+//        throw new ValueException("Test 에서 준 코드");
+//    }
 
 }

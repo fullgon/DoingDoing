@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import xyz.parkh.doing.domain.entity.UserVo;
+import xyz.parkh.doing.domain.model.RequestAuthKeyVo;
 
 @Slf4j
 @ExtendWith(SpringExtension.class)
@@ -17,11 +18,11 @@ public class AuthServiceTests {
     @Autowired
     AuthService authService;
 
-    @Test
-    public void 이메일_전송_오류() {
-        UserVo failUser = new UserVo().builder().userId("park").email("fail").build();
-
-        authService.sendAuthKey(failUser);
-    }
+//    @Test
+//    public void 이메일_전송_오류() {
+//        RequestAuthKeyVo requestAuthKeyVo = new RequestAuthKeyVo().builder().userId("park").email("fail").type(01).build();
+//
+//        authService.sendAuthKey(requestAuthKeyVo);
+//    }
 
 }

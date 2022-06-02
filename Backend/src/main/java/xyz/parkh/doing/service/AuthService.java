@@ -117,15 +117,33 @@ public class AuthService {
         return ResponseEntity.noContent().build();
     }
 
-
     // 인증번호 전송
-    public ResponseEntity sendAuthKey(final UserVo userVo) {
-        String email = userVo.getEmail();
-        String userId = userVo.getUserId();
+    public ResponseEntity sendAuthKey(final RequestAuthKeyVo requestAuthKeyVo) {
+        String email = requestAuthKeyVo.getEmail();
+        String userId = requestAuthKeyVo.getUserId();
+        Integer type = requestAuthKeyVo.getType(); // 00 : 비밀번호 찾기, 01 : 회원 가입
 
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
-        if (userId == null || email == null) {
+        if (userId == null || email == null || type == null) {
             throw new ValueException("필수 인자가 없습니다.");
+        }
+
+        UserVo userByEmail = userMapper.selectByEmail(email);
+        UserVo userById = userMapper.selectByUserId(userId);
+
+        // 비밀번호 찾기 : 서버에 저장된 이메일, 아이디가 요청과 일치하는지 확인
+        if (type == 00) {
+            if (Objects.isNull(userByEmail) || Objects.isNull(userById)) {
+                throw new ValueException("잘 못 된 요청 입니다.(아이디 혹은 이메일이 존재하지 않습니다.)");
+            }
+            if (!Objects.equals(userByEmail, userById)) {
+                throw new ValueException("잘 못 된 요청 입니다.(아이디와 이메일이 일치하지 않습니다.)");
+            }
+        } else if (type == 01) {
+            // 회원 가입 : 요청한 정보가 서버에 없는지 확인
+            if (!Objects.isNull(userByEmail) || !Objects.isNull(userById)) {
+                throw new ValueException("잘못 된 요청 입니다.(아이디 혹은 이메일이 이미 존재합니다.");
+            }
         }
 
         // 인증 번호 생성
@@ -136,13 +154,62 @@ public class AuthService {
 
         // 인증 번호 저장
         AuthKeyVo authKeyVo = new AuthKeyVo().builder().userId(userId).authKey(authKey)
-                .email(email).crateTime(LocalDateTime.now()).build();
+                .email(email).type(type).crateTime(LocalDateTime.now()).build();
         authKeyMapper.insert(authKeyVo);
 
         // 이메일 전송
         emailService.sendAuthKey(email, authKey);
 
         return ResponseEntity.noContent().build();
+    }
+
+    // 인증키 확인
+    public ResponseEntity<JwtCheckDto> checkAuthKey(final AuthKeyVo authKeyVo) {
+        String userId = authKeyVo.getUserId();
+        String email = authKeyVo.getEmail();
+        String authKey = authKeyVo.getAuthKey();
+        Integer type = authKeyVo.getType();
+        JwtCheckDto jwtCheckDto;
+        String jwt = null;
+
+        // 필수 인자가 입력 되지 않았을 경우 에러 반환
+        if (userId == null || email == null || authKey == null || type == null) {
+            throw new ValueException("필수 인자가 없습니다.");
+        }
+
+        // 이메일, 아이디 필수
+        AuthKeyVo readAuthKeyVo = authKeyMapper.selectByUserIdWithEmail(authKeyVo);
+
+        // 조회된 인증키가 없을 경우
+        if (Objects.isNull(readAuthKeyVo)) {
+            throw new ValueException("조회된 인증번호가 없습니다.");
+        }
+
+        Integer readType = readAuthKeyVo.getType();
+
+        // 요청한 타입과 인증 하려하는 타입이 다를 경우
+        // 회원 가입 이메일 인증시 type 만 바꿔서 JWT 반환해 주는 것을 방지하기 위함.
+        if (!Objects.equals(type, readType)) {
+            throw new ValueException("요청한 타입과 인증 하려하는 타입이 다릅니다.");
+        }
+
+        String readAuthKey = readAuthKeyVo.getAuthKey();
+        LocalDateTime readCreateTime = readAuthKeyVo.getCrateTime();
+
+        // 비밀번호 찾기 인 경우 Jwt 함께 반환
+        if (type == 00) {
+            jwt = JwtManager.generateToken(userId);
+        }
+
+        // 키 생성 시간 <= 현재 시간 <= 키 생성 시간 + 10 분
+        boolean isAfterCreateKey = LocalDateTime.now().isAfter(readCreateTime);
+        boolean isBeforeOver10minute = LocalDateTime.now().isBefore(readCreateTime.plusMinutes(10));
+
+        // 조회된 키가 10분 이내 생성되었고 인증키가 일치하는지.
+        Boolean isCorrectAuthKey = (isAfterCreateKey && isBeforeOver10minute && authKey.equals(readAuthKey));
+        jwtCheckDto = new JwtCheckDto().builder().check(isCorrectAuthKey).jwt(jwt).build();
+
+        return ResponseEntity.ok().body(jwtCheckDto);
     }
 
     // 아이디 중복 확인
@@ -179,43 +246,6 @@ public class AuthService {
         }
         CheckDto checkDto = new CheckDto().builder().check(false).build();
         return ResponseEntity.ok().body(checkDto);
-    }
-
-    // 인증키 확인
-    public ResponseEntity<JwtCheckDto> checkAuthKey(final AuthKeyVo authKeyVo) {
-        String userId = authKeyVo.getUserId();
-        String authKey = authKeyVo.getAuthKey();
-
-        // 필수 인자가 입력 되지 않았을 경우 에러 반환
-        if (userId == null || authKey == null) {
-            throw new ValueException("필수 인자가 없습니다.");
-        }
-
-        AuthKeyVo readAuthKeyVo = authKeyMapper.selectByUserId(userId);
-        // 인증키가 없을 경우
-        if (Objects.isNull(readAuthKeyVo)) {
-            throw new ValueException("조회된 인증번호가 없습니다.");
-        }
-
-        String readAuthKey = readAuthKeyVo.getAuthKey();
-        LocalDateTime readCreateTime = readAuthKeyVo.getCrateTime();
-
-        // 가입된 사용자가 보낸 요청 -> JWT 담아서 반환
-        // 가입되지 않은 사용자가 보낸 요청 -> JWT null 으로 반환
-        String jwt = null;
-        AuthVo existAuthVo = authMapper.selectByUserId(userId);
-        if (existAuthVo != null) {
-            jwt = JwtManager.generateToken(userId);
-        }
-
-        JwtCheckDto jwtCheckDto;
-        // 전송 된 지 10분 지났으면 유효하지 않은 키
-        if (readCreateTime.isAfter(LocalDateTime.now().minusMinutes(10)) && authKey.equals(readAuthKey)) {
-            jwtCheckDto = new JwtCheckDto().builder().check(true).jwt(jwt).build();
-        } else {
-            jwtCheckDto = new JwtCheckDto().builder().check(false).jwt(jwt).build();
-        }
-        return ResponseEntity.ok().body(jwtCheckDto);
     }
 
     // 개인 정보 수정을 위한 비밀번호 확인

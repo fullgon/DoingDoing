@@ -31,9 +31,10 @@ public class Utils {
         String authKey = generatedOnlyString(6);
         String email = generatedOnlyString(5) + "@" + generatedOnlyString(5) + "." + generatedOnlyString(3);
         LocalDateTime now = LocalDateTime.now();
+        Integer type = 0;
 
         AuthKeyVo authKeyVo = new AuthKeyVo().builder()
-                .userId(userId).authKey(authKey).crateTime(now).email(email).build();
+                .userId(userId).authKey(authKey).crateTime(now).email(email).type(type).build();
 
         return authKeyVo;
     }

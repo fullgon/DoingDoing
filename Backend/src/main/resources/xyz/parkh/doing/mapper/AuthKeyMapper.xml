@@ -12,18 +12,20 @@
         <result property="email" column="EMAIL"/>
         <result property="authKey" column="AUTHKEY"/>
         <result property="crateTime" column="CREATE_TIME"/>
+        <result property="type" column="TYPE"/>
     </resultMap>
 
-    <select id="selectByUserId" resultType="xyz.parkh.doing.domain.entity.AuthKeyVo" resultMap="authKeySelectRM">
-        select NO, USER_ID, EMAIL, AUTHKEY, CREATE_TIME
+    <select id="selectByUserIdWithEmail"
+            resultType="xyz.parkh.doing.domain.entity.AuthKeyVo" resultMap="authKeySelectRM">
+        select NO, USER_ID, EMAIL, AUTHKEY, CREATE_TIME, TYPE
         from tb_authkey
-        where USER_ID = #{userId}
+        where USER_ID = #{userId} AND EMAIL = #{email}
         ORDER BY CREATE_TIME DESC
             LIMIT 1;
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="NO" parameterType="xyz.parkh.doing.domain.entity.AuthKeyVo">
-        insert into tb_authkey (NO, USER_ID, EMAIL, AUTHKEY, CREATE_TIME)
-        values (#{no}, #{userId}, #{email}, #{authKey}, #{crateTime})
+        insert into tb_authkey (NO, USER_ID, EMAIL, AUTHKEY, CREATE_TIME, TYPE)
+        values (#{no}, #{userId}, #{email}, #{authKey}, #{crateTime}, #{type})
     </insert>
 </mapper>

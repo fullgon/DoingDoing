@@ -31,6 +31,8 @@ public class AuthKeyMapperTests {
         // 테스트 인증키 생성
         UserVo testUser = generateNewUser();
         String testUserId = testUser.getUserId();
+        String testEmail = testUser.getEmail();
+
         AuthKeyVo authKeyVo = Utils.generateAuthKey(testUserId);
         String authKey = authKeyVo.getAuthKey();
         log.info(testUser.toString());
@@ -48,7 +50,7 @@ public class AuthKeyMapperTests {
         // TODO selectByUserId를 하면 최근 생성된 인증키를 조회 하도록 했는데 쿼리에 로직을 담은 건가?
         // TODO 지향해야 하나?
         // 최근 생성된 인증키 조회
-        AuthKeyVo selectAuthKey = authKeyMapper.selectByUserId(testUserId);
+        AuthKeyVo selectAuthKey = authKeyMapper.selectByUserIdWithEmail(authKeyVo);
         System.out.println("selectAuthKey = " + selectAuthKey);
         Assert.isTrue(authKey.equals(selectAuthKey.getAuthKey()));
     }
