@@ -22,6 +22,14 @@ public class MyAdvice {
         return ResponseEntity.internalServerError().body(error);
     }
 
+    @ExceptionHandler(NoJwtException.class)
+    public ResponseEntity<ErrorDto> noJwtException(Exception e) {
+        String message = e.getMessage();
+        ErrorDto error = ErrorDto.builder().error(message).build();
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
+
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<ErrorDto> nullPointException(Exception e) {
         ErrorDto error = ErrorDto.builder().error(e.getClass().getName()).build();
