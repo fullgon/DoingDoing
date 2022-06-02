@@ -30,7 +30,8 @@ const NewSchedule = ({onSubmit, onClose}) =>{
                     'Content-Type' : 'application/json',
                     'Authorization' : localStorage.getItem('accessToken'),
                 }
-            })    
+            });
+            console.log(res);
         }catch(e){
             //error
             console.log(e);

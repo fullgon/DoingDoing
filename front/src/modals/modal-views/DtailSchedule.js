@@ -32,10 +32,9 @@ const DetailSchedule = ({onClose, scheduleNo}) =>{
     const deleteSchedule = async () =>{
         try{
             const userId = localStorage.getItem('userId');
-            const res = await axios.delete(`/api/schedules/${userId}/${scheduleNo}`,{},
+            const res = await axios.delete(`/api/schedules/${userId}/${scheduleNo}`,
             {
                 headers:{
-                    'Content-Type' : 'application/json',
                     'Authorization' : localStorage.getItem('accessToken'),
                 }
             });

@@ -36,9 +36,10 @@ const ModifySchedule = ({onSubmit, onClose, scheduleNo}) =>{
                     'Authorization' : localStorage.getItem('accessToken'),
                 }
             })    
-        }catch{
+        }catch(e){
             //error
             alert("에러");
+            console.log(e);
         }
     }
     

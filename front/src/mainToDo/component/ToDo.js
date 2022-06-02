@@ -9,11 +9,15 @@ function ToDo(){
     const todo = "첫 번째 일정입니다";
 
     const { openModal } = useModals();
-    const [ schedules, setSchedules ] = useState(null);
+    const arr = [{no:1, title: "1글임"},{no:2, title: "2글임"}];
+    const list = arr.map((arr)=>(<li>{arr.title}</li>))
+    let scheduleList;
+    const [ schedules, setSchedules ] = useState([{no:1, title: "1글임"},{no:2, title: "2글임"}]);
     const handleClick = (scheduleNo) => {
         openModal(modals.myModal, {
             onSubmit: () => {
                 console.log('비지니스 로직 처리...--상세일정');
+                getSchedules();
             },
             type:"detail",
             scheduleNo,
@@ -26,20 +30,29 @@ function ToDo(){
         try{
             const userId = localStorage.getItem('userId');
             const res = await axios.get(`/api/schedules/${userId}`,{
-                isComplete: false,
-                hasDeadLine: false,
-            },{
                 headers:{
-                    'Content-Type' : 'application/json',
                     'Authorization' : localStorage.getItem('accessToken'),
+                },
+                params:{
+                    isComplete: 0,
+                    hasDeadLine: 0,
                 }
-            })
+            });
+            console.log(res.data);
             if(res.status == 200){
-                setSchedules(res.data.schedules);
+                setSchedules(schedules => {
+                    console.log(schedules);
+                    schedules = res.data
+                    console.log(schedules);
+                });
+                scheduleList = res.data.map((schedule) => (<a>{schedule.title}</a>));
+                console.log(scheduleList);
+                console.log(schedules);
             }
             
-        }catch{
-            //error
+        }catch(e){
+            alert("에러");
+            console.log("스케줄 불러오기 에러",e);
         }
     }
 
@@ -50,6 +63,8 @@ function ToDo(){
     return(
         <div className={`${styles.body} ${styles.item}`}>
             <h1>할 일</h1>
+            {list && list}
+            {scheduleList}
             {schedules != null ? 
             schedules.map((schedule)=>{
                 <p key={schedule.no}>
