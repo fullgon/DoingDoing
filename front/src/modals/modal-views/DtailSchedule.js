@@ -47,18 +47,13 @@ const DetailSchedule = ({onClose, scheduleNo}) =>{
         }
     }
 
-    const [schedule, setSchedule] = useState({
-        title:"제목",
-        content:"안녕하십니까 내용입니다.",
-        isPublic: false,
-        endDate: "2022-05-31"
-    });
+    const [schedule, setSchedule] = useState({});
 
     
     const getSchedule = async () =>{
         try{
             const userId = localStorage.getItem('userId');
-            const res = await axios.post(`/api/schedules/${userId}/${scheduleNo}`,{},{
+            const res = await axios.post(`/api/schedules/${userId}/${scheduleNo}`,null,{
                 headers:{
                     'Content-Type' : 'application/json',
                     'Authorization' : localStorage.getItem('accessToken'),
@@ -69,8 +64,9 @@ const DetailSchedule = ({onClose, scheduleNo}) =>{
                 setSchedule(res.data.schedule);
             }
             
-        }catch{
+        }catch(e){
             //error
+            console.log(e);
             alert("에러");
         }
     }
