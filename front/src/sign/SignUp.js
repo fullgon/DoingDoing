@@ -144,8 +144,6 @@ function SignUp(){
                     'Content-Type' : 'application/json',
                 }
             }).then(res => {
-                //jwt하고 result 받음
-                //result.result가 'ok'일 때 
                 if(res.status == 200){
                     setIsEmail(true);
                     alert("인증이 완료되었습니다.");

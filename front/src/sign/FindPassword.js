@@ -33,7 +33,6 @@ const FindPassword = () =>{
             },{
                 headers:{
                     'Content-Type' : 'application/json',
-                    //'Authorization' : authToken
                 }
             }).then(res =>{
                 console.log(res);
@@ -61,7 +60,6 @@ const FindPassword = () =>{
         },{
             headers: {
                 'Content-Type' : 'application/json',
-                //'Authorization' : authToken
             }
         }).then(res => {
             console.log(res);
