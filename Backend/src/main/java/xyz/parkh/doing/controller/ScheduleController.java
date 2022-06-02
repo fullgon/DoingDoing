@@ -1,5 +1,6 @@
 package xyz.parkh.doing.controller;
 
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping(("/api/schedules"))
 @RequiredArgsConstructor
+@Api(tags = "일정" )
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
@@ -24,7 +26,7 @@ public class ScheduleController {
     // 일정 목록 조회
     @GetMapping("/{userId}")
     public ResponseEntity<List<ScheduleShortInfo>> scheduleList(@PathVariable("userId") String userId,
-                                                                @RequestBody ScheduleStatusDto ScheduleStatusDto,
+                                                                @ModelAttribute ScheduleStatusDto ScheduleStatusDto,
                                                                 HttpServletRequest request) {
         String userIdInJwt = (String) request.getAttribute("userId");
 

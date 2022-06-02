@@ -5,9 +5,7 @@
 
 package xyz.parkh.doing.controller;
 
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +15,7 @@ import xyz.parkh.doing.domain.entity.AuthKeyVo;
 import xyz.parkh.doing.domain.entity.AuthVo;
 import xyz.parkh.doing.domain.entity.UserVo;
 import xyz.parkh.doing.domain.model.CheckDto;
+import xyz.parkh.doing.domain.model.JwtCheckDto;
 import xyz.parkh.doing.domain.model.UserAuthDto;
 import xyz.parkh.doing.service.AuthService;
 
@@ -26,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
+@Api(tags = "인증" )
 public class AuthController {
 
     private final AuthService authService;
@@ -59,7 +59,7 @@ public class AuthController {
     // userId, authKey
     // 인증 번호 확인
     @PostMapping("/check/auth-key")
-    public ResponseEntity<CheckDto> authKeyCheck(@RequestBody AuthKeyVo authKeyVo) {
+    public ResponseEntity<JwtCheckDto> authKeyCheck(@RequestBody AuthKeyVo authKeyVo) {
         return authService.checkAuthKey(authKeyVo);
     }
 

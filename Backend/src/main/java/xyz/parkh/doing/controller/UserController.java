@@ -1,5 +1,6 @@
 package xyz.parkh.doing.controller;
 
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping(value = "/api/users")
 @RequiredArgsConstructor
+@Api(tags = "사용자 정보")
 public class UserController {
 
     private final UserService userService;

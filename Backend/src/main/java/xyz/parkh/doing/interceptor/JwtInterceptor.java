@@ -3,6 +3,7 @@ package xyz.parkh.doing.interceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import xyz.parkh.doing.exception.NoJwtException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,10 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object Handler) throws Exception {
         HashMap<String, Object> tokenMap;
         String jwtToken = request.getHeader("Authorization");
+
+        if (jwtToken == null) {
+            throw new NoJwtException("JWT Token 이 없습니다.");
+        }
 
         if (jwtToken != null) {
             tokenMap = JwtManager.verifyToken(request.getHeader("Authorization"));
