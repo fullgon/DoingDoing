@@ -27,6 +27,7 @@ const DetailSchedule = ({onClose, scheduleNo}) =>{
 
     const handleClickDelete = () =>{
         deleteSchedule();
+        onClose();
     }
 
     const deleteSchedule = async () =>{
@@ -53,15 +54,14 @@ const DetailSchedule = ({onClose, scheduleNo}) =>{
     const getSchedule = async () =>{
         try{
             const userId = localStorage.getItem('userId');
-            const res = await axios.post(`/api/schedules/${userId}/${scheduleNo}`,null,{
+            const res = await axios.get(`/api/schedules/${userId}/${scheduleNo}`,{
                 headers:{
-                    'Content-Type' : 'application/json',
                     'Authorization' : localStorage.getItem('accessToken'),
                 }
             })
 
             if(res.status == 200){
-                setSchedule(res.data.schedule);
+                setSchedule(res.data);
             }
             
         }catch(e){
