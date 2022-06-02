@@ -61,7 +61,7 @@ const NewSchedule = ({onSubmit, onClose}) =>{
                 <textarea placeholder='내용' onChange={onChangeContent}/>
             </div>
             <div>
-                <button onClick={handleClickSubmit}>확인</button>
+                <button onClick={handleClickSubmit}>등록</button>
                 <button onClick={handleClickCancel}>취소</button>
             </div>
         </div>

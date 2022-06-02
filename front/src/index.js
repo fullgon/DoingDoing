@@ -8,6 +8,7 @@ import SignUp from './sign/SignUp';
 import FindPassword from './sign/FindPassword'
 import ToDoMain from './mainToDo/ToDoMain';
 import ReactModal from 'react-modal'
+import Privacy from './users/Privacy'
 
 import Modals from "./modals/Modals"
 import ModalsProvider from "./modals/ModalsProvider"
@@ -27,6 +28,7 @@ root.render(
                    <ToDoMain/>
                    <Modals/>
                 </ModalsProvider>}/>
+      <Route path='users' element={<Privacy/>}/>
     </Routes>
   </BrowserRouter>,
   root
