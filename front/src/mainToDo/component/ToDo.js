@@ -9,10 +9,7 @@ function ToDo(){
     const todo = "첫 번째 일정입니다";
 
     const { openModal } = useModals();
-    const arr = [{no:1, title: "1글임"},{no:2, title: "2글임"}];
-    const list = arr.map((arr)=>(<li>{arr.title}</li>))
-    let scheduleList;
-    const [ schedules, setSchedules ] = useState([{no:1, title: "1글임"},{no:2, title: "2글임"}]);
+    const [ schedules, setSchedules ] = useState([]);
     const handleClick = (scheduleNo) => {
         openModal(modals.myModal, {
             onSubmit: () => {
@@ -25,7 +22,7 @@ function ToDo(){
     };
 
     //체크박스 클릭 시 일정 완료 & 미완료 처리하는 api요청 필요
-
+    console.log(schedules);
     const getSchedules = async () =>{
         try{
             const userId = localStorage.getItem('userId');
@@ -38,16 +35,8 @@ function ToDo(){
                     hasDeadLine: 0,
                 }
             });
-            console.log(res.data);
             if(res.status == 200){
-                setSchedules(schedules => {
-                    console.log(schedules);
-                    schedules = res.data
-                    console.log(schedules);
-                });
-                scheduleList = res.data.map((schedule) => (<a>{schedule.title}</a>));
-                console.log(scheduleList);
-                console.log(schedules);
+                setSchedules((schedules) => res.data)
             }
             
         }catch(e){
@@ -63,19 +52,14 @@ function ToDo(){
     return(
         <div className={`${styles.body} ${styles.item}`}>
             <h1>할 일</h1>
-            {list && list}
-            {scheduleList}
-            {schedules != null ? 
-            schedules.map((schedule)=>{
+            { schedules.length != null ? 
+            schedules.map((schedule)=>(
                 <p key={schedule.no}>
                     <input type="checkbox" />
                     <a onClick={() => {handleClick(schedule.no)}}>{schedule.title}</a>
                 </p>
-            }) :
-            <div>
-                <input type="checkbox" />
-                <a onClick={() => {handleClick(5)}}>{todo}</a>
-            </div>
+            )) :
+            null
             }
         </div>
         
