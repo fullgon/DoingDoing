@@ -6,14 +6,14 @@ const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 const NewSchedule = ({onSubmit, onClose}) =>{
     
-    const [schedule, setSchedule] = useState({public: true,});
+    const [schedule, setSchedule] = useState({isPublic: true,});
 
     const onChangeTitle = (e) =>{
         setSchedule({...schedule, title: e.target.value})
     }
 
     const onChangeDate = (e) =>{
-        setSchedule({...schedule, date: e.target.value});
+        setSchedule({...schedule, endTime: e.target.value+"T23:59:59"});
     }
 
     const onChangeContent = (e) =>{
@@ -38,7 +38,6 @@ const NewSchedule = ({onSubmit, onClose}) =>{
             alert("에러");
         }
     }
-
 
     const handleClickSubmit = () => {
         console.log(schedule);
