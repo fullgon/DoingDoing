@@ -18,7 +18,7 @@ const ModifySchedule = ({onSubmit, onClose, scheduleNo}) =>{
     }
 
     const onChangeDate = (e) =>{
-        setSchedule({...schedule, date: e.target.value});
+        setSchedule({...schedule, endTime: e.target.value+"T23:59:59"});
     }
 
     const onChangeContent = (e) =>{
@@ -28,7 +28,7 @@ const ModifySchedule = ({onSubmit, onClose, scheduleNo}) =>{
     const modifySchedule = async () =>{
         try{
             const userId = localStorage.getItem('userId');
-            const res = await axios.patch(`/api/schedules/${userId}/${scheduleNo}`,
+            const res = await axios.put(`/api/schedules/${userId}/${scheduleNo}`,
             schedule,
             {
                 headers:{
@@ -46,20 +46,20 @@ const ModifySchedule = ({onSubmit, onClose, scheduleNo}) =>{
     const getSchedule = async () =>{
         try{
             const userId = localStorage.getItem('userId');
-            const res = await axios.post(`/api/schedules/${userId}/${scheduleNo}`,{},{
+            const res = await axios.get(`/api/schedules/${userId}/${scheduleNo}`,{
                 headers:{
-                    'Content-Type' : 'application/json',
                     'Authorization' : localStorage.getItem('accessToken'),
                 }
             })
 
             if(res.status == 200){
-                setSchedule(res.data.schedule);
+                setSchedule(res.data);
             }
             
-        }catch{
+        }catch(e){
             //error
-            alert("에러");
+            alert("데이터 불러오기 에러");
+            console.log(e);
         }
     }
 
