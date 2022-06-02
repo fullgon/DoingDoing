@@ -11,10 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.entity.AuthKeyVo;
 import xyz.parkh.doing.domain.entity.AuthVo;
 import xyz.parkh.doing.domain.entity.UserVo;
-import xyz.parkh.doing.domain.model.CheckDto;
-import xyz.parkh.doing.domain.model.ErrorDto;
-import xyz.parkh.doing.domain.model.JwtDto;
-import xyz.parkh.doing.domain.model.UserAuthDto;
+import xyz.parkh.doing.domain.model.*;
 import xyz.parkh.doing.exception.DifferentAuthException;
 import xyz.parkh.doing.exception.ValueException;
 import xyz.parkh.doing.interceptor.JwtManager;
@@ -185,7 +182,7 @@ public class AuthService {
     }
 
     // 인증키 확인
-    public ResponseEntity<CheckDto> checkAuthKey(final AuthKeyVo authKeyVo) {
+    public ResponseEntity<JwtCheckDto> checkAuthKey(final AuthKeyVo authKeyVo) {
         String userId = authKeyVo.getUserId();
         String authKey = authKeyVo.getAuthKey();
 
@@ -203,14 +200,22 @@ public class AuthService {
         String readAuthKey = readAuthKeyVo.getAuthKey();
         LocalDateTime readCreateTime = readAuthKeyVo.getCrateTime();
 
-        CheckDto checkDto;
+        // 가입된 사용자가 보낸 요청 -> JWT 담아서 반환
+        // 가입되지 않은 사용자가 보낸 요청 -> JWT null 으로 반환
+        String jwt = null;
+        AuthVo existAuthVo = authMapper.selectByUserId(userId);
+        if (existAuthVo != null) {
+            jwt = JwtManager.generateToken(userId);
+        }
+
+        JwtCheckDto jwtCheckDto;
         // 전송 된 지 10분 지났으면 유효하지 않은 키
         if (readCreateTime.isAfter(LocalDateTime.now().minusMinutes(10)) && authKey.equals(readAuthKey)) {
-            checkDto = new CheckDto().builder().check(true).build();
+            jwtCheckDto = new JwtCheckDto().builder().check(true).jwt(jwt).build();
         } else {
-            checkDto = new CheckDto().builder().check(false).build();
+            jwtCheckDto = new JwtCheckDto().builder().check(false).jwt(jwt).build();
         }
-        return ResponseEntity.ok().body(checkDto);
+        return ResponseEntity.ok().body(jwtCheckDto);
     }
 
     // 개인 정보 수정을 위한 비밀번호 확인

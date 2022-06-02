@@ -15,6 +15,7 @@ import xyz.parkh.doing.domain.entity.AuthKeyVo;
 import xyz.parkh.doing.domain.entity.AuthVo;
 import xyz.parkh.doing.domain.entity.UserVo;
 import xyz.parkh.doing.domain.model.CheckDto;
+import xyz.parkh.doing.domain.model.JwtCheckDto;
 import xyz.parkh.doing.domain.model.UserAuthDto;
 import xyz.parkh.doing.service.AuthService;
 
@@ -58,7 +59,7 @@ public class AuthController {
     // userId, authKey
     // 인증 번호 확인
     @PostMapping("/check/auth-key")
-    public ResponseEntity<CheckDto> authKeyCheck(@RequestBody AuthKeyVo authKeyVo) {
+    public ResponseEntity<JwtCheckDto> authKeyCheck(@RequestBody AuthKeyVo authKeyVo) {
         return authService.checkAuthKey(authKeyVo);
     }
 
