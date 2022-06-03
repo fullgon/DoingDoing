@@ -38,7 +38,6 @@ function SignIn(){
                 alert("에러남");
                 console.log(error);
             })
-            //navigate(`/schedule`);
         }
         
     }

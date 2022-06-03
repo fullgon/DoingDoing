@@ -30,7 +30,7 @@ const FindPassword = () =>{
             axios.post("/api/auth/send/auth-key",{
                 userId: id,
                 email: `${email}@${adress}`,
-                type: 00,
+                type: 0,
             },{
                 headers:{
                     'Content-Type' : 'application/json',
@@ -58,7 +58,7 @@ const FindPassword = () =>{
         axios.post("/api/auth/check/auth-key",{
             userId: id,
             authKey: authkey,
-            type: 00,
+            type: 0,
         },{
             headers: {
                 'Content-Type' : 'application/json',
