@@ -3,6 +3,7 @@ package xyz.parkh.doing.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -48,7 +49,7 @@ public class AuthService {
         // 로그인 실패 - 아이디가 없는 경우
         if (selectAuthVo == null) {
             ErrorDto errorDto = new ErrorDto().builder().error("존재하지 않는 아이디입니다.").build();
-            return ResponseEntity.ok().body(errorDto);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDto);
         }
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -61,7 +62,7 @@ public class AuthService {
         } else {
             // 로그인 실패 - 비밀번호가 틀린 경우
             ErrorDto errorDto = new ErrorDto().builder().error("비밀번호가 일치하지 않습니다.").build();
-            return ResponseEntity.ok().body(errorDto);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDto);
         }
     }
 
