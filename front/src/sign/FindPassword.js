@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 
 
@@ -124,6 +124,7 @@ const FindPassword = () =>{
 
                 if(res.result.result == 'ok'){
                     window.alert("비밀번호 변경 완료");
+                    navigate(-1);
                 }
             }
 
