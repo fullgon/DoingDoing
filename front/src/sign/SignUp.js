@@ -109,6 +109,7 @@ function SignUp(){
             axios.post("/api/auth/send/auth-key",{
                 userId: id,
                 email: `${email}@${adress}`,
+                type: 00,
             },{
                 headers: {
                     'Content-Type' : 'application/json',
@@ -139,6 +140,7 @@ function SignUp(){
             axios.post("/api/auth/check/auth-key",{
                 userId: id,
                 authKey: authkey,
+                type: 00,
             },{
                 headers: {
                     'Content-Type' : 'application/json',
