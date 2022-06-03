@@ -16,6 +16,7 @@ import xyz.parkh.doing.domain.entity.AuthVo;
 import xyz.parkh.doing.domain.entity.UserVo;
 import xyz.parkh.doing.domain.model.CheckDto;
 import xyz.parkh.doing.domain.model.JwtCheckDto;
+import xyz.parkh.doing.domain.model.RequestAuthKeyVo;
 import xyz.parkh.doing.domain.model.UserAuthDto;
 import xyz.parkh.doing.service.AuthService;
 
@@ -49,11 +50,11 @@ public class AuthController {
         return authService.signUp(userAuthDto);
     }
 
-    // userId, email
+    // userId, email, type
     // 인증 번호 전송
     @PostMapping("/send/auth-key")
-    public ResponseEntity authKeySend(@RequestBody UserVo userVo) {
-        return authService.sendAuthKey(userVo);
+    public ResponseEntity authKeySend(@RequestBody RequestAuthKeyVo requestAuthKeyVo) {
+        return authService.sendAuthKey(requestAuthKeyVo);
     }
 
     // userId, authKey
@@ -63,14 +64,13 @@ public class AuthController {
         return authService.checkAuthKey(authKeyVo);
     }
 
-//   Service 에서 ResopnseEntity 를 넘겨주는게 맞나? 라는 의문에 
-//    이렇게 작성했는데 이러면 지금의 Error 처리 방식 사용 불가.
-//    위의 코드 유지
-//    public ResponseEntity<CheckDto> postCheckAuthKey(@RequestBody AuthKeyVo authKeyVo) {
-//        CheckDto checkDto = authService.checkAuthKey(authKeyVo);
-//        return ResponseEntity.ok().body(checkDto);
-//    }
-
+    //   Service 에서 ResopnseEntity 를 넘겨주는게 맞나? 라는 의문에
+    //    이렇게 작성했는데 이러면 지금의 Error 처리 방식 사용 불가.
+    //    위의 코드 유지
+    //    public ResponseEntity<CheckDto> postCheckAuthKey(@RequestBody AuthKeyVo authKeyVo) {
+    //        CheckDto checkDto = authService.checkAuthKey(authKeyVo);
+    //        return ResponseEntity.ok().body(checkDto);
+    //    }
 
     // userId
     // id 중복 확인
