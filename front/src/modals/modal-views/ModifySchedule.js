@@ -1,17 +1,14 @@
 import { useEffect, useState } from 'react';
 import Switch from '@mui/material/Switch';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom"
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 const ModifySchedule = ({onSubmit, onClose, scheduleNo}) =>{
-
-    const [schedule, setSchedule] = useState({
-        title:"제목",
-        content:"안녕하십니까 내용입니다.",
-        isPublic: false,
-        endDate: "2022-05-31"
-    });
+    
+    const navigate = useNavigate();
+    const [schedule, setSchedule] = useState({});
 
     const onChangeTitle = (e) =>{
         setSchedule({...schedule, title: e.target.value})
@@ -53,6 +50,11 @@ const ModifySchedule = ({onSubmit, onClose, scheduleNo}) =>{
             })
 
             if(res.status == 200){
+                if(res.data.endTime){
+                    const date = res.data.endTime.split('T');
+                    setSchedule({...res.data, endTime:date[0]});
+                    return true;
+                }
                 setSchedule(res.data);
             }
             
@@ -65,6 +67,7 @@ const ModifySchedule = ({onSubmit, onClose, scheduleNo}) =>{
 
     const handleClickSubmit = () => {
         modifySchedule();
+        //navigate(0);
         onSubmit();
     }
 
@@ -82,7 +85,7 @@ const ModifySchedule = ({onSubmit, onClose, scheduleNo}) =>{
             <div>                
                 <p><input type="text" value={schedule.title} onChange={onChangeTitle}/></p>
                 <p>
-                    <input type="date" value={schedule.endDate} onChange={onChangeDate}/>
+                    <input type="date" value={schedule.endTime} onChange={onChangeDate}/>
                     <Switch {...label} checked={schedule.isPublic} />
                     공유
                 </p>
