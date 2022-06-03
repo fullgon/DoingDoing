@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import Switch from '@mui/material/Switch';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom"
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 const NewSchedule = ({onSubmit, onClose}) =>{
     
+    const navigate = useNavigate();
     const [schedule, setSchedule] = useState({isPublic: true,});
 
     const onChangeTitle = (e) =>{
@@ -40,8 +42,8 @@ const NewSchedule = ({onSubmit, onClose}) =>{
     }
 
     const handleClickSubmit = () => {
-        console.log(schedule);
         addSchedule();
+        navigate(0);
         onSubmit();
     }
 
