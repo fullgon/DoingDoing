@@ -15,7 +15,7 @@ const NewSchedule = ({onSubmit, onClose}) =>{
     }
 
     const onChangeDate = (e) =>{
-        setSchedule({...schedule, endTime: e.target.value+"T23:59:59"});
+        setSchedule({...schedule, endDate: e.target.value});
     }
 
     const onChangeContent = (e) =>{
