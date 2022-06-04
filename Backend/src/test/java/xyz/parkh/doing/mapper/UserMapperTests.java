@@ -27,6 +27,7 @@ public class UserMapperTests {
         // 테스트 사용자 생성
         UserVo testUser = generateNewUser();
         String testUserId = testUser.getUserId();
+        String testEmail = testUser.getEmail();
 
         // 사용자 삽입
         int insertStatus = userMapper.insert(testUser);
@@ -34,6 +35,10 @@ public class UserMapperTests {
 
         // 사용자 조회
         UserVo selectUser = userMapper.selectByUserId(testUserId);
+        Assert.isTrue(testUserId.equals(selectUser.getUserId()));
+
+        // 사용자 조회
+        UserVo selectUser2 = userMapper.selectByEmail(testEmail);
         Assert.isTrue(testUserId.equals(selectUser.getUserId()));
 
         // 사용자 수정

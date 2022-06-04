@@ -9,7 +9,7 @@ public interface UserMapper {
 
     UserVo selectByUserId(String userId);
 
-    UserVo selectByEmail(String userId);
+    UserVo selectByEmail(String email);
 
     List<UserVo> selectAll();
 
