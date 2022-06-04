@@ -70,7 +70,7 @@ const ModifySchedule = ({onSubmit, onClose, scheduleNo}) =>{
 
     const handleClickSubmit = () => {
         modifySchedule();
-        //navigate(0);
+        navigate(0);
         onSubmit();
     }
 
