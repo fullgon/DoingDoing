@@ -451,3 +451,6 @@ DB 에는 Not Null 로 되어있음
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 
     "endTime": "2020-03-19T00:58:23",
+
+### LocalDateTime -> LocalDate
+

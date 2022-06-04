@@ -104,7 +104,7 @@ public class ScheduleMapperTests {
         // 기존
         Assertions.assertEquals(selectScheduleAfterUpdate.getTitle(), testSchedule.getTitle());
         Assertions.assertEquals(selectScheduleAfterUpdate.getIsPublic(), testSchedule.getIsPublic());
-        Assertions.assertEquals(selectScheduleAfterUpdate.getEndTime(), testSchedule.getEndTime());
+        Assertions.assertEquals(selectScheduleAfterUpdate.getEndDate(), testSchedule.getEndDate());
 
         // 변경
         Assertions.assertEquals(selectScheduleAfterUpdate.getContent(), updateSchedule.getContent());

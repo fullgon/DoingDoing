@@ -12,9 +12,10 @@ import xyz.parkh.doing.exception.DifferentAuthException;
 import xyz.parkh.doing.exception.ValueException;
 import xyz.parkh.doing.mapper.ScheduleMapper;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -82,8 +83,10 @@ public class ScheduleService {
         for (ScheduleVo schedule : scheduleList) {
             Integer no = schedule.getNo();
             String title = schedule.getTitle();
-            LocalDateTime endTime = schedule.getEndTime();
+            LocalDate endDate = schedule.getEndDate();
             Boolean isComplete = schedule.getIsComplete();
+            LocalDate now = LocalDate.now();
+            Boolean overDeadLine = null;
 
             // TODO 친구 기능 추가 시 조회한 schedule 의 isPublic 을 기반으로 공개 여부 추가 할 것.
 
@@ -91,21 +94,26 @@ public class ScheduleService {
             if (requestIsComplete) {
                 if (!isComplete) continue; // 완료되지 않은 일정일 경우 처리하지 않음
 
-                ScheduleShortInfo scheduleShortInfo = new ScheduleShortInfo().builder().no(no).title(title).build();
+                // 기한이 있는 일정의 경우 기한 추가.
+                if (!Objects.isNull(endDate)) {
+                    overDeadLine = now.isAfter(endDate);
+                }
+
+                ScheduleShortInfo scheduleShortInfo = new ScheduleShortInfo().builder().no(no)
+                        .endDate(endDate).overDeadLine(overDeadLine).title(title).build();
                 scheduleShortInfoList.add(scheduleShortInfo);
             } else if (requestHasDeadLine) {
                 // 완료 되지 않고 기한이 있는 일정 조회
-                if (isComplete || endTime == null) continue; // 완료 되었거나 기한이 없는 일정일 경우 처리하지 않음
+                if (isComplete || endDate == null) continue; // 완료 되었거나 기한이 없는 일정일 경우 처리하지 않음
 
-                // 기한이 지난 것, 기한이 지나지 않은 것으로 구분해 반환
-                LocalDateTime now = LocalDateTime.now();
-                Boolean overDeadLine = now.isAfter(endTime);
+                overDeadLine = now.isAfter(endDate);
 
-                ScheduleShortInfo scheduleShortInfo = new ScheduleShortInfo().builder().no(no).title(title).overDeadLine(overDeadLine).build();
+                ScheduleShortInfo scheduleShortInfo = new ScheduleShortInfo().builder().no(no).title(title)
+                        .overDeadLine(overDeadLine).endDate(endDate).build();
                 scheduleShortInfoList.add(scheduleShortInfo);
             } else {
                 // 완료 되지 않고 기한이 없는 일정 조회
-                if (isComplete || endTime != null) continue; // 완료 되었거나 기한이 있는 일정일 경우 처리하지 않음
+                if (isComplete || endDate != null) continue; // 완료 되었거나 기한이 있는 일정일 경우 처리하지 않음
 
                 ScheduleShortInfo scheduleShortInfo = new ScheduleShortInfo().builder().no(no).title(title).build();
                 scheduleShortInfoList.add(scheduleShortInfo);

@@ -6,6 +6,7 @@ import xyz.parkh.doing.domain.entity.AuthVo;
 import xyz.parkh.doing.domain.entity.ScheduleVo;
 import xyz.parkh.doing.domain.entity.UserVo;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Utils {
@@ -54,9 +55,9 @@ public class Utils {
         Boolean isPublic = true;
         Boolean isComplete = true;
         // DB 저장시 milliseconds 단위 저장 안되고 반올림 되므로 withNano(0) 추가
-        LocalDateTime endDate = LocalDateTime.now().withNano(0).plusDays(1);
+        LocalDate endDate = LocalDate.now().plusDays(1);
         ScheduleVo schedule = new ScheduleVo().builder()
-                .userId(userId).title(title).content(content).isPublic(isPublic).isComplete(isComplete).endTime(endDate).build();
+                .userId(userId).title(title).content(content).isPublic(isPublic).isComplete(isComplete).endDate(endDate).build();
         return schedule;
     }
 
