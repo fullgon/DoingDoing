@@ -66,9 +66,8 @@ const DetailSchedule = ({onClose, scheduleNo}) =>{
 
             if(res.status == 200){
                 
-                if(res.data.endTime){
-                    const date = res.data.endTime.split('T');
-                    setSchedule({...res.data, endTime:date[0]});
+                if(res.data.endDate){
+                    setSchedule(res.data);
                     return true;
                 }
                 setSchedule(res.data);
@@ -89,7 +88,7 @@ const DetailSchedule = ({onClose, scheduleNo}) =>{
             <div>                
                 <p><input type="text" value={schedule.title} disabled/></p>
                 <p>
-                    <input type="date" value={schedule.endTime} disabled/>
+                    <input type="date" value={schedule.endDate} disabled/>
                     <Switch {...label} checked={schedule.isPublic} disabled/>
                     공유
                 </p>
