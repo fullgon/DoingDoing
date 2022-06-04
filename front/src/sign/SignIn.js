@@ -35,7 +35,7 @@ function SignIn(){
                     alert("아이디 혹은 비밀번호가 잘못되었습니다.");
                 }
             }).catch(error =>{
-                alert("에러남");
+                alert(error.response.data.error);
                 console.log(error);
             })
         }
