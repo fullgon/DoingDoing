@@ -5,7 +5,10 @@
 
 package xyz.parkh.doing.controller;
 
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@Api(tags = "인증" )
+@Api(tags = "인증")
 public class AuthController {
 
     private final AuthService authService;
@@ -97,7 +100,7 @@ public class AuthController {
 
     // jwt, userId, password
     // 비밀번호 변경
-    @PatchMapping("/reset/password")
+    @PutMapping("/reset/password")
     public ResponseEntity passwordModify(@RequestBody AuthVo authVo, HttpServletRequest request) {
         String userIdInJwt = (String) request.getAttribute("userId");
 

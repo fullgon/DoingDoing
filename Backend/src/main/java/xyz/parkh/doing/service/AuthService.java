@@ -39,7 +39,7 @@ public class AuthService {
     // 로그인 성공, 실패 시 응답 형식이 달라서 <> 사용하지 않음
     public ResponseEntity signIn(AuthVo requestAuthVo) {
         // 필수 인자가 입력 되지 않았을 경우
-        if (requestAuthVo.getUserId() == null || requestAuthVo.getUserId() == null) {
+        if (requestAuthVo.getUserId() == null || requestAuthVo.getPassword() == null) {
             throw new ValueException("필수 인자가 없습니다.");
         }
 
@@ -178,7 +178,6 @@ public class AuthService {
             throw new ValueException("필수 인자가 없습니다.");
         }
 
-        // 이메일, 아이디 필수
         AuthKeyVo readAuthKeyVo = authKeyMapper.selectByUserIdWithEmail(authKeyVo);
 
         // 조회된 인증키가 없을 경우
@@ -254,7 +253,7 @@ public class AuthService {
         String password = authVo.getPassword();
 
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
-        if (password == null) {
+        if (userIdInJwt == null || password == null) {
             throw new ValueException("필수 인자가 없습니다.");
         }
 
@@ -274,7 +273,7 @@ public class AuthService {
         String userId = authVo.getUserId();
 
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
-        if (password == null) {
+        if (userIdInJwt == null || userId == null || password == null) {
             throw new ValueException("필수 인자가 없습니다.");
         }
 

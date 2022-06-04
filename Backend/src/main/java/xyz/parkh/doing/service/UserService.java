@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.entity.UserVo;
 import xyz.parkh.doing.exception.DifferentAuthException;
+import xyz.parkh.doing.exception.ValueException;
 import xyz.parkh.doing.mapper.UserMapper;
+
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -29,6 +32,22 @@ public class UserService {
     }
 
     public ResponseEntity modifyUser(final String userIdInJwt, final UserVo userVo) {
+
+        String email = userVo.getEmail();
+
+        // 필수 인자가 없는 경우
+        if (userIdInJwt == null) {
+            throw new ValueException("필수 인자가 없습니다.");
+        }
+
+        // 이미 존재하는 이메일로 변경하려 할 경우
+        if (!Objects.isNull(email)) {
+            UserVo existUser = userMapper.selectByEmail(email);
+            if (!Objects.isNull(existUser)) {
+                throw new ValueException("이미 존재하는 Email 입니다.");
+            }
+        }
+
         // 본인 정보만 수정 가능
         userVo.setUserId(userIdInJwt);
         userMapper.update(userVo);
@@ -37,6 +56,11 @@ public class UserService {
     }
 
     public ResponseEntity removeUser(final String userIdInJwt) {
+        // 필수 인자가 없는 경우
+        if (userIdInJwt == null) {
+            throw new ValueException("필수 인자가 없습니다.");
+        }
+
         // 본인 정보만 삭제 가능
         userMapper.delete(userIdInJwt);
 
