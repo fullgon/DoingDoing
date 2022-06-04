@@ -71,6 +71,7 @@ const FindPassword = () =>{
             if(res.status == 200){
                 setIsAuth(true);
                 setIsSend(false);
+                localStorage.setItem('authToken', res.data.jwt);
             }
             else{
                 window.alert("인증번호가 틀렸습니다");
@@ -113,13 +114,13 @@ const FindPassword = () =>{
                 window.alert("비밀번호가 일치하지 않습니다");
             }
             else{
-                const res = await axios.patch("/api/auth/reset/password",{
+                const res = await axios.put("/api/auth/reset/password",{
                     userID: id,
                     password: pwd,
                 },{
                     headers:{
                         'Content-Type' : 'application/json',
-                        //'Authorization' : authToken
+                        'Authorization' : localStorage.getItem('authToken'),
                     }
                 });
 
@@ -133,6 +134,8 @@ const FindPassword = () =>{
             alert("에러남");
         }
     }
+
+    console.log(pwd);
     return(
         <div>
             {!isAuth ?
