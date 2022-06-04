@@ -15,7 +15,11 @@ const ModifySchedule = ({onSubmit, onClose, scheduleNo}) =>{
     }
 
     const onChangeDate = (e) =>{
-        setSchedule({...schedule, endTime: e.target.value+"T23:59:59"});
+        if(e.target.value == ""){
+            setSchedule({...schedule, endDate: 0});
+            return true;
+        }
+        setSchedule({...schedule, endDate: e.target.value});
     }
 
     const onChangeContent = (e) =>{
@@ -50,9 +54,8 @@ const ModifySchedule = ({onSubmit, onClose, scheduleNo}) =>{
             })
 
             if(res.status == 200){
-                if(res.data.endTime){
-                    const date = res.data.endTime.split('T');
-                    setSchedule({...res.data, endTime:date[0]});
+                if(res.data.endDate){
+                    setSchedule(res.data);
                     return true;
                 }
                 setSchedule(res.data);
@@ -85,7 +88,7 @@ const ModifySchedule = ({onSubmit, onClose, scheduleNo}) =>{
             <div>                
                 <p><input type="text" value={schedule.title} onChange={onChangeTitle}/></p>
                 <p>
-                    <input type="date" value={schedule.endTime} onChange={onChangeDate}/>
+                    <input type="date" value={schedule.endDate} onChange={onChangeDate}/>
                     <Switch {...label} checked={schedule.isPublic} />
                     공유
                 </p>
