@@ -58,6 +58,7 @@ const FindPassword = () =>{
         axios.post("/api/auth/check/auth-key",{
             userId: id,
             authKey: authkey,
+            email: `${email}@${adress}`,
             type: 0,
         },{
             headers: {
