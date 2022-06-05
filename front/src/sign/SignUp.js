@@ -71,6 +71,14 @@ function SignUp(){
     }
 
     const idCheck = () =>{
+        if(id == ""){
+            alert("아이디를 입력해주세요");
+            return true;
+        }
+        else if(id.length < 5){
+            alert("아이디는 5자리 이상입니다");
+            return true;
+        }
         axios.post("/api/auth/check/user-id",{
             userId: id
         },{
