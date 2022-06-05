@@ -13,6 +13,23 @@ const Privacy = () =>{
         setIsPasswordChange(false);
     }
 
+    const withdrawal = () =>{
+        if(confirm("회원탈퇴를 진행하시겠습니까?")){
+            axios.delete(`/api/users`, {
+                headers:{
+                    'Authorization' : localStorage.getItem('accessToken'),
+                }
+            }).then((res)=>{
+                if(res.status == 200){
+                    alert("회원탈퇴 되었습니다")
+                }
+            }).catch(error =>{
+                alert("에러");
+                console.log(error);
+            })
+        }
+    }
+
     return(
         <div>
            {isPasswordChange? 
@@ -20,7 +37,7 @@ const Privacy = () =>{
            <div>
                 <UserInfo/>
                 <div onClick={() => setIsPasswordChange(true)}>비밀번호 변경</div>
-                <div>회원탈퇴</div>   
+                <div onClick={withdrawal}>회원탈퇴</div>   
             </div>}
             
             
