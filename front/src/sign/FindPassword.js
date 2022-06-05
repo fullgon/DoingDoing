@@ -115,7 +115,7 @@ const FindPassword = () =>{
             }
             else{
                 const res = await axios.put("/api/auth/reset/password",{
-                    userID: id,
+                    userId: id,
                     password: pwd,
                 },{
                     headers:{
@@ -124,7 +124,7 @@ const FindPassword = () =>{
                     }
                 });
 
-                if(res.result.result == 'ok'){
+                if(res.status == 204){
                     window.alert("비밀번호 변경 완료");
                     navigate(-1);
                 }
@@ -135,7 +135,6 @@ const FindPassword = () =>{
         }
     }
 
-    console.log(pwd);
     return(
         <div>
             {!isAuth ?

@@ -2,12 +2,12 @@ import styles from "../css/ToDo.module.css"
 import useModals from "../../modals/useModals"
 import { modals } from "../../modals/Modals"
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"
 import axios from "axios";
 
 function ToDo(){
     
-    const todo = "첫 번째 일정입니다";
-
+    const navigate = useNavigate();
     const { openModal } = useModals();
     const [ schedules, setSchedules ] = useState([]);
     const handleClick = (scheduleNo) => {
@@ -19,8 +19,6 @@ function ToDo(){
             scheduleNo,
         });
     };
-
-    //체크박스 클릭 시 일정 완료 & 미완료 처리하는 api요청 필요
 
     const getSchedules = async () =>{
         try{
@@ -35,12 +33,34 @@ function ToDo(){
                 }
             });
             if(res.status == 200){
-                setSchedules((schedules) => res.data)
+                setSchedules(res.data)
             }
             
         }catch(e){
             alert("에러");
             console.log("스케줄 불러오기 에러",e);
+        }
+    }
+
+    const isCompleteSchedule = async (isComplete, scheduleNo) => {
+        try{
+            const userId = localStorage.getItem('userId');
+            const res = await axios.put(`/api/schedules/${userId}/${scheduleNo}`,
+            { isComplete },
+            {
+                headers:{
+                    'Content-Type' : 'application/json',
+                    'Authorization' : localStorage.getItem('accessToken'),
+                }
+            })    
+            if(res.status == 204){
+                //일정 완료처리 시 새로고침
+                navigate(0);
+            }
+        }catch(e){
+            //error
+            alert("에러");
+            console.log(e);
         }
     }
 
@@ -54,7 +74,7 @@ function ToDo(){
             { schedules.length != null ? 
             schedules.map((schedule)=>(
                 <p key={schedule.no}>
-                    <input type="checkbox" />
+                    <input type="checkbox" onChange={(event)=>{isCompleteSchedule(event.target.checked, schedule.no)}}/>
                     <a onClick={() => {handleClick(schedule.no)}}>{schedule.title}</a>
                 </p>
             )) :
