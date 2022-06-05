@@ -78,12 +78,15 @@ function SignUp(){
                 'Content-Type' : 'application/json',
             }
         }).then(res => {
-            if(res.status == 200){
+            if(res.status == 200 && !res.data.check){
                 //중복체크 완료
                 setFixId(id);
                 setIsId(true);
                 console.log(res);
+                alert("사용가능한 아이디입니다");
+                return true;
             }
+            alert("중복된 아이디입니다");
         }).catch(e => {
             alert(e);
             console.log(e.response);
@@ -105,7 +108,6 @@ function SignUp(){
         else{
             //인증번호 전송
             const e_mail = `${email}@${adress}`;
-            console.log(adress);
             axios.post("/api/auth/send/auth-key",{
                 userId: id,
                 email: `${email}@${adress}`,
@@ -118,7 +120,7 @@ function SignUp(){
                 console.log(res);
                 if(res.status == 204){
                     //결과랑 메시지
-                    window.alert("인증번호 보냈음");
+                    window.alert("인증번호를 보냈습니다");
                     setIsSend(true);
                 }
             }).catch(error =>{
