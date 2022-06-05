@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ChangePassword from "./ChangePassword";
 import UserInfo from "./UserInfo";
 
 
 const Privacy = () =>{
 
+    const navigate = useNavigate();
     const [isPasswordChange, setIsPasswordChange] = useState(false);
 
     const changePassword = (check) => {
@@ -20,8 +22,9 @@ const Privacy = () =>{
                     'Authorization' : localStorage.getItem('accessToken'),
                 }
             }).then((res)=>{
-                if(res.status == 200){
-                    alert("회원탈퇴 되었습니다")
+                if(res.status == 204){
+                    alert("회원탈퇴 되었습니다");
+                    navigate(`/`);
                 }
             }).catch(error =>{
                 alert("에러");
