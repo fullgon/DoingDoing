@@ -14,7 +14,7 @@ const Privacy = () =>{
     }
 
     const withdrawal = () =>{
-        if(confirm("회원탈퇴를 진행하시겠습니까?")){
+        if(window.confirm("회원탈퇴를 진행하시겠습니까?")){
             axios.delete(`/api/users`, {
                 headers:{
                     'Authorization' : localStorage.getItem('accessToken'),
