@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-const ChangePassword = () => {
+const ChangePassword = ({setIsPasswordChange}) => {
 
     const [isPasswordCehck, setIsPasswordCheck] = useState(false);
     const [pwd, setPwd] = useState("");
@@ -55,11 +55,13 @@ const ChangePassword = () => {
 
                 if(res.status == 204){
                     window.alert("비밀번호 변경 완료");
+                    setIsPasswordChange();
                 }
             }
 
         }catch(e){
             alert("에러남");
+            console.log(e);
         }
     }
 
