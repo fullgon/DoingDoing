@@ -55,7 +55,7 @@ const ChangePassword = ({setIsPasswordChange}) => {
 
                 if(res.status == 204){
                     window.alert("비밀번호 변경 완료");
-                    setIsPasswordChange();
+                    setIsPasswordChange(false);
                 }
             }
 
@@ -74,10 +74,11 @@ const ChangePassword = ({setIsPasswordChange}) => {
                 <p>비밀번호 확인: <input type="password"
                 onChange={(e)=> {setPwdConfirm(e.target.value);}}/></p>
                 <button onClick={resetPassword}>변경</button>
+                <button onClick={()=>{setIsPasswordChange(false)}}>취소</button>
             </div>
             :
             <div>
-                <input type="text" onChange={(e)=>{setPwd(e.target.value)}}/>
+                <input type="password" onChange={(e)=>{setPwd(e.target.value)}}/>
                 <button onClick={userCheck}>사용자 확인</button>
             </div>
             }

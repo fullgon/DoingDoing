@@ -9,8 +9,8 @@ const Privacy = () =>{
 
     const [isPasswordChange, setIsPasswordChange] = useState(false);
 
-    const changePassword = () => {
-        setIsPasswordChange(false);
+    const changePassword = (check) => {
+        setIsPasswordChange(check);
     }
 
     const withdrawal = () =>{
