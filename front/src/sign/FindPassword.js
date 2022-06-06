@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"
-
+import styles from "./css/FindPassword.module.css"
 
 
 const FindPassword = () =>{
@@ -136,40 +136,51 @@ const FindPassword = () =>{
     }
 
     return(
-        <div>
-            {!isAuth ?
-            //이메일 인증 양식 
-            <div>
-                <p>
-                    아이디: <input type="text" placeholder="아이디"
-                     onChange={(e)=> {setId(e.target.value);}}/>
-                </p>
-                <p>
-                    e-mail: <input type="text" placeholder="e-mail"
-                     onChange={(e)=> {setEmail(e.target.value);}}/>
-                    @
-                    <input type="text" placeholder="직접입력" onChange={(e)=> {setAdress(e.target.value);}}/> 
-                    <button onClick={sendAuth}>전송</button>
-                </p>
-                { isSend ?
-                    <p>
-                        인증번호: <input type="text" placeholder="인증번호" onChange={(e)=> {setAuthkey(e.target.value);}}/>
-                        <button onClick={checkAuth}>인증</button>
-                    </p>
-                    : null
-                }
-            </div>
-            :
-            //비밀번호 변경 양식
-            <div>
-                <p>비밀번호: <input type="password"
-                onChange={(e)=> {setPwd(e.target.value);}}/></p>
-                <p>비밀번호 확인: <input type="password"
-                onChange={(e)=> {setPwdConfirm(e.target.value);}}/></p>
-                <button onClick={resetPassword}>변경</button>
-            </div>
-            }
+        <div className={styles.flexbox}>
+            <div className={styles.container}>
             
+                {!isAuth ?
+                //이메일 인증 양식 
+                <div>
+                    <div className={styles['find-password']}>비밀번호 찾기</div>
+                    <br/>
+                    <p>
+                        <input type="text" placeholder="아이디" className={styles['input-id']}
+                        onChange={(e)=> {setId(e.target.value);}}/>
+                    </p>
+                    <p>
+                        <input type="text" placeholder="e-mail" className={styles['input-email']}
+                        onChange={(e)=> {setEmail(e.target.value);}}/>
+                        @
+                        <input type="text" placeholder="직접입력" className={styles['input-email']}
+                        onChange={(e)=> {setAdress(e.target.value);}}/> 
+                        <button className={styles.button} onClick={sendAuth}>전송</button>
+                    </p>
+                    { isSend ?
+                        <p>
+                            <input type="text" placeholder="인증번호" className={styles['input-auth-key']}
+                            onChange={(e)=> {setAuthkey(e.target.value);}}/>
+                            <button className={styles.button} onClick={checkAuth}>인증</button>
+                        </p>
+                        : null
+                    }
+                </div>
+                :
+                //비밀번호 변경 양식
+                <div className={styles['align-password']}>
+                    <div className={styles['find-password']}>비밀번호 변경</div>
+                    <br/>
+                    <a className={styles['small-font']}>비밀번호</a>
+                    <input type="password" className={styles['input-id']}
+                    onChange={(e)=> {setPwd(e.target.value);}}/>
+                    <a className={styles['small-font']}>비밀번호 확인</a>
+                    <input type="password" className={styles['input-id']}
+                    onChange={(e)=> {setPwdConfirm(e.target.value);}}/>
+                    <button className={styles.button} onClick={resetPassword}>변경</button>
+                </div>
+                }
+                
+            </div>
         </div>
     )
 }
