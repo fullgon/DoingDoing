@@ -1,0 +1,49 @@
+.flexbox{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background: lightslategrey;
+}
+
+
+.button {
+    cursor: pointer;
+    margin: 1%;
+    border-radius: 5px;
+    border-style: none;
+    background: wheat;
+}
+
+.container{
+    background: whitesmoke;
+    padding: 5%;
+    border-radius: 20px;
+    margin-bottom: 7%;
+}
+
+.signup{
+    font-size: 25px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.input-email{
+    margin: 1%;
+    width: 25%;
+}
+
+.input-id{
+    margin: 1px;
+    width: 25%;
+}
+
+.input-auth-key{
+    margin: 1%;
+    width: 25%;
+}
+
+.input-password{
+    margin: 1%;
+    width: 30%;
+}

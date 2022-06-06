@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import {useNavigate} from "react-router-dom"
+import styles from "./css/SignUp.module.css"
 
 
 function SignUp(){
@@ -172,27 +173,42 @@ function SignUp(){
     }
 
     return(
-        <div>
-            <p>이름: <input type="text" placeholder="이름" onChange={(e)=> {setName(e.target.value);}}/></p>
-            <p>
-                아이디: <input type="text" placeholder="아이디" onChange={(e)=> {setId(e.target.value);}}/>
-                <button onClick={idCheck}>중복확인</button>
-            </p>
-            <p>
-                e-mail: <input type="text" placeholder="e-mail" onChange={(e)=> {setEmail(e.target.value);}}/>
-                @<input type="text" placeholder="직접입력" onChange={(e)=> {setAdress(e.target.value);}}/>
-                <button onClick={sendAuth}>전송</button>
-                { isSend ?
-                    <p>
-                        인증번호: <input type="text" placeholder="인증번호" onChange={(e)=> {setAuthkey(e.target.value);}}/>
-                        <button onClick={checkAuth}>인증</button>
-                    </p>
-                    : null
-                }
-            </p>
-            <p>비밀번호: <input type="password" placeholder="비밀번호" onChange={(e)=> {setPwd(e.target.value);}}/></p>
-            <p>비밀번호 확인: <input type="password" placeholder="비밀번호" onChange={(e)=> {setPwdConfirm(e.target.value);}}/></p>
-            <button onClick={signUp}>회원가입</button>
+        <div className={styles.flexbox}>
+            <div className={styles.container}>
+                <div className={styles.signup}>회원가입</div>
+                <br/>
+                <input type="text" placeholder="이름" className={styles['input-id']}
+                onChange={(e)=> {setName(e.target.value);}}/>
+                <p>
+                    <input type="text" className={styles['input-id']}
+                    placeholder="아이디" onChange={(e)=> {setId(e.target.value);}}/>
+                    <button className={styles.button} onClick={idCheck}>중복확인</button>
+                </p>
+                <p>
+                    <input type="text" placeholder="e-mail" className={styles['input-email']}
+                    onChange={(e)=> {setEmail(e.target.value);}}/>
+                    @
+                    <input type="text" placeholder="직접입력" className={styles['input-email']}
+                    onChange={(e)=> {setAdress(e.target.value);}}/>
+                    <button className={styles.button} onClick={sendAuth}>전송</button>
+                    { isSend ?
+                        <p>
+                            <input type="text" placeholder="인증번호" className={styles['input-auth-key']}
+                            onChange={(e)=> {setAuthkey(e.target.value);}}/>
+                            <button className={styles.button} onClick={checkAuth}>인증</button>
+                        </p>
+                        : null
+                    }
+                </p>
+                <input type="password" placeholder="비밀번호" className={styles['input-password']}
+                onChange={(e)=> {setPwd(e.target.value);}}/>
+                <br/>
+                <input type="password" placeholder="비밀번호 확인" className={styles['input-password']}
+                onChange={(e)=> {setPwdConfirm(e.target.value);}}/>
+                <br/>
+                <button className={styles.button} onClick={signUp}>회원가입</button>
+                <button className={styles.button} onClick={()=> navigate(-1)}>취소</button>
+            </div>
         </div>
     )
 }
