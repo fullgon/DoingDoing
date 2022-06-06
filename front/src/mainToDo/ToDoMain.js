@@ -28,10 +28,10 @@ function TODoMain(){
             <button onClick={goToUserInfo}>개인정보</button>
             <div className={styles.container}>
                 <ToDo/>
-                <ToDoDate/>
+                <ToDoComplete/>
             </div>
             <div className={styles.container}>
-                <ToDoComplete/>
+                <ToDoDate/>
             </div>
             <button className={styles.btn} onClick={handleClick}>등록</button>
         </div>
