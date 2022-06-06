@@ -20,11 +20,12 @@ function TODoMain(){
             type: "new",
         });
     };
-    const goToUserInformation = () => {
+    const goToUserInfo = () => {
         navigate('/users');
     }
     return(
-        <div>
+        <div className={styles['schedule-main']}>
+        <button onClick={goToUserInfo}>개인정보</button>
             <div className={styles.container}>
                 <ToDo/>
                 <ToDoDate/>
@@ -32,7 +33,6 @@ function TODoMain(){
             <div className={styles.container}>
                 <ToDoComplete/>
             </div>
-            <button onClick={goToUserInformation}>개인정보</button>
             <button className={styles.btn} onClick={handleClick}>등록</button>
         </div>
     )
