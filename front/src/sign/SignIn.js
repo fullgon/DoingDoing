@@ -1,6 +1,7 @@
 import {useState} from "react"
 import axios from "axios";
 import {useNavigate} from "react-router-dom"
+import styles from "./css/SignIn.module.css"
 
 function SignIn(){
 
@@ -52,22 +53,25 @@ function SignIn(){
     }
 
     return(
-        <div>
-            <p>
-                아이디: 
-                <input type="text" placeholder="아이디"
-                 onChange={(e)=> {setId(e.target.value);}}>
-                 </input>
-            </p>
-            <p>
-                비밀번호: 
-                <input type="password" placeholder="비밀번호"
-                 onChange={(e)=> {setPwd(e.target.value);}}>
-                </input>
-            </p>
-            <input type="submit" onClick={logIn} value="로그인"></input>
-            <button onClick={goToSignUp}>회원가입</button>
-            <a onClick={goTOFindPassword}>비밀번호 찾기</a>
+        <div className={styles.flexbox}>
+            <div className={styles.container}>
+                <div className={styles.login}>LOGIN</div>
+                <p>
+                    <input type="text" placeholder="아이디"
+                    onChange={(e)=> {setId(e.target.value);}}>
+                    </input>
+                </p>
+                <p>
+                    <input type="password" placeholder="비밀번호"
+                    onChange={(e)=> {setPwd(e.target.value);}}>
+                    </input>
+                </p>
+                <p className={styles['btn-flex']}>
+                    <button onClick={logIn} className={styles.button}>로그인</button>
+                    <button onClick={goToSignUp} className={styles.button}>회원가입</button>
+                    <a onClick={goTOFindPassword} className={styles['find-password']}>비밀번호 찾기</a>
+                </p>
+            </div>
         </div>
     )
 }
