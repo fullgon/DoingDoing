@@ -55,14 +55,14 @@ function SignIn(){
     return(
         <div className={styles.flexbox}>
             <div className={styles.container}>
-                <div className={styles.login}>LOGIN</div>
+                <div className={styles.login}>DoingDoing</div>
                 <p>
-                    <input type="text" placeholder="아이디"
+                    <input type="text" placeholder="아이디" className={styles.input}
                     onChange={(e)=> {setId(e.target.value);}}>
                     </input>
                 </p>
                 <p>
-                    <input type="password" placeholder="비밀번호"
+                    <input type="password" placeholder="비밀번호" className={styles.input}
                     onChange={(e)=> {setPwd(e.target.value);}}>
                     </input>
                 </p>
