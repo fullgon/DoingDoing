@@ -36,9 +36,10 @@
 }
 
 .date{
-    font-size: 2em;
+    font-size: 1em;
     cursor: pointer;
     justify-self: end;
+    align-self: center;
 }
 
 /* 색띠 */
