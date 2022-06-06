@@ -18,3 +18,7 @@ code {
 #root{
   height: 100%;
 }
+
+div{
+  box-sizing: border-box;
+}
