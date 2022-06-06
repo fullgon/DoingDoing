@@ -142,7 +142,7 @@ const FindPassword = () =>{
                 {!isAuth ?
                 //이메일 인증 양식 
                 <div>
-                    <div className={styles['find-password']}>비밀번호 찾기</div>
+                    <div className={styles['find-password']}>Find Password</div>
                     <br/>
                     <p>
                         <input type="text" placeholder="아이디" className={styles['input-id']}
@@ -168,7 +168,7 @@ const FindPassword = () =>{
                 :
                 //비밀번호 변경 양식
                 <div className={styles['align-password']}>
-                    <div className={styles['find-password']}>비밀번호 변경</div>
+                    <div className={styles['find-password']}>Change Password</div>
                     <br/>
                     <a className={styles['small-font']}>비밀번호</a>
                     <input type="password" className={styles['input-id']}
