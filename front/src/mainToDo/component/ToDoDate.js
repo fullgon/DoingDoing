@@ -71,17 +71,19 @@ function ToDoDate(){
     }, []);
     
     return(
-        <div className={`${styles.item} ${styles.body}`}>
-            <h1>할 일(Limit)</h1>
-            { schedules.length != null ? 
-            schedules.map((schedule)=>(
-                <p key={schedule.no}>
-                    <input type="checkbox" onChange={(event)=>{isCompleteSchedule(event.target.checked, schedule.no)}}/>
-                    <a onClick={() => {handleClick(schedule.no)}}>{schedule.title}</a>
-                </p>
-            )) :
-            null
-            }
+        <div className={styles.container}>
+            <h1>ToDo(Limit)</h1>
+            <div className={styles.scroll}>
+                { schedules.length != null ? 
+                schedules.map((schedule)=>(
+                    <p key={schedule.no}>
+                        <input type="checkbox" onChange={(event)=>{isCompleteSchedule(event.target.checked, schedule.no)}}/>
+                        <a onClick={() => {handleClick(schedule.no)}}>{schedule.title}</a>
+                    </p>
+                )) :
+                null
+                }
+            </div>
         </div>
     )
 }

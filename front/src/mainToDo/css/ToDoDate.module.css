@@ -1,7 +1,10 @@
-.body{
-    border-style: solid;
+.container{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex-basis: 50%;
 }
 
-.item{
-    flex-basis: 49%;
+.scroll{
+    overflow: auto;
 }

@@ -28,6 +28,8 @@ function TODoMain(){
             <div className={styles.container}>
                 <ToDo/>
                 <ToDoDate/>
+            </div>
+            <div className={styles.container}>
                 <ToDoComplete/>
             </div>
             <button onClick={goToUserInformation}>개인정보</button>

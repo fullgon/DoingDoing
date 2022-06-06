@@ -70,17 +70,19 @@ function ToDoComplete(){
 
 
     return(
-        <div className={`${styles.body} ${styles.item}`}>
-            <h1>완료된 일정</h1>
-            { schedules.length != null ? 
-            schedules.map((schedule)=>(
-                <p key={schedule.no}>
-                    <input type="checkbox" checked={true} onChange={(event)=>{isCompleteSchedule(event.target.checked, schedule.no)}}/>
-                    <a onClick={() => {handleClick(schedule.no)}}>{schedule.title}</a>
-                </p>
-            )) :
-            null
-            }
+        <div className={styles.container}>
+            <h1>Complete</h1>
+            <div className={styles.scroll}>
+                { schedules.length != null ? 
+                schedules.map((schedule)=>(
+                    <p key={schedule.no}>
+                        <input type="checkbox" checked={true} onChange={(event)=>{isCompleteSchedule(event.target.checked, schedule.no)}}/>
+                        <a onClick={() => {handleClick(schedule.no)}}>{schedule.title}</a>
+                    </p>
+                )) :
+                null
+                }
+            </div>
         </div>
     )
 }
