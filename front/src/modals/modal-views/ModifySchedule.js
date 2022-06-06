@@ -56,7 +56,7 @@ const ModifySchedule = ({onSubmit, onClose, scheduleNo}) =>{
             if(res.status == 200){
                 if(res.data.endDate){
                     setSchedule(res.data);
-                    return true;
+                    return;
                 }
                 setSchedule(res.data);
             }

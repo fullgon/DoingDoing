@@ -68,7 +68,7 @@ const DetailSchedule = ({onClose, scheduleNo}) =>{
                 
                 if(res.data.endDate){
                     setSchedule(res.data);
-                    return true;
+                    return;
                 }
                 setSchedule(res.data);
             }
