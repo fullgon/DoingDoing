@@ -6,7 +6,6 @@ import styles from "./css/SignUp.module.css"
 
 function SignUp(){
 
-    
     const navigate = useNavigate();
 
     const [name, setName] = useState("");
@@ -25,22 +24,22 @@ function SignUp(){
     const signUp = () =>{
 
         if(name == ""){
-            window.alert("이름을 입력해주세요");
+            alert("이름을 입력해주세요");
         }
         else if(!isId){
-            window.alert("아이디 중복확인을 해주세요");
+            alert("아이디 중복확인을 해주세요");
         }
         else if(!isEmail){
-            window.alert("이메일 인증을 해주세요");
+            alert("이메일 인증을 해주세요");
         }
         else if(pwd == ""){
-            window.alert("비밀번호를 입력해주세요");
+            alert("비밀번호를 입력해주세요");
         }
         else if(pwd.length < 8){
-            window.alert("비밀번호는 8자리 이상입니다");
+            alert("비밀번호는 8자리 이상입니다");
         }
         else if(pwd != pwdConfirm){
-            window.alert("비밀번호가 일치하지 않습니다");
+            alert("비밀번호가 일치하지 않습니다");
         }
         else{
             //회원가입 완료
@@ -57,12 +56,12 @@ function SignUp(){
                 console.log(res);
                 if(res.status == 204){
                     //로그인 페이지로 이동
-                    window.alert("회원가입에 성공하였습니다.");
+                    alert("회원가입에 성공하였습니다.");
                     navigate(-1);
+                    return;
                 }
-                else{
-                    window.alert("회원가입에 실패하였습니다.");
-                }
+                alert("회원가입에 실패하였습니다.");
+                
             }).catch(e =>{
                 alert("에러남")
                 console.log(e);
@@ -74,11 +73,11 @@ function SignUp(){
     const idCheck = () =>{
         if(id == ""){
             alert("아이디를 입력해주세요");
-            return true;
+            return;
         }
         else if(id.length < 5){
             alert("아이디는 5자리 이상입니다");
-            return true;
+            return;
         }
         axios.post("/api/auth/check/user-id",{
             userId: id
@@ -93,7 +92,7 @@ function SignUp(){
                 setIsId(true);
                 console.log(res);
                 alert("사용가능한 아이디입니다");
-                return true;
+                return;
             }
             alert("중복된 아이디입니다");
         }).catch(e => {
@@ -161,10 +160,10 @@ function SignUp(){
                 if(res.status == 200){
                     setIsEmail(true);
                     alert("인증이 완료되었습니다.");
+                    return;
                 }
-                else{
-                    alert("인증번호가 틀렸습니다.");
-                }
+                alert("인증번호가 틀렸습니다.");
+                
             }).catch(e => {
                 alert("에러남");
                 console.log(e);

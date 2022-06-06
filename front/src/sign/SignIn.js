@@ -14,32 +14,32 @@ function SignIn(){
     const logIn = () =>{
         if(id == "" || pwd == ""){
             alert("아이디와 비밀번호를 입력해주십시오.");
+            return;
         }
-        else{
-            axios.post("/api/auth/sign-in",{
-                userId: id,
-                password: pwd,
-            },{
-                headers:{
-                    'Content-Type' : 'application/json',
-                }
-            }).then((res)=>{
-                
-                if(res.status == 200){
-                    //jwt토큰 로컬저장소에 저장
-                    console.log(res);
-                    localStorage.setItem('accessToken', res.data.jwt);
-                    localStorage.setItem('userId', id);
-                    navigate(`/schedule`);
-                }
-                else{
-                    alert("아이디 혹은 비밀번호가 잘못되었습니다.");
-                }
-            }).catch(error =>{
-                alert(error.response.data.error);
-                console.log(error);
-            })
-        }
+        axios.post("/api/auth/sign-in",{
+            userId: id,
+            password: pwd,
+        },{
+            headers:{
+                'Content-Type' : 'application/json',
+            }
+        }).then((res)=>{
+            
+            if(res.status == 200){
+                //jwt토큰 로컬저장소에 저장
+                console.log(res);
+                localStorage.setItem('accessToken', res.data.jwt);
+                localStorage.setItem('userId', id);
+                navigate(`/schedule`);
+                return;
+            }
+            alert("아이디 혹은 비밀번호가 잘못되었습니다.");
+            
+        }).catch(error =>{
+            alert(error.response.data.error);
+            console.log(error);
+        })
+        
         
     }
 
