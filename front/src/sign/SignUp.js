@@ -175,7 +175,7 @@ function SignUp(){
     return(
         <div className={styles.flexbox}>
             <div className={styles.container}>
-                <div className={styles.signup}>회원가입</div>
+                <div className={styles.signup}>SIGN UP</div>
                 <br/>
                 <input type="text" placeholder="이름" className={styles['input-id']}
                 onChange={(e)=> {setName(e.target.value);}}/>
