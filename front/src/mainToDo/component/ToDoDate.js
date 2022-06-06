@@ -79,7 +79,8 @@ function ToDoDate(){
                     <div key={schedule.no} className={styles['schedule-box']}>
                         <div className={styles.schedule}>
                             <div className={styles['check-point']}> </div>
-                            <a className={styles.font} onClick={() => {handleClick(schedule.no)}}>{schedule.title}</a>
+                            <a className={styles.title} onClick={() => {handleClick(schedule.no)}}>{schedule.title}</a>
+                            <a className={styles.date} onClick={() => {handleClick(schedule.no)}}>{schedule.endDate}</a>
                         </div>
                         <input type="checkbox" className={styles.checkbox}
                         onChange={(event)=>{isCompleteSchedule(event.target.checked, schedule.no)}}/>
