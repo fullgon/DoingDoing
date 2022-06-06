@@ -3,8 +3,47 @@
     flex-direction: column;
     height: 100%;
     flex-basis: 100%;
+    background: lightblue;
 }
 
 .scroll{
     overflow: auto;
 }
+
+/* 가장 바깥 */
+.schedule-box{
+    display: flex;
+    justify-content: space-between;
+    width: 25%;
+    background: white;
+    
+    margin-bottom: 10px;
+    box-shadow: 3px 2px 2px black;
+}
+
+/* 색띠와 일정제목 */
+.schedule{
+    display: flex;
+    flex-grow: 1;
+}
+
+/* 일정 제목 */
+.font{
+    font-size: 2em;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* 색띠 */
+.check-point{
+    width: 3%;
+    background: yellow;
+}
+
+/* 체크박스 */
+.checkbox{
+    zoom: 1.8;
+    cursor: pointer;
+    align-self: center;
+}
+

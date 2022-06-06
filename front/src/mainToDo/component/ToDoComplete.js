@@ -75,10 +75,14 @@ function ToDoComplete(){
             <div className={styles.scroll}>
                 { schedules.length != null ? 
                 schedules.map((schedule)=>(
-                    <p key={schedule.no}>
-                        <input type="checkbox" checked={true} onChange={(event)=>{isCompleteSchedule(event.target.checked, schedule.no)}}/>
-                        <a onClick={() => {handleClick(schedule.no)}}>{schedule.title}</a>
-                    </p>
+                    <div key={schedule.no} className={styles['schedule-box']}>
+                        <div className={styles.schedule}>
+                            <div className={styles['check-point']}> </div>
+                            <a className={styles.font} onClick={() => {handleClick(schedule.no)}}>{schedule.title}</a>
+                        </div>
+                        <input type="checkbox" className={styles.checkbox}
+                        onChange={(event)=>{isCompleteSchedule(event.target.checked, schedule.no)}}/>
+                    </div>
                 )) :
                 null
                 }
