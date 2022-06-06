@@ -25,7 +25,7 @@ function TODoMain(){
     }
     return(
         <div className={styles['schedule-main']}>
-        <button onClick={goToUserInfo}>개인정보</button>
+            <button onClick={goToUserInfo}>개인정보</button>
             <div className={styles.container}>
                 <ToDo/>
                 <ToDoDate/>

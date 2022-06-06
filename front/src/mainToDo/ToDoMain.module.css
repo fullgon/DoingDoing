@@ -1,5 +1,7 @@
 .schedule-main{
     padding: 0 10% 0 10%;
+    background: lightslategray;
+    height: 100%;
 }
 
 .container{
@@ -12,5 +14,6 @@
     height: 2em;
     font-size: 1em;
     float: right;
-    margin-right: 15%;
+    margin-right: 5%;
 }
+
