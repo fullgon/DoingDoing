@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import styles from "./users.module.css"
 
 
 const UserInfo = () => {
@@ -23,7 +24,6 @@ const UserInfo = () => {
 
     return(
         <div>
-            <div>개인정보</div>
             <div>이름 : {user.name}</div>
             <div>아이디 : {user.userId}</div>
             <div>email : {user.email}</div>

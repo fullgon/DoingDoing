@@ -1,9 +1,9 @@
 import axios from "axios";
-import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ChangePassword from "./ChangePassword";
 import UserInfo from "./UserInfo";
+import styles from "./users.module.css"
 
 
 const Privacy = () =>{
@@ -34,13 +34,17 @@ const Privacy = () =>{
     }
 
     return(
-        <div>
+        <div className={styles.flexbox}>
            {isPasswordChange? 
-           <ChangePassword setIsPasswordChange={changePassword}/> :
-           <div>
+           <ChangePassword setIsPasswordChange={changePassword}/> 
+           :
+           <div className={styles.container}>
+                <div className={styles.title}>개인정보</div>
                 <UserInfo/>
-                <div onClick={() => setIsPasswordChange(true)}>비밀번호 변경</div>
-                <div onClick={withdrawal}>회원탈퇴</div>   
+                <div className={styles['button-group']}>
+                    <div className={styles.button} onClick={() => setIsPasswordChange(true)}>비밀번호 변경</div>
+                    <div className={styles.button} onClick={withdrawal}>회원탈퇴</div>
+                </div>
             </div>}
             
             

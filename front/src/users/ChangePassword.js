@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useState } from "react";
+import styles from "./users.module.css"
 
 const ChangePassword = ({setIsPasswordChange}) => {
 
     const [isPasswordCehck, setIsPasswordCheck] = useState(false);
     const [pwd, setPwd] = useState("");
+    const [password, setPassword] = useState("");
     const [pwdConfirm, setPwdConfirm] = useState("");
 
     const userCheck = async () => {
@@ -68,18 +70,18 @@ const ChangePassword = ({setIsPasswordChange}) => {
     return (
         <div>
             {isPasswordCehck ? 
-            <div>
-                 <p>비밀번호: <input type="password"
-                onChange={(e)=> {setPwd(e.target.value);}}/></p>
-                <p>비밀번호 확인: <input type="password"
-                onChange={(e)=> {setPwdConfirm(e.target.value);}}/></p>
+            <div className={styles.container}>
+                <input type="password"  onChange={(e)=> {setPassword(e.target.value); }} value={password} placeholder="비밀번호"/>
+                <input type="password" placeholder="비밀번호 확인"
+                onChange={(e)=> {setPwdConfirm(e.target.value);}}/>
                 <button onClick={resetPassword}>변경</button>
                 <button onClick={()=>{setIsPasswordChange(false)}}>취소</button>
             </div>
             :
-            <div>
-                <input type="password" onChange={(e)=>{setPwd(e.target.value)}}/>
+            <div className={styles.container}>
+                <input type="password" placeholder="비밀번호" onChange={(e)=>{setPwd(e.target.value)}}/>
                 <button onClick={userCheck}>사용자 확인</button>
+                <button onClick={()=>{setIsPasswordChange(false)}}>취소</button>
             </div>
             }
         </div>
