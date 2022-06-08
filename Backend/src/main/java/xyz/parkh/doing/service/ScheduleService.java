@@ -162,6 +162,9 @@ public class ScheduleService {
 
         scheduleVo.setNo(scheduleNo);
         scheduleVo.setUserId(userId);
+        // 일정 있는 일정 -> 일정 없는 일정.
+        // endDate : 0 요청할 경우. endDate null 로 변경.
+        // Mybatis 동적 쿼리 이용해 적용.
         scheduleMapper.update(scheduleVo);
 
         return ResponseEntity.noContent().build();
