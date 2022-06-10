@@ -5,9 +5,9 @@ import styles from "./users.module.css"
 const ChangePassword = ({setIsPasswordChange}) => {
 
     const [isPasswordCehck, setIsPasswordCheck] = useState(false);
-    const [pwd, setPwd] = useState("");
-    const [password, setPassword] = useState("");
-    const [pwdConfirm, setPwdConfirm] = useState("");
+    const [pwd, setPwd] = useState("");//본인확인
+    const [password, setPassword] = useState("");//변경할 비밀번호
+    const [pwdConfirm, setPwdConfirm] = useState("");//변경할 비밀번호 확인
 
     const userCheck = async () => {
         try{
@@ -34,20 +34,20 @@ const ChangePassword = ({setIsPasswordChange}) => {
 
     const resetPassword = async ()=>{
         try{
-            if(pwd == ""){
+            if(password == ""){
                 window.alert("비밀번호를 입력해주세요");
             }
-            else if(pwd.length < 8){
+            else if(password.length < 8){
                 window.alert("비밀번호는 8자리 이상입니다");
             }
-            else if(pwd != pwdConfirm){
+            else if(password != pwdConfirm){
                 window.alert("비밀번호가 일치하지 않습니다");
             }
             else{
                 const userId = localStorage.getItem('userId')
                 const res = await axios.put("/api/auth/reset/password",{
                     userId,
-                    password: pwd,
+                    password,
                 },{
                     headers:{
                         'Content-Type' : 'application/json',
