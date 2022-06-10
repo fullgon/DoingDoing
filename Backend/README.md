@@ -508,3 +508,49 @@ endDate : 0 을 보내 주는 것으로 합의.
 음..... 해도 이럴 듯.
 
 혹시 더 좋은 방법 생각나면 수정하기.
+
+## 일정 종료일만 업데이트 시 오류
+
+{{domain}}/api/schedules/parkpark/282
+
+    {
+      "endDate":"2022-04-04",
+      "isComplete":true
+    }
+
+-> 가능
+
+    {
+      "isComplete":true 
+    }
+
+-> "error": "처리하지 못한 에러 발생 { org.mybatis.spring.MyBatisSystemException } ExceptionHandler 추가"
+
+쿼리 자체는 문제 없음
+
+```
+select * from tb_schedule where no = 282;
+
+update tb_schedule
+set END_DATE = null
+where no = 282;
+
+update tb_schedule
+set END_DATE = '2022-01-01'
+where no = 282;
+```
+
+* mybatis
+
+```
+<if test='endDate != null and endDate.toString() neq "1970-01-01"'>END_DATE = #{endDate},</if>
+<if test='endDate.toString() eq "1970-01-01"'>END_DATE = null,</if>
+```
+
+endDate 가 null 이면
+
+위 조건 X / 아래 조건 X
+
+null.toString() 해서 오류 터진거구나
+
+

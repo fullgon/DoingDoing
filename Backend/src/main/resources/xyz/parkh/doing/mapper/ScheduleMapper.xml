@@ -54,7 +54,7 @@
             <if test="title != null">TITLE = #{title},</if>
             <if test="content != null">CONTENT = #{content},</if>
             <if test='endDate != null and endDate.toString() neq "1970-01-01"'>END_DATE = #{endDate},</if>
-            <if test='endDate.toString() eq "1970-01-01"'>END_DATE = null,</if>
+            <if test='endDate != null and endDate.toString() eq "1970-01-01"'>END_DATE = null,</if>
             <if test="isPublic != null">IS_PUBLIC = #{isPublic},</if>
             <if test="isComplete != null">IS_COMPLETE = #{isComplete}</if>
         </set>
