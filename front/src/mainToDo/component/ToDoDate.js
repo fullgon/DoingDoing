@@ -73,7 +73,7 @@ function ToDoDate(){
     return(
         <div className={styles.container}>
             <h1>ToDo(Limit)</h1>
-            <div className={styles.scroll}>
+            <div className={styles.schedules}>
                 { schedules.length != null ? 
                 schedules.map((schedule)=>(
                     <div key={schedule.no} className={styles['schedule-box']}>
