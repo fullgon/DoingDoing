@@ -1,13 +1,19 @@
 .schedule-main{
-    padding: 0 10% 0 10%;
-    background: lightslategray;
+    background: rgb(238, 130, 238, 0.3) ;
     height: 100%;
 }
 
 .container{
     display: flex;
-    flex-wrap: wrap;
-    height: 45vh;
+    height: 70vh;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.header{
+    height: 50px;
 }
 
 .btn{
@@ -17,3 +23,11 @@
     margin-right: 5%;
 }
 
+.slide{
+    width: 30%;
+    height: 100%;
+}
+
+.arrow{
+    text-align: center;
+}
