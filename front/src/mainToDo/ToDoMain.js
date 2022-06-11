@@ -51,6 +51,8 @@ function TODoMain(){
         }
     }
 
+    console.log(currentSlide)
+
     useEffect(()=>{
         const percent = MOVE_PERCENT * 2;
         switch(currentSlide){
@@ -75,6 +77,7 @@ function TODoMain(){
                 completeRef.current.style.transition = "all 0.5s ease-in-out";
                 completeRef.current.style.transform = `translateX(0%) scale(0.8)`;
                 break;
+
             case 2:
                 doRef.current.style.transition = "all 0.5s ease-in-out";
                 doRef.current.style.transform = `translateX(${percent}%) scale(0.8)`;
@@ -86,8 +89,6 @@ function TODoMain(){
                 completeRef.current.style.transform = `translateX(-${MOVE_PERCENT}%) scale(1)`;
                 break;
         }
-        // completeRef.current.style.transition = "all 0s ease-in-out";
-        // completeRef.current.style.transform = `translateX(117%) scale(1)`;
     }, [currentSlide]);
 
     return(
