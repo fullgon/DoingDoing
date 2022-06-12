@@ -5,6 +5,8 @@ import Switch from '@mui/material/Switch';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom"
 
+import styles from './modals.module.css'
+
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 const DetailSchedule = ({onClose, scheduleNo}) =>{
@@ -84,17 +86,17 @@ const DetailSchedule = ({onClose, scheduleNo}) =>{
     },[])
 
     return(
-        <div>
-            <div>                
-                <p><input type="text" value={schedule.title} disabled/></p>
-                <p>
-                    <input type="date" value={schedule.endDate} disabled/>
-                    <Switch {...label} checked={schedule.isPublic} disabled/>
+        <div className={styles.container}>
+            <div className={styles['input-box']}>           
+                <input type="text" value={schedule.title} className={styles.title} disabled/>
+                <div className={styles['flex-end']}>
+                    <input type="date" value={schedule.endDate} className={styles.date}  disabled/>
+                    <Switch {...label} checked={schedule.isPublic}disabled/>
                     공유
-                </p>
-                <textarea value={schedule.content} disabled/>
+                </div>
+                <textarea value={schedule.content} className={styles['text-box']} disabled/>
             </div>
-            <div>
+            <div div className={styles['flex-end']}>
                 <button onClick={handleClickModify}>수정</button>
                 <button onClick={handleClickDelete}>삭제</button>
                 <button onClick={handleClickCancel}>취소</button>
