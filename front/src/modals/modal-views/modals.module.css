@@ -31,7 +31,7 @@
     font-size: 1.3em;
 }
 
-.date-box{
+.flex-end{
     display: flex;
     justify-content: flex-end;
 }

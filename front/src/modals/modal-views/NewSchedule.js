@@ -56,14 +56,14 @@ const NewSchedule = ({onSubmit, onClose}) =>{
         <div className={styles.container}>
             <div className={styles['input-box']}>
                 <input type="text" placeholder="제목" onChange={onChangeTitle} className={styles.title}/>
-                <div className={styles['date-box']}>
+                <div className={styles['flex-end']}>
                     <input type="date" placeholder="기한" onChange={onChangeDate} className={styles.date}/>
                     <Switch {...label} defaultChecked />
                     공유
                 </div>
                 <textarea placeholder='내용' onChange={onChangeContent} className={styles['text-box']}/>
             </div>
-            <div>
+            <div div className={styles['flex-end']}>
                 <button onClick={handleClickSubmit}>등록</button>
                 <button onClick={handleClickCancel}>취소</button>
             </div>
