@@ -3,6 +3,8 @@ import Switch from '@mui/material/Switch';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom"
 
+import styles from './modals.module.css'
+
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 const NewSchedule = ({onSubmit, onClose}) =>{
@@ -51,15 +53,15 @@ const NewSchedule = ({onSubmit, onClose}) =>{
     }
     
     return(
-        <div>
-            <div>                
-                <p><input type="text" placeholder="제목" onChange={onChangeTitle}/></p>
-                <p>
-                    <input type="date" placeholder="기한" onChange={onChangeDate}/>
+        <div className={styles.container}>
+            <div className={styles['input-box']}>
+                <input type="text" placeholder="제목" onChange={onChangeTitle} className={styles.title}/>
+                <div className={styles['date-box']}>
+                    <input type="date" placeholder="기한" onChange={onChangeDate} className={styles.date}/>
                     <Switch {...label} defaultChecked />
                     공유
-                </p>
-                <textarea placeholder='내용' onChange={onChangeContent}/>
+                </div>
+                <textarea placeholder='내용' onChange={onChangeContent} className={styles['text-box']}/>
             </div>
             <div>
                 <button onClick={handleClickSubmit}>등록</button>
