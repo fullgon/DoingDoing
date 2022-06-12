@@ -3,6 +3,8 @@ import Switch from '@mui/material/Switch';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom"
 
+import styles from './modals.module.css'
+
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 const ModifySchedule = ({onSubmit, onClose, scheduleNo}) =>{
@@ -84,17 +86,17 @@ const ModifySchedule = ({onSubmit, onClose, scheduleNo}) =>{
     },[])
 
     return(
-        <div>
-            <div>                
-                <p><input type="text" value={schedule.title} onChange={onChangeTitle}/></p>
-                <p>
-                    <input type="date" value={schedule.endDate} onChange={onChangeDate}/>
+        <div className={styles.container}>
+            <div className={styles['input-box']}>          
+                <input type="text" value={schedule.title} onChange={onChangeTitle} className={styles.title}/>
+                <div className={styles['flex-end']}>
+                    <input type="date" value={schedule.endDate} onChange={onChangeDate} className={styles.date}/>
                     <Switch {...label} checked={schedule.isPublic} />
                     공유
-                </p>
-                <textarea value={schedule.content} onChange={onChangeContent}/>
+                </div>
+                <textarea value={schedule.content} onChange={onChangeContent} className={styles['text-box']}/>
             </div>
-            <div>
+            <div div className={styles['flex-end']}>
                 <button onClick={handleClickSubmit}>수정완료</button>
                 <button onClick={handleClickCancel}>수정취소</button>
             </div>
