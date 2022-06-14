@@ -33,6 +33,10 @@ const Privacy = () =>{
         }
     }
 
+    const goToBack = () =>{
+        navigate(`/schedule`);
+    }
+
     return(
         <div className={styles.flexbox}>
            {isPasswordChange? 
@@ -45,6 +49,7 @@ const Privacy = () =>{
                     <div className={styles.button} onClick={() => setIsPasswordChange(true)}>비밀번호 변경</div>
                     <div className={styles.button} onClick={withdrawal}>회원탈퇴</div>
                 </div>
+                <div onClick={goToBack} className={styles['back-btn']}>뒤로가기</div>
             </div>}
             
             

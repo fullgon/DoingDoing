@@ -11,10 +11,12 @@
 .button {
     cursor: pointer;
     width: 90%;
-    height: 2.5em;
+    height: 1.5em;
     margin: 1%;
     border-radius: 5px;
     border-width: 1px;
+    border: solid;
+    text-align: center;
 }
 
 .container{
@@ -36,4 +38,10 @@
 .button-group{
     width: 120%;
     display: flex;
+}
+
+.back-btn{
+    cursor: pointer;
+    font-size: 0.8em;
+    text-align: center;
 }
