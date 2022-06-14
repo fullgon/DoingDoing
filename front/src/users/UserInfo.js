@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import styles from "./users.module.css"
+import styles from "./userInfo.module.css"
 
 
 const UserInfo = () => {
@@ -23,12 +23,18 @@ const UserInfo = () => {
     },[])
 
     return(
-        <div>
-            <div>이름 : {user.name}</div>
-            <div>아이디 : {user.userId}</div>
-            <div>email : {user.email}</div>
-            <div>회사 :
-                {user.company ? user.company : null}
+        <div className={styles.container}>
+            <div className={styles['item-list']}>
+                <div>이름 :</div>
+                <div>아이디 :</div>
+                <div>email :</div>
+                <div>회사 :</div>
+            </div>
+            <div className={styles.item}>
+                <div>{user.name}</div>
+                <div>{user.userId}</div>
+                <div>{user.email}</div>
+                <div>{user.company ? user.company : null}</div>
             </div>
         </div>
     )
