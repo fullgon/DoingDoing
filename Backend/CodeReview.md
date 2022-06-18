@@ -37,11 +37,13 @@ TODO 스프링 시큐리티 공부 추천
 필요한 경우에만 custom exception 사용할 것.
 
 AS-IS
+
 ```
 
 ```
 
 TO-BE
+
 ```
 
 ```
@@ -128,14 +130,11 @@ ArrayList 는 List 의 구현체로
 
 인터페이스로 받으면 더 유연 하게 사용할 수 있음
 
-
 # 코드
 
 ## ScheduleShortInfo 객체 생성을 ScheduleVo 에 위임하면 어떨까요?
 
-    이런 방법은 생각도 못했습니다.... 감사합니다.
-    
-    추후에 DTO, Entity 변환 할 때도 이런식으로 하면 좋을 듯.
+추후에 DTO, Entity 변환 할 때도 이런식으로 하면 좋을 듯.
 
 AS-IS
 
@@ -175,19 +174,16 @@ TO-BE
 TODO 아직 코드에 적용 안 함
 
 ```
-scheduleList.stream()
-    .map(schedule -> getScheduleShortInfo(schedule, requestIsComplete , requestHasDeadLine))
-    .collect(Collectors.toList());
-    
+    scheduleList.stream()
+        .map(schedule -> getScheduleShortInfo(schedule, requestIsComplete , requestHasDeadLine))
+        .collect(Collectors.toList());
+
     
     public ScheduleShortInfo getScheduleShortInfo(ScheduleVo schedule, boolean requestIsComplete , boolean requestHasDeadLine){
         ..........
     }
 }
 ```
-
-
-
 
 ## 기타
 
@@ -257,3 +253,57 @@ TDD 같은 방식을 사용하면 개발하면서 설계와 리팩토링이 따�
 이런 개념들을 익히시고 의식하면서 개발하다 보면 자연스레 객체지향이나 디자인 패턴, TDD 같은 것들에 관심이 생길 겁니다.
 마지막으로 커밋 단위가 너무 광범위 합니다. 기능 단위로 좁히는 것이 좋을 것 같습니다.
 ```
+
+# 다른 분
+
+## DTO
+
+요청, 응답별 역할을 분리해 DTO 를 나눈 것 잘했다.
+
+추후 유지 보수 할때 다른 개발자가 보더라도 요청별 필요한 필드, 응답별 필요한 필드를 파악하기 위워 유지보수에 용이
+
+## 컨트롤러
+
+url 정보는 중복되는 경우가 아니라면 따로 관리하지 안혹 그대로 노출해도 좋을 듯
+
+컨트롤러에는 가급적 비즈니스 로직이 없는게 깔끔할 듯
+
+웹(http) 와 연관된 로직만 남기고 서비스나 엔티티 등에 책임을 전가시키는게 좋을 듯
+
+## 기타
+
+매직 넘거 사용은 가급적 지양
+
+필요할 경우 정적 변수로 따로 관리하는 것이 좋음
+
+## 스트림
+
+get() 메소드 사용은 지양하는 것이 좋음
+
+필수 데이터라면 null 처리를 위해 orElseThrow() 메서드 사용 추천
+
+## 유효성 검사
+
+유효성 검사 로직을 모아 메소드로 분리한 것 잘 하셨습니다.
+
+## 불변 객체
+
+가능하면 필드는 immutable 하게 관리하도록 final 지정해 주면 좋을 듯
+
+## 생성자 관련 어노테이션
+
+@AllArgsConstructor 혹은 @RequiredArgsConstructor 어노테이션의 경우
+
+동일한 타입의 필드가 두 개 이상일 경우 필드 순서를 변경할 시 문제를 야기시킬 수 있기 때문에 가능하면 사용을 지양하도록 권장하고 있습니다.
+
+전체 필드를 주입 받는 생성자를 하나 명시적으로 만들고 정적 팩토리 메소드를 사용하거나 빌더 패턴을 이용하는 것이 좋을 것 같습니다.
+
+# 느낀점
+
+내가 되고 싶은 사람들을 만나야 겠다.
+
+멘토링 덕분에 막연했던 부분들이 어느 정도 해소 되었다.
+
+말씀해 주신 부분 참고해 리팩터링 하면서 계속 공부 해야 겠다.
+
+친구들 취업 한다고 나도 그래야 되나 흔들리지 말고, 우선 기본을 갖추자
