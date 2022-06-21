@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailSendException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import xyz.parkh.doing.domain.model.ErrorDto;
@@ -36,8 +37,8 @@ public class MyAdvice {
         return ResponseEntity.badRequest().body(error);
     }
 
-    // 인자가 없을 경우 발생하는 에러
-    @ExceptionHandler(ValueException.class)
+    // 적합하지 않거나 적절하지 않은 인자가가 주어졌을 경우 발생하는 에러
+    @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorDto> requiredValueException(Exception e) {
         String message = e.getMessage();
         ErrorDto error = ErrorDto.builder().error(message).build();
@@ -48,8 +49,7 @@ public class MyAdvice {
     // 메일 전송 실패시 발생하는 에러
     @ExceptionHandler(MailSendException.class)
     public ResponseEntity<ErrorDto> mailSendException() {
-        String message = "이메일 전송에 실패했습니다.";
-        ErrorDto error = ErrorDto.builder().error(message).build();
+        ErrorDto error = ErrorDto.builder().error(ErrorMessage.EMAILSENDFAIL.getErrorMessage()).build();
 
         return ResponseEntity.badRequest().body(error);
     }
@@ -59,14 +59,13 @@ public class MyAdvice {
     //  MailSendException 이 먼저 발생해 아래로 내려오지 않음
     @ExceptionHandler(SMTPAddressFailedException.class)
     public ResponseEntity<ErrorDto> smtpAddressFailedException() {
-        String message = "유효하지 않은 이메일 주소입니다.";
-        ErrorDto error = ErrorDto.builder().error(message).build();
+        ErrorDto error = ErrorDto.builder().error(ErrorMessage.EMAILVALIEDFAIL.getErrorMessage()).build();
 
         return ResponseEntity.badRequest().body(error);
     }
 
     // 권한이 없는 사용자 정보를 수정하려 할 경우
-    @ExceptionHandler(DifferentAuthException.class)
+    @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorDto> differentAuthException(Exception e) {
         String message = e.getMessage();
         ErrorDto error = ErrorDto.builder().error(message).build();

@@ -9,7 +9,7 @@ enum, properties
 AS-IS
 
 ```
-throw new ValueException("필수 인자가 없습니다.");
+throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());;
 ```
 
 TO-BE

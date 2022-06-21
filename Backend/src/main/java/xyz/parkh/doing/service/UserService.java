@@ -3,11 +3,11 @@ package xyz.parkh.doing.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.entity.UserVo;
-import xyz.parkh.doing.exception.DifferentAuthException;
-import xyz.parkh.doing.exception.ValueException;
+import xyz.parkh.doing.exception.ErrorMessage;
 import xyz.parkh.doing.mapper.UserMapper;
 
 import java.util.Objects;
@@ -24,8 +24,9 @@ public class UserService {
         // TODO 친구 기능 추가 시 권한 확인하는 코드 작성 필요
         // 현재는 본인 정보만 조회 가능.
         if (!userId.equals(userIdInJwt)) {
-            throw new DifferentAuthException("접근 할 수 있는 권한이 없습니다.");
+            throw new AccessDeniedException(ErrorMessage.ACCESSDENIED.getErrorMessage());
         }
+
         UserVo userVo = userMapper.selectByUserId(userId);
 
         return ResponseEntity.ok().body(userVo);
@@ -37,14 +38,14 @@ public class UserService {
 
         // 필수 인자가 없는 경우
         if (userIdInJwt == null) {
-            throw new ValueException("필수 인자가 없습니다.");
+            throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
         }
 
         // 이미 존재하는 이메일로 변경하려 할 경우
         if (!Objects.isNull(email)) {
             UserVo existUser = userMapper.selectByEmail(email);
             if (!Objects.isNull(existUser)) {
-                throw new ValueException("이미 존재하는 Email 입니다.");
+                throw new IllegalArgumentException(ErrorMessage.EXISTEMAILORID.getErrorMessage());
             }
         }
 
@@ -58,7 +59,7 @@ public class UserService {
     public ResponseEntity removeUser(final String userIdInJwt) {
         // 필수 인자가 없는 경우
         if (userIdInJwt == null) {
-            throw new ValueException("필수 인자가 없습니다.");
+            throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
         }
 
         // 본인 정보만 삭제 가능

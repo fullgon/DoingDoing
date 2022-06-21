@@ -3,8 +3,8 @@ package xyz.parkh.doing.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,8 +13,7 @@ import xyz.parkh.doing.domain.entity.AuthKeyVo;
 import xyz.parkh.doing.domain.entity.AuthVo;
 import xyz.parkh.doing.domain.entity.UserVo;
 import xyz.parkh.doing.domain.model.*;
-import xyz.parkh.doing.exception.DifferentAuthException;
-import xyz.parkh.doing.exception.ValueException;
+import xyz.parkh.doing.exception.ErrorMessage;
 import xyz.parkh.doing.interceptor.JwtManager;
 import xyz.parkh.doing.mapper.AuthKeyMapper;
 import xyz.parkh.doing.mapper.AuthMapper;
@@ -40,7 +39,7 @@ public class AuthService {
     public ResponseEntity signIn(AuthVo requestAuthVo) {
         // 필수 인자가 입력 되지 않았을 경우
         if (requestAuthVo.getUserId() == null || requestAuthVo.getPassword() == null) {
-            throw new ValueException("필수 인자가 없습니다.");
+            throw new IllegalArgumentException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
         }
 
         String userId = requestAuthVo.getUserId();
@@ -48,8 +47,7 @@ public class AuthService {
 
         // 로그인 실패 - 아이디가 없는 경우
         if (selectAuthVo == null) {
-            ErrorDto errorDto = new ErrorDto().builder().error("존재하지 않는 아이디입니다.").build();
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDto);
+            throw new AccessDeniedException(ErrorMessage.NOEXISTID.getErrorMessage());
         }
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -61,8 +59,7 @@ public class AuthService {
             return ResponseEntity.ok().body(jwtDto);
         } else {
             // 로그인 실패 - 비밀번호가 틀린 경우
-            ErrorDto errorDto = new ErrorDto().builder().error("비밀번호가 일치하지 않습니다.").build();
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDto);
+            throw new AccessDeniedException(ErrorMessage.DIFFRENTPASSWORD.getErrorMessage());
         }
     }
 
@@ -80,7 +77,8 @@ public class AuthService {
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
         if (userId == null || password == null
                 || name == null || email == null) {
-            throw new ValueException("필수 인자가 없습니다.");
+            throw new IllegalArgumentException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
+
         }
 
         UserVo existUser;
@@ -88,13 +86,13 @@ public class AuthService {
         // ID 존재 여부 확인
         existUser = userMapper.selectByUserId(userId);
         if (existUser != null) {
-            throw new ValueException("이미 존재하는 ID 입니다.");
+            throw new IllegalArgumentException(ErrorMessage.EXISTID.getErrorMessage());
         }
 
         // Email 존재 여부 확인
         existUser = userMapper.selectByEmail(email);
         if (existUser != null) {
-            throw new ValueException("이미 존재하는 Email 입니다.");
+            throw new IllegalArgumentException(ErrorMessage.EXISTEMAIL.getErrorMessage());
         }
 
         // 비밀번호 암호화
@@ -126,7 +124,7 @@ public class AuthService {
 
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
         if (userId == null || email == null || type == null) {
-            throw new ValueException("필수 인자가 없습니다.");
+            throw new IllegalArgumentException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
         }
 
         UserVo userByEmail = userMapper.selectByEmail(email);
@@ -135,15 +133,15 @@ public class AuthService {
         // 비밀번호 찾기 : 서버에 저장된 이메일, 아이디가 요청과 일치하는지 확인
         if (type == 00) {
             if (Objects.isNull(userByEmail) || Objects.isNull(userById)) {
-                throw new ValueException("잘 못 된 요청 입니다.(아이디 혹은 이메일이 존재하지 않습니다.)");
+                throw new IllegalArgumentException(ErrorMessage.NOEXISTEMAILORID.getErrorMessage());
             }
             if (!Objects.equals(userByEmail, userById)) {
-                throw new ValueException("잘 못 된 요청 입니다.(아이디와 이메일이 일치하지 않습니다.)");
+                throw new IllegalArgumentException(ErrorMessage.DIFFRENTEMAILANDID.getErrorMessage());
             }
         } else if (type == 01) {
             // 회원 가입 : 요청한 정보가 서버에 없는지 확인
             if (!Objects.isNull(userByEmail) || !Objects.isNull(userById)) {
-                throw new ValueException("잘못 된 요청 입니다.(아이디 혹은 이메일이 이미 존재합니다.");
+                throw new IllegalArgumentException(ErrorMessage.EXISTEMAILORID.getErrorMessage());
             }
         }
 
@@ -175,14 +173,13 @@ public class AuthService {
 
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
         if (userId == null || email == null || authKey == null || type == null) {
-            throw new ValueException("필수 인자가 없습니다.");
+            throw new IllegalArgumentException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
         }
-
         AuthKeyVo readAuthKeyVo = authKeyMapper.selectByUserIdWithEmail(authKeyVo);
 
         // 조회된 인증키가 없을 경우
         if (Objects.isNull(readAuthKeyVo)) {
-            throw new ValueException("조회된 인증번호가 없습니다.");
+            throw new IllegalArgumentException(ErrorMessage.NOEXISTAUTHKEY.getErrorMessage());
         }
 
         Integer readType = readAuthKeyVo.getType();
@@ -190,7 +187,7 @@ public class AuthService {
         // 요청한 타입과 인증 하려하는 타입이 다를 경우
         // 회원 가입 이메일 인증시 type 만 바꿔서 JWT 반환해 주는 것을 방지하기 위함.
         if (!Objects.equals(type, readType)) {
-            throw new ValueException("요청한 타입과 인증 하려하는 타입이 다릅니다.");
+            throw new IllegalStateException(ErrorMessage.DIFFRENTSERVICETYPE.getErrorMessage());
         }
 
         String readAuthKey = readAuthKeyVo.getAuthKey();
@@ -216,7 +213,7 @@ public class AuthService {
     public ResponseEntity<CheckDto> checkUserId(final String userId) {
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
         if (userId == null) {
-            throw new ValueException("필수 인자가 없습니다.");
+            throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
         }
 
         UserVo existUser = userMapper.selectByUserId(userId);
@@ -234,7 +231,7 @@ public class AuthService {
     public ResponseEntity<CheckDto> checkEmail(final String email) {
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
         if (email == null) {
-            throw new ValueException("필수 인자가 없습니다.");
+            throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
         }
 
         UserVo existUser = userMapper.selectByEmail(email);
@@ -254,7 +251,7 @@ public class AuthService {
 
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
         if (userIdInJwt == null || password == null) {
-            throw new ValueException("필수 인자가 없습니다.");
+            throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
         }
 
         AuthVo existAuthVo = authMapper.selectByUserId(userIdInJwt);
@@ -274,12 +271,12 @@ public class AuthService {
 
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
         if (userIdInJwt == null || userId == null || password == null) {
-            throw new ValueException("필수 인자가 없습니다.");
+            throw new IllegalArgumentException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
         }
 
         // 권한이 없는 사용자 정보를 수정하려 할 경우
         if (!userId.equals(userIdInJwt)) {
-            throw new DifferentAuthException("접근 할 수 있는 권한이 없습니다.");
+            throw new AccessDeniedException("접근 할 수 있는 권한이 없습니다.");
         }
 
         AuthVo existAuthVo = authMapper.selectByUserId(userIdInJwt);

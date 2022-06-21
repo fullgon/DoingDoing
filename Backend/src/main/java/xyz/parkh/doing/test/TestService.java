@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.entity.UserVo;
-import xyz.parkh.doing.exception.ValueException;
 import xyz.parkh.doing.mapper.UserMapper;
 
 import java.util.Objects;
@@ -26,7 +25,7 @@ public class TestService {
 
     public void ExceptionHandlerTest(String data) {
         if ("".equals(data)) {
-            throw new ValueException("TestService 에서 넘겨준 값");
+            throw new IllegalStateException("TestService 에서 넘겨준 값");
         }
     }
 
@@ -60,7 +59,7 @@ public class TestService {
 
     public void customNull(String data) {
         if (Objects.isNull(data)) {
-            throw new ValueException("testService 에서 넘긴 메시지");
+            throw new IllegalStateException("testService 에서 넘긴 메시지");
         }
     }
 

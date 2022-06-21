@@ -3,13 +3,13 @@ package xyz.parkh.doing.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.entity.ScheduleVo;
 import xyz.parkh.doing.domain.model.ScheduleShortInfo;
 import xyz.parkh.doing.domain.model.ScheduleStatusDto;
-import xyz.parkh.doing.exception.DifferentAuthException;
-import xyz.parkh.doing.exception.ValueException;
+import xyz.parkh.doing.exception.ErrorMessage;
 import xyz.parkh.doing.mapper.ScheduleMapper;
 
 import java.time.LocalDate;
@@ -31,22 +31,21 @@ public class ScheduleService {
     public ResponseEntity<ScheduleVo> findSchedule(final String userIdInJwt, final String userId, final Integer scheduleNo) {
         // 필수 인자가 없는 경우
         if (userIdInJwt == null || userId == null || scheduleNo == null) {
-            throw new ValueException("필수 인자가 없습니다.");
+            throw new IllegalArgumentException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
         }
 
         // TODO 친구 기능 추가 시 권한 확인하는 코드 작성 필요, 현재 본인 정보만 조회 가능.
         // 본인이 아닐 경우
         if (!userId.equals(userIdInJwt)) {
-            throw new DifferentAuthException("접근 할 수 있는 권한이 없습니다.");
+            throw new AccessDeniedException(ErrorMessage.ACCESSDENIED.getErrorMessage());
         }
 
         ScheduleVo schedule = scheduleMapper.selectByNo(scheduleNo);
 
         // 일정이 없을 경우
         if (schedule == null) {
-            throw new ValueException("조회 할 일정이 없습니다.");
+            throw new IllegalArgumentException(ErrorMessage.NOEXISTSCHEDULE.getErrorMessage());
         }
-
         return ResponseEntity.ok().body(schedule);
     }
 
@@ -61,19 +60,19 @@ public class ScheduleService {
 
         // 필수 인자가 없는 경우
         if (userIdInJwt == null || userId == null || requestIsComplete == null) {
-            throw new ValueException("필수 인자가 없습니다.");
+            throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
         }
 
         // 완료 되지 않은 일정 조회 시 기한이 있는 것 없는 것 구분 필수
         if (!requestIsComplete && requestHasDeadLine == null) {
-            throw new ValueException("필수 인자가 없습니다.");
+            throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
         }
 
         // TODO 친구 기능 추가 시 권한 확인하는 코드 작성 필요, 현재 본인 정보만 조회 가능.
 
         // 본인이 아닐 경우
         if (!userId.equals(userIdInJwt)) {
-            throw new DifferentAuthException("접근 할 수 있는 권한이 없습니다.");
+            throw new AccessDeniedException(ErrorMessage.ACCESSDENIED.getErrorMessage());
         }
 
         List<ScheduleVo> scheduleList = scheduleMapper.selectByUserId(userId);
@@ -129,12 +128,12 @@ public class ScheduleService {
 
         // 필수 인자가 없는 경우
         if (userIdInJwt == null || userId == null || title == null) {
-            throw new ValueException("필수 인자가 없습니다.");
+            throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
         }
 
         // TODO 친구가 글 작성하는 기능 추가 시 권한 확인하는 코드 작성 필요
         if (!userIdInJwt.equals(userId)) {
-            throw new DifferentAuthException("접근 할 수 있는 권한이 없습니다.");
+            throw new AccessDeniedException(ErrorMessage.ACCESSDENIED.getErrorMessage());
         }
 
         scheduleVo.setUserId(userIdInJwt);
@@ -148,16 +147,16 @@ public class ScheduleService {
 
         // 필수 인자가 없는 경우
         if (userIdInJwt == null || userId == null || scheduleNo == null) {
-            throw new ValueException("필수 인자가 없습니다.");
+            throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
         }
 
         if (!userId.equals(userIdInJwt)) {
-            throw new DifferentAuthException("접근 할 수 있는 권한이 없습니다.");
+            throw new AccessDeniedException(ErrorMessage.ACCESSDENIED.getErrorMessage());
         }
 
         ScheduleVo existScheduleVo = scheduleMapper.selectByNo(scheduleNo);
         if (existScheduleVo == null) {
-            throw new ValueException("수정 할 일정이 없습니다.");
+            throw new IllegalStateException(ErrorMessage.NOEXISTSCHEDULE.getErrorMessage());
         }
 
         scheduleVo.setNo(scheduleNo);
@@ -174,11 +173,11 @@ public class ScheduleService {
     public ResponseEntity removeSchedule(final String userIdInJwt, final String userId, final Integer scheduleNo) {
         // 필수 인자가 없는 경우
         if (userIdInJwt == null || userId == null || scheduleNo == null) {
-            throw new ValueException("필수 인자가 없습니다.");
+            throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
         }
 
         if (!userId.equals(userIdInJwt)) {
-            throw new DifferentAuthException("접근 할 수 있는 권한이 없습니다.");
+            throw new AccessDeniedException(ErrorMessage.ACCESSDENIED.getErrorMessage());
         }
 
         scheduleMapper.delete(scheduleNo);
