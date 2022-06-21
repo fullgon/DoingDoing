@@ -203,8 +203,12 @@ public class AuthService {
         boolean isBeforeOver10minute = LocalDateTime.now().isBefore(readCreateTime.plusMinutes(10));
 
         // 조회된 키가 10분 이내 생성되었고 인증키가 일치하는지.
-        Boolean isCorrectAuthKey = (isAfterCreateKey && isBeforeOver10minute && authKey.equals(readAuthKey));
-        jwtCheckDto = new JwtCheckDto().builder().check(isCorrectAuthKey).jwt(jwt).build();
+        if (!(isAfterCreateKey && isBeforeOver10minute)) {
+            throw new IllegalArgumentException(ErrorMessage.NOEXISTAUTHKEY.getErrorMessage());
+        } else if (!authKey.equals(readAuthKey)) {
+            throw new IllegalArgumentException(ErrorMessage.DIFFRENTAUTHKEY.getErrorMessage());
+        }
+        jwtCheckDto = new JwtCheckDto().builder().check(true).jwt(jwt).build();
 
         return ResponseEntity.ok().body(jwtCheckDto);
     }

@@ -580,3 +580,34 @@ vue 를 빌드해서 nodejs 에 넣기만 하니까 바로 배포되는게 신�
 굳. JPA, 테스트 코드가 더 중요한 듯.
 
 [나중에 참고](https://developer.okta.com/blog/2018/07/19/simple-crud-react-and-spring-boot)
+
+## 인증 번호 확인 수정
+
+2022.06.22.
+
+변경 사항
+
+/check/auth-key
+
+* 기존
+
+```
+{
+  "check": false,
+  "jwt": "eyJraWQiOiJteUtleUlkIiwiYWxnIjoiSFMyNTYifQ.eyJpc3MiOiJQQVJLSCIsImp0aSI6IjZjN2ZlYTllMDAxMDQzNWI4ZTdhMzZiNjdlYjMzMTU3IiwiaWF0IjoxNjU1ODI0MjExLCJuYmYiOjE2NTU4MjQyMTEsImV4cCI6MTY1NzYzODYxMSwidXNlcklkIjoiaHllb24ifQ.w7d3E2PNRqL3Kx4JLxlaqmH80So5CDTcZt3GBZb3ttU"
+}
+```
+인증번호 유효기간이 지났을 경우 이렇게 잘 못 옴
+
+* 변경
+```
+* // 인증 번호 유효 시간이 지났을 경우
+{
+  "error": "조회된 인증번호가 없습니다."
+}
+
+// 인증 번호가 틀렸을 경우
+{
+  "error": "인증 번호가 일치하지 않습니다."
+}
+```
