@@ -1,16 +1,17 @@
 package xyz.parkh.doing.domain.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class JwtCheckDto{
     private Boolean check;
     private String jwt;
+
+    public JwtCheckDto(Boolean check, String jwt) {
+        this.check = check;
+        this.jwt = jwt;
+    }
 }

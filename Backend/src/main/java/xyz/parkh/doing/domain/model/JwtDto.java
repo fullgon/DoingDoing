@@ -1,15 +1,18 @@
 package xyz.parkh.doing.domain.model;
 
 
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class JwtDto {
     private String jwt;
+
+    public JwtDto(String jwt) {
+        this.jwt = jwt;
+    }
 }

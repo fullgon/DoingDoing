@@ -74,7 +74,7 @@ public class UserMapperTests {
         String testUserId = testUser.getUserId();
         int insertStatus = userMapper.insert(testUser);
         Assert.isTrue(insertStatus == 1);
-        UserVo newUser = new UserVo().builder().userId(testUserId).name("newName").build();
+        UserVo newUser = UserVo.builder().userId(testUserId).name("newName").build();
 
         // When
         int updateStatus = userMapper.update(newUser);
@@ -98,7 +98,7 @@ public class UserMapperTests {
         String testUserId = testUser.getUserId();
         int insertStatus = userMapper.insert(testUser);
         Assert.isTrue(insertStatus == 1);
-        UserVo newUser = new UserVo().builder().userId(testUserId).company("newCompany").build();
+        UserVo newUser = UserVo.builder().userId(testUserId).company("newCompany").build();
 
         // When
         int updateStatus = userMapper.update(newUser);

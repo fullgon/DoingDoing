@@ -18,7 +18,7 @@ public class Utils {
         String company = generatedOnlyString(10);
         String email = generatedOnlyString(5) + "@" + generatedOnlyString(5) + "." + generatedOnlyString(3);
 
-        UserVo user = new UserVo().builder()
+        UserVo user = UserVo.builder()
                 .userId(userId).name(name).company(company).email(email).build();
 
         return user;
@@ -34,7 +34,7 @@ public class Utils {
         LocalDateTime now = LocalDateTime.now();
         Integer type = 0;
 
-        AuthKeyVo authKeyVo = new AuthKeyVo().builder()
+        AuthKeyVo authKeyVo = AuthKeyVo.builder()
                 .userId(userId).authKey(authKey).crateTime(now).email(email).type(type).build();
 
         return authKeyVo;
@@ -43,7 +43,7 @@ public class Utils {
     // 테스트 AuthVo 생성
     public static AuthVo generateAuth(String userId) {
         String password = generatedStringWithInt(10);
-        AuthVo authVo = new AuthVo().builder()
+        AuthVo authVo = AuthVo.builder()
                 .userId(userId).password(password).build();
         return authVo;
     }
@@ -56,7 +56,7 @@ public class Utils {
         Boolean isComplete = true;
         // DB 저장시 milliseconds 단위 저장 안되고 반올림 되므로 withNano(0) 추가
         LocalDate endDate = LocalDate.now().plusDays(1);
-        ScheduleVo schedule = new ScheduleVo().builder()
+        ScheduleVo schedule = ScheduleVo.builder()
                 .userId(userId).title(title).content(content).isPublic(isPublic).isComplete(isComplete).endDate(endDate).build();
         return schedule;
     }

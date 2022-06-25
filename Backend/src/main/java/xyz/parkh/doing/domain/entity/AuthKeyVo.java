@@ -1,7 +1,7 @@
 package xyz.parkh.doing.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class AuthKeyVo {
     private Integer no;
@@ -21,4 +20,13 @@ public class AuthKeyVo {
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime crateTime;
+
+    public AuthKeyVo(Integer no, String userId, String email, String authKey, Integer type, LocalDateTime crateTime) {
+        this.no = no;
+        this.userId = userId;
+        this.email = email;
+        this.authKey = authKey;
+        this.type = type;
+        this.crateTime = crateTime;
+    }
 }

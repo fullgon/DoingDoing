@@ -1,17 +1,15 @@
 package xyz.parkh.doing.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 // NO, USER_ID, TITLE, CONTENT, END_DATE, IS_PUBLIC, IS_COMPLETE
 public class ScheduleVo {
@@ -25,4 +23,14 @@ public class ScheduleVo {
 
     private Boolean isPublic;
     private Boolean isComplete; // 생성 시 default : false
+
+    public ScheduleVo(Integer no, String userId, String title, String content, LocalDate endDate, Boolean isPublic, Boolean isComplete) {
+        this.no = no;
+        this.userId = userId;
+        this.title = title;
+        this.content = content;
+        this.endDate = endDate;
+        this.isPublic = isPublic;
+        this.isComplete = isComplete;
+    }
 }

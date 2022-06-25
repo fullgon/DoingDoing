@@ -91,7 +91,7 @@ public class ScheduleMapperTests {
         Assertions.assertEquals(schedule, selectSchedule);
 
         // 부분 수정을 위한 일정 생성
-        ScheduleVo updateSchedule = new ScheduleVo().builder()
+        ScheduleVo updateSchedule = ScheduleVo.builder()
                 .userId(testUserId).no(testScheduleNo).content("newContent").build();
 
         // When

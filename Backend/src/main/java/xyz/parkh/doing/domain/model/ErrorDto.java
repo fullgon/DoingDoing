@@ -1,14 +1,14 @@
 package xyz.parkh.doing.domain.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class ErrorDto {
     private String error;
+
+    public ErrorDto(String error) {
+        this.error = error;
+    }
 }

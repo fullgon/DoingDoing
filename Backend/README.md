@@ -650,6 +650,18 @@ throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage
 
 기본 생성자는 접근 제어를 지정해, 의미 없는 객체 생성 막는 것을 권장
 
+Mybatis 의 경우 객체를 생성할 때 디폴트 생성자가 필요함.
+
+PROTECTED 로 접근 제어
+
+기본 생성자 없이 Controller 에서 @RequestBody 로 받을 경우 HttpMessageConversionException 발생
+
+참고 하면 좋을 글
+
+https://jojoldu.tistory.com/407
+
+https://velog.io/@conatuseus/RequestBody에-기본-생성자는-왜-필요한가
+
 * @Data
 
 무분별한 setter 는 jpa 를 사용할 경우 @toString 으로 인한 순환 참조 문제를 야기 시킬 수 있으므로,

@@ -55,7 +55,7 @@ public class AuthService {
         // 로그인 성공
         if (signInStatus) {
             String jwt = JwtManager.generateToken(userId);
-            JwtDto jwtDto = new JwtDto().builder().jwt(jwt).build();
+            JwtDto jwtDto = JwtDto.builder().jwt(jwt).build();
             return ResponseEntity.ok().body(jwtDto);
         } else {
             // 로그인 실패 - 비밀번호가 틀린 경우
@@ -100,12 +100,12 @@ public class AuthService {
         userAuthDto.setPassword(hashedPassword);
 
         // UserAuthVo -> UserVo
-        UserVo userVo = new UserVo().builder().userId(userId)
+        UserVo userVo = UserVo.builder().userId(userId)
                 .email(email).company(company)
                 .name(name).build();
 
         // UserAuthVo -> AuthVo
-        AuthVo authVo = new AuthVo().builder().userId(userAuthDto.getUserId())
+        AuthVo authVo = AuthVo.builder().userId(userAuthDto.getUserId())
                 .password(userAuthDto.getPassword()).build();
 
         // TODO try 로 에러 처리? or ExceptionHandler 에 등록?
@@ -152,7 +152,7 @@ public class AuthService {
         String authKey = RandomStringUtils.random(length, useLetters, useNumbers);
 
         // 인증 번호 저장
-        AuthKeyVo authKeyVo = new AuthKeyVo().builder().userId(userId).authKey(authKey)
+        AuthKeyVo authKeyVo = AuthKeyVo.builder().userId(userId).authKey(authKey)
                 .email(email).type(type).crateTime(LocalDateTime.now()).build();
         authKeyMapper.insert(authKeyVo);
 
@@ -208,7 +208,7 @@ public class AuthService {
         if (type == 00) {
             jwt = JwtManager.generateToken(userId);
         }
-        jwtCheckDto = new JwtCheckDto().builder().check(true).jwt(jwt).build();
+        jwtCheckDto = JwtCheckDto.builder().check(true).jwt(jwt).build();
 
         return ResponseEntity.ok().body(jwtCheckDto);
     }
@@ -224,10 +224,10 @@ public class AuthService {
 
         // 아이디로 조회된 사용자가 없을 경우 true / 있을 경우 false
         if (existUser != null) {
-            CheckDto checkDto = new CheckDto().builder().check(true).build();
+            CheckDto checkDto = CheckDto.builder().check(true).build();
             return ResponseEntity.ok().body(checkDto);
         }
-        CheckDto checkDto = new CheckDto().builder().check(false).build();
+        CheckDto checkDto = CheckDto.builder().check(false).build();
         return ResponseEntity.ok().body(checkDto);
     }
 
@@ -242,10 +242,10 @@ public class AuthService {
 
         // 이메일로 조회된 사용자가 없을 경우 true / 있을 경우 false
         if (existUser != null) {
-            CheckDto checkDto = new CheckDto().builder().check(true).build();
+            CheckDto checkDto = CheckDto.builder().check(true).build();
             return ResponseEntity.ok().body(checkDto);
         }
-        CheckDto checkDto = new CheckDto().builder().check(false).build();
+        CheckDto checkDto = CheckDto.builder().check(false).build();
         return ResponseEntity.ok().body(checkDto);
     }
 
@@ -264,7 +264,7 @@ public class AuthService {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Boolean isSame = passwordEncoder.matches(authVo.getPassword(), existAuthVo.getPassword());
 
-        CheckDto checkDto = new CheckDto().builder().check(isSame).build();
+        CheckDto checkDto = CheckDto.builder().check(isSame).build();
         return ResponseEntity.ok().body(checkDto);
     }
 
