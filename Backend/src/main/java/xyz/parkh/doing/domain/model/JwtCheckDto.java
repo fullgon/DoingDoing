@@ -3,10 +3,11 @@ package xyz.parkh.doing.domain.model;
 
 import lombok.*;
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class JwtCheckDto{
+public class JwtCheckDto {
     private Boolean check;
     private String jwt;
 

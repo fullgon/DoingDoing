@@ -1,11 +1,9 @@
 package xyz.parkh.doing.domain.model;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class RequestAuthKeyVo {

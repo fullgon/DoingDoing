@@ -255,7 +255,7 @@ public class AuthService {
 
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
         if (userIdInJwt == null || password == null) {
-            throw new NullPointerException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
+            throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
         }
 
         AuthVo existAuthVo = authMapper.selectByUserId(userIdInJwt);

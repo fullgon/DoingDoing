@@ -2,7 +2,8 @@ package xyz.parkh.doing.domain.model;
 
 import lombok.*;
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class ErrorDto {

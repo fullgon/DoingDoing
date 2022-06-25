@@ -1,16 +1,14 @@
 package xyz.parkh.doing.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
 // isPublic 로 front 에서 값을 거르는게 아니라
 // 글을 조회하는 사람이 권한이 있으면 그걸 주는게 더 낫지 않나
-@Data
+@Setter
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class ScheduleShortInfo {

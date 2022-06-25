@@ -1,14 +1,12 @@
 package xyz.parkh.doing.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 // NO, USER_ID, TITLE, CONTENT, END_DATE, IS_PUBLIC, IS_COMPLETE

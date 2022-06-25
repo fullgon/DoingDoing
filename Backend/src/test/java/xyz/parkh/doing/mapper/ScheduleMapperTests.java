@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.entity.ScheduleVo;
 import xyz.parkh.doing.domain.entity.UserVo;
 import xyz.parkh.doing.utils.Utils;
@@ -52,7 +53,7 @@ public class ScheduleMapperTests {
         ScheduleVo schedule = selectAllSchedule.get(0);
         Integer testScheduleNo = schedule.getNo();
         ScheduleVo selectSchedule = scheduleMapper.selectByNo(testScheduleNo);
-        Assert.isTrue(schedule.equals(selectSchedule));
+        Assertions.assertEquals(schedule.getNo(), selectSchedule.getNo());
 
         // 일정 수정
         ScheduleVo newSchedule = Utils.generateSchedule(testUserId);
@@ -88,7 +89,8 @@ public class ScheduleMapperTests {
         ScheduleVo schedule = selectAllSchedule.get(0);
         Integer testScheduleNo = schedule.getNo();
         ScheduleVo selectSchedule = scheduleMapper.selectByNo(testScheduleNo);
-        Assertions.assertEquals(schedule, selectSchedule);
+        // @Data 제거로 equals 사용 불가. overriding 대신 일정 번호 비교로 대체
+        Assertions.assertEquals(schedule.getNo(), selectSchedule.getNo());
 
         // 부분 수정을 위한 일정 생성
         ScheduleVo updateSchedule = ScheduleVo.builder()

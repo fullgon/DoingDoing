@@ -705,6 +705,29 @@ public class AuthVo {
 
 필요한 어노테이션을 선택적으로 사용하는 것이 좋음
 
+TO-BE
+
+```
+@Data
+```
+
+AS-IS
+
+```
+@Getter
+@Setter
+```
+
++
+
+UserVo 의 경우 userId 로 조회한 UserVo 와 email 로 조회한 UserVo 가 같은지 비교하기 위해 equals 오버라이딩 필요
+
+어떤건 equals 있고 어떤건 equals 없고 하면 괜히 유지 보수성만 떨어 뜨리는 거 아닌가?
+
+일단 override 했고, 추후 equals 없이 동일한 기능 하도록 생각해 볼 것.
+
+------------------------------- TODO 여기서 부터 하면 됨 -------------------------------
+
 * 멤버 변수 final
 
 JPA 엔티티를 제외하고 객체의 멤버 변수는 final 로 지정해 불변하게 지정해 주는 것이 좋음
