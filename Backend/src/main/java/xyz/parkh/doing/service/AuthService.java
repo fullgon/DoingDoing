@@ -193,11 +193,6 @@ public class AuthService {
         String readAuthKey = readAuthKeyVo.getAuthKey();
         LocalDateTime readCreateTime = readAuthKeyVo.getCrateTime();
 
-        // 비밀번호 찾기 인 경우 Jwt 함께 반환
-        if (type == 00) {
-            jwt = JwtManager.generateToken(userId);
-        }
-
         // 키 생성 시간 <= 현재 시간 <= 키 생성 시간 + 10 분
         boolean isAfterCreateKey = LocalDateTime.now().isAfter(readCreateTime);
         boolean isBeforeOver10minute = LocalDateTime.now().isBefore(readCreateTime.plusMinutes(10));
@@ -207,6 +202,11 @@ public class AuthService {
             throw new IllegalArgumentException(ErrorMessage.NOEXISTAUTHKEY.getErrorMessage());
         } else if (!authKey.equals(readAuthKey)) {
             throw new IllegalArgumentException(ErrorMessage.DIFFRENTAUTHKEY.getErrorMessage());
+        }
+
+        // 비밀번호 찾기 인 경우 Jwt 함께 반환
+        if (type == 00) {
+            jwt = JwtManager.generateToken(userId);
         }
         jwtCheckDto = new JwtCheckDto().builder().check(true).jwt(jwt).build();
 

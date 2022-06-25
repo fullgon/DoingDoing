@@ -1,22 +1,28 @@
 # 기술
 
-## 에러 메시지
+## 에러 메시지, 예외 처리
 
 에러 메시지를 매번 입력 하는 것 보다 한 곳에서 관리하는 것이 유지 보수에 좋음
 
-enum, properties
+enum, properties 이용
+
+되도록이면 표준 예외처리를 통해 예외처리하고
+
+필요한 경우에만 custom exception 사용할 것.
 
 AS-IS
 
 ```
-throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());;
+throw new ValueException("필수 인자가 없습니다.");
 ```
 
 TO-BE
 
 ```
-TODO enum 으로 변경
+throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());;
 ```
+
+기본으로 지원하는 Exception 로 변경하고, 에러 메시지를 열거형으로 관리하도록 변경
 
 ## 검증
 
@@ -29,24 +35,6 @@ TODO 스프링 시큐리티 공부 추천
 ## 테스트
 
 실패하는 케이스에 대한 테스트 코드가 빠짐 (exception 발생)
-
-## 예외 처리
-
-되도록이면 표준 예외처리를 통해 예외처리하고
-
-필요한 경우에만 custom exception 사용할 것.
-
-AS-IS
-
-```
-
-```
-
-TO-BE
-
-```
-
-```
 
 # 구조
 

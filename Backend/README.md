@@ -4,6 +4,8 @@
 
 예정 : Swagger 적용 / Test 코드 작성 / 친구 기능 추가
 
+2022.06.21. 에러 메시지 열거형으로 관리
+
 2022.06.09. 배포 완료.
 
 2022.06.02~. 프론트와 통합하며 찾은 버그 수정
@@ -581,6 +583,26 @@ vue 를 빌드해서 nodejs 에 넣기만 하니까 바로 배포되는게 신�
 
 [나중에 참고](https://developer.okta.com/blog/2018/07/19/simple-crud-react-and-spring-boot)
 
+## 에러 메시지 열거형으로 관리
+
+2022.06.21.
+
+AS-IS
+
+```
+throw new ValueException("필수 인자가 없습니다.");
+```
+
+TO-BE
+
+```
+throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());;
+```
+
+기본으로 지원하는 Exception 로 변경하고
+
+에러 메시지를 열거형으로 관리하도록 변경
+
 ## 인증 번호 확인 수정
 
 2022.06.22.
@@ -597,9 +619,11 @@ vue 를 빌드해서 nodejs 에 넣기만 하니까 바로 배포되는게 신�
   "jwt": "eyJraWQiOiJteUtleUlkIiwiYWxnIjoiSFMyNTYifQ.eyJpc3MiOiJQQVJLSCIsImp0aSI6IjZjN2ZlYTllMDAxMDQzNWI4ZTdhMzZiNjdlYjMzMTU3IiwiaWF0IjoxNjU1ODI0MjExLCJuYmYiOjE2NTU4MjQyMTEsImV4cCI6MTY1NzYzODYxMSwidXNlcklkIjoiaHllb24ifQ.w7d3E2PNRqL3Kx4JLxlaqmH80So5CDTcZt3GBZb3ttU"
 }
 ```
+
 인증번호 유효기간이 지났을 경우 이렇게 잘 못 옴
 
 * 변경
+
 ```
 * // 인증 번호 유효 시간이 지났을 경우
 {
@@ -610,4 +634,44 @@ vue 를 빌드해서 nodejs 에 넣기만 하니까 바로 배포되는게 신�
 {
   "error": "인증 번호가 일치하지 않습니다."
 }
+```
+
+## 롬복 어노테이션 관련 수정 - domain
+
+2022.06.25.
+
+* @AllArgsConstructor
+
+멤버 변수 선언 순서에 영항을 받지 않아 의도치 않은 예외를 발생시킬 수 있음
+
+생성자를 명시적으로 만들고, Builder 패턴 이용할 것.
+
+* @NoArgsConstructor
+
+기본 생성자는 접근 제어를 지정해, 의미 없는 객체 생성 막는 것을 권장
+
+* @Data
+
+무분별한 setter 는 jpa 를 사용할 경우 @toString 으로 인한 순환 참조 문제를 야기 시킬 수 있으므로,
+
+필요한 어노테이션을 선택적으로 사용하는 것이 좋음
+
+* 멤버 변수 final
+
+JPA 엔티티를 제외하고 객체의 멤버 변수는 final 로 지정해 불변하게 지정해 주는 것이 좋음
+
+* Setter
+
+필요한 경우에만 의미 있는 이름으로 메소드를 새로 만들어 사용하는 것이 유지 보수 차원에서 좋음
+
+AS-IS
+
+```
+existAuthVo.setPassword(hashedPassword);
+```
+
+TO-BE
+
+```
+existAuthVo.updatePassword(hashedPassword);
 ```
