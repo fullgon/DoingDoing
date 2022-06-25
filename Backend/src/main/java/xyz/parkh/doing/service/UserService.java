@@ -38,7 +38,7 @@ public class UserService {
 
         // 필수 인자가 없는 경우
         if (userIdInJwt == null) {
-            throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
+            throw new NullPointerException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
         }
 
         // 이미 존재하는 이메일로 변경하려 할 경우
@@ -59,7 +59,7 @@ public class UserService {
     public ResponseEntity removeUser(final String userIdInJwt) {
         // 필수 인자가 없는 경우
         if (userIdInJwt == null) {
-            throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
+            throw new NullPointerException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
         }
 
         // 본인 정보만 삭제 가능

@@ -187,7 +187,7 @@ public class AuthService {
         // 요청한 타입과 인증 하려하는 타입이 다를 경우
         // 회원 가입 이메일 인증시 type 만 바꿔서 JWT 반환해 주는 것을 방지하기 위함.
         if (!Objects.equals(type, readType)) {
-            throw new IllegalStateException(ErrorMessage.DIFFRENTSERVICETYPE.getErrorMessage());
+            throw new IllegalArgumentException(ErrorMessage.DIFFRENTSERVICETYPE.getErrorMessage());
         }
 
         String readAuthKey = readAuthKeyVo.getAuthKey();
@@ -217,7 +217,7 @@ public class AuthService {
     public ResponseEntity<CheckDto> checkUserId(final String userId) {
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
         if (userId == null) {
-            throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
+            throw new NullPointerException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
         }
 
         UserVo existUser = userMapper.selectByUserId(userId);
@@ -235,7 +235,7 @@ public class AuthService {
     public ResponseEntity<CheckDto> checkEmail(final String email) {
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
         if (email == null) {
-            throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
+            throw new NullPointerException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
         }
 
         UserVo existUser = userMapper.selectByEmail(email);
@@ -255,7 +255,7 @@ public class AuthService {
 
         // 필수 인자가 입력 되지 않았을 경우 에러 반환
         if (userIdInJwt == null || password == null) {
-            throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
+            throw new NullPointerException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
         }
 
         AuthVo existAuthVo = authMapper.selectByUserId(userIdInJwt);

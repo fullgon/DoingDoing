@@ -25,7 +25,7 @@ public class TestService {
 
     public void ExceptionHandlerTest(String data) {
         if ("".equals(data)) {
-            throw new IllegalStateException("TestService 에서 넘겨준 값");
+            throw new IllegalArgumentException("TestService 에서 넘겨준 값");
         }
     }
 
@@ -59,7 +59,7 @@ public class TestService {
 
     public void customNull(String data) {
         if (Objects.isNull(data)) {
-            throw new IllegalStateException("testService 에서 넘긴 메시지");
+            throw new IllegalArgumentException("testService 에서 넘긴 메시지");
         }
     }
 

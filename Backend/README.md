@@ -662,6 +662,43 @@ https://jojoldu.tistory.com/407
 
 https://velog.io/@conatuseus/RequestBody에-기본-생성자는-왜-필요한가
 
+TO-BE
+
+```
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class AuthKeyVo {
+    private Integer no;
+    private String userId;
+    private String email;
+    private String authKey;
+    private Integer type;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime crateTime;
+}
+```
+
+AS-IS
+
+```
+@Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+// USER_ID, PASSWORD
+public class AuthVo {
+    private String userId;
+    private String password;
+
+    public AuthVo(String userId, String password) {
+        this.userId = userId;
+        this.password = password;
+    }
+}
+```
+
 * @Data
 
 무분별한 setter 는 jpa 를 사용할 경우 @toString 으로 인한 순환 참조 문제를 야기 시킬 수 있으므로,
@@ -687,3 +724,33 @@ TO-BE
 ```
 existAuthVo.updatePassword(hashedPassword);
 ```
+
+## Exception 변경
+
+IllegalStateException vs IllegalArgumentException
+
+IllegalArgumentException : 넘겨 받은 매개변수가 잘못 된 값을 가지고 있을 경우
+
+IllegalStateException : 해당 메서드가 부적절한 시기에 호출됐을 경우
+
+필수 인자가 없는 경우는 주로 NullPointerException 을 던진다.
+
+AS-IS
+
+```
+throw new IllegalStateException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());;
+...
+throw new IllegalStateException(ErrorMessage.DIFFRENTSERVICETYPE.getErrorMessage());
+```
+
+TO-BE
+
+```
+throw new NullPointerException(ErrorMessage.NOREQUIREDPARAMETER.getErrorMessage());
+...
+throw new IllegalArgumentException(ErrorMessage.DIFFRENTEMAILANDID.getErrorMessage());
+```
+
+https://jaehun2841.github.io/2019/03/10/effective-java-item72/#표준-예외를-재사용하라
+
+https://www.inflearn.com/questions/504063

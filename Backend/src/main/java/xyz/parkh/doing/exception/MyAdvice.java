@@ -19,7 +19,8 @@ public class MyAdvice {
     public ResponseEntity<ErrorDto> exception(Exception e) {
         String message = "처리하지 못한 에러 발생 { " + e.getClass().getName() + " } ExceptionHandler 추가";
         ErrorDto error = ErrorDto.builder().error(message).build();
-
+        log.error(e.getClass().getName());
+        log.error(e.getMessage());
         return ResponseEntity.internalServerError().body(error);
     }
 
@@ -31,6 +32,7 @@ public class MyAdvice {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
+    // 필수 인자가 없을 경우
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<ErrorDto> nullPointException(Exception e) {
         ErrorDto error = ErrorDto.builder().error(e.getClass().getName()).build();
