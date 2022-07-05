@@ -4,6 +4,7 @@ import { modals } from "../../modals/Modals"
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"
 import axios from "axios";
+import {getSchedules} from "../../axios/scheduleAPI/getSchedules"
 
 function ToDo(){
     
@@ -18,29 +19,7 @@ function ToDo(){
             type:"detail",
             scheduleNo,
         });
-    };
-
-    const getSchedules = async () =>{
-        try{
-            const userId = localStorage.getItem('userId');
-            const res = await axios.get(`/api/schedules/${userId}`,{
-                headers:{
-                    'Authorization' : localStorage.getItem('accessToken'),
-                },
-                params:{
-                    isComplete: 0,
-                    hasDeadLine: 0,
-                }
-            });
-            if(res.status == 200){
-                setSchedules(res.data)
-            }
-            
-        }catch(e){
-            alert("에러");
-            console.log("스케줄 불러오기 에러",e);
-        }
-    }
+    };    
 
     const isCompleteSchedule = async (isComplete, scheduleNo) => {
         try{
@@ -65,7 +44,9 @@ function ToDo(){
     }
 
     useEffect(()=>{
-        getSchedules();
+        getSchedules(0, 0).then(data=>{
+            if(data){ setSchedules(data); }
+        })
     }, []);
 
     return(
