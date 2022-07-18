@@ -1,4 +1,4 @@
-package xyz.parkh.doing.entity;
+package xyz.parkh.doing.domain.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Schedule {
+public class ScheduleEntity {
 
     @Id
     @GeneratedValue
@@ -20,7 +20,7 @@ public class Schedule {
 
     @ManyToOne
     @JoinColumn(name = "user_no")
-    private User user;
+    private UserEntity userEntity;
 
     private String title;
 
