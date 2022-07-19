@@ -1,6 +1,7 @@
 package xyz.parkh.doing.domain.entity;
 
 import lombok.*;
+import xyz.parkh.doing.domain.model.Auth;
 import xyz.parkh.doing.domain.model.User;
 import xyz.parkh.doing.domain.model.UserInfo;
 
@@ -53,6 +54,14 @@ public class UserEntity {
         UserInfo userInfo = UserInfo.builder().userId(userId).name(name)
                 .email(email).company(company).build();
         return userInfo;
+    }
+
+    public void modifyPassword(Auth auth) {
+        System.out.println("auth = " + auth.getPassword());
+        if (userId.equals(auth.getUserId())) {
+            password = auth.getPassword();
+        }
+        System.out.println("password = " + password);
     }
 
     public void modifyUserInfo(UserInfo userInfo) {

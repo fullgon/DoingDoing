@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import xyz.parkh.doing.domain.model.Auth;
+import xyz.parkh.doing.domain.model.Check;
 import xyz.parkh.doing.domain.model.User;
 import xyz.parkh.doing.domain.model.UserInfo;
 import xyz.parkh.doing.service.UserService;
@@ -24,6 +26,31 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/sign-in")
+    public ResponseEntity<Check> signIn(@RequestBody Auth auth) {
+        Boolean isSuccess = userService.signIn(auth);
+        return ResponseEntity.ok().body(new Check(isSuccess));
+    }
+
+    @PostMapping("/check/user-id")
+    public ResponseEntity<Check> checkUserId(@RequestBody Auth auth) {
+        Boolean isAbleSignUpUserId = userService.isAbleSignUpUserId(auth.getUserId());
+        return ResponseEntity.ok().body(new Check(isAbleSignUpUserId));
+    }
+
+    @PostMapping("/check/email")
+    public ResponseEntity<Check> checkEmail(@RequestBody UserInfo userInfo) {
+        Boolean isAbleSignUpEmail = userService.isAbleSignUpEmail(userInfo.getEmail());
+        return ResponseEntity.ok().body(new Check(isAbleSignUpEmail));
+    }
+
+    // TODO 추후 JWT 의 ID 확인 필요
+    @PostMapping("/check/password")
+    public ResponseEntity<Check> checkPassword(@RequestBody Auth auth) {
+        Boolean isCorrectPassword = userService.signIn(auth);
+        return ResponseEntity.ok().body(new Check(isCorrectPassword));
+    }
+
     @GetMapping("/{userId}")
     public ResponseEntity<UserInfo> getUserInfo(@PathVariable("userId") String userId) {
         UserInfo userInfo = userService.findUserInfo(userId);
@@ -31,8 +58,14 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity modify(@RequestBody UserInfo userInfo) {
+    public ResponseEntity modifyUserInfo(@RequestBody UserInfo userInfo) {
         userService.modifyUserInfo(userInfo);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/change/password")
+    public ResponseEntity modifyPassword(@RequestBody Auth auth) {
+        userService.modifyPassword(auth);
         return ResponseEntity.noContent().build();
     }
 
