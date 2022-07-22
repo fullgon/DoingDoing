@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xyz.parkh.doing.domain.model.Auth;
 import xyz.parkh.doing.domain.model.Check;
-import xyz.parkh.doing.domain.model.User;
+import xyz.parkh.doing.domain.model.UserDetailInfo;
 import xyz.parkh.doing.domain.model.UserInfo;
 import xyz.parkh.doing.service.UserService;
 
@@ -21,8 +21,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/sign-up")
-    public ResponseEntity signUp(@RequestBody User user) {
-        userService.signUp(user);
+    public ResponseEntity signUp(@RequestBody UserDetailInfo userDetailInfo) {
+        userService.signUp(userDetailInfo);
         return ResponseEntity.noContent().build();
     }
 

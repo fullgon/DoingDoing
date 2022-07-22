@@ -1,13 +1,11 @@
 package xyz.parkh.doing.domain.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class AuthKeyEntity {
+@Table(name = "AUTHKEY")
+public class AuthKey {
 
     @Id
     @GeneratedValue

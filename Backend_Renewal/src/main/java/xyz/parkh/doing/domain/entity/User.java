@@ -2,7 +2,7 @@ package xyz.parkh.doing.domain.entity;
 
 import lombok.*;
 import xyz.parkh.doing.domain.model.Auth;
-import xyz.parkh.doing.domain.model.User;
+import xyz.parkh.doing.domain.model.UserDetailInfo;
 import xyz.parkh.doing.domain.model.UserInfo;
 
 import javax.persistence.*;
@@ -11,8 +11,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "users")
-public class UserEntity {
+@Table(name = "USERS")
+public class User {
 
     @Id
     @GeneratedValue
@@ -35,7 +35,7 @@ public class UserEntity {
     private String company;
 
     @Builder
-    public UserEntity(Long no, String userId, String password, String name, String email, String company) {
+    public User(Long no, String userId, String password, String name, String email, String company) {
         this.no = no;
         this.userId = userId;
         this.password = password;
@@ -44,10 +44,10 @@ public class UserEntity {
         this.company = company;
     }
 
-    public User convertToUser() {
-        User user = User.builder().no(no).userId(userId).password(password)
+    public UserDetailInfo convertToUser() {
+        UserDetailInfo userDetailInfo = UserDetailInfo.builder().no(no).userId(userId).password(password)
                 .name(name).email(email).company(company).build();
-        return user;
+        return userDetailInfo;
     }
 
     public UserInfo convertToUserInfo() {

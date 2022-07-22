@@ -2,13 +2,13 @@ package xyz.parkh.doing.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import xyz.parkh.doing.domain.entity.UserEntity;
+import xyz.parkh.doing.domain.entity.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    UserEntity findByNo(Long no);
-    UserEntity findByUserId(String userId);
+    User findByNo(Long no);
+    User findByUserId(String userId);
 
-    UserEntity findByEmail(String email);
+    User findByEmail(String email);
 }
