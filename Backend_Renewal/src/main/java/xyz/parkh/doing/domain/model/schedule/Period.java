@@ -1,4 +1,4 @@
-package xyz.parkh.doing.domain.entity.schedule;
+package xyz.parkh.doing.domain.model.schedule;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

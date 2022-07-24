@@ -1,4 +1,4 @@
-package xyz.parkh.doing.domain.entity.schedule;
+package xyz.parkh.doing.domain.model.schedule;
 
 public enum OpenScope {
     PRIVATE, FRIEND, PUBIC

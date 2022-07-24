@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import xyz.parkh.doing.domain.entity.User;
+import xyz.parkh.doing.domain.model.schedule.OpenScope;
+import xyz.parkh.doing.domain.model.schedule.Period;
 
 import javax.persistence.*;
 
