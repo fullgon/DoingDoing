@@ -1,5 +1,7 @@
 package xyz.parkh.doing.domain.entity;
 
+import xyz.parkh.doing.domain.model.AuthKeyType;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -23,5 +25,6 @@ public class AuthKey {
 
     private LocalDateTime createDateTime;
 
-    private Integer type;
+    @Enumerated(value = EnumType.STRING)
+    private AuthKeyType authKeyType;
 }
