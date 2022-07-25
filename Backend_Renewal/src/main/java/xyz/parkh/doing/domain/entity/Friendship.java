@@ -25,7 +25,7 @@ public class Friendship {
     @JoinColumn(name = "TARGET_ID", referencedColumnName = "USER_ID")
     private User target;
 
-    @Enumerated
+    @Enumerated(value = EnumType.STRING)
     private FriendshipState friendshipState;
 
     public Friendship(User requester, User target, FriendshipState friendshipState) {

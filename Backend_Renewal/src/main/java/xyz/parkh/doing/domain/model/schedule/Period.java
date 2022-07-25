@@ -2,6 +2,7 @@ package xyz.parkh.doing.domain.model.schedule;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 @Embeddable
@@ -18,7 +19,7 @@ public class Period {
     @Column(name = "DAYS")
     private Long day;
 
-    @Enumerated
+    @Enumerated(value = EnumType.STRING)
     private PeriodType periodType;
 
 }
