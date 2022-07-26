@@ -1,0 +1,48 @@
+.modal{
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    right: 40px;
+    bottom: 40px;
+    width: 50%;
+    height: 80%;
+    transform: translateX(50%);
+    background-color: rgba(164, 233, 229, 0.5);
+    border-radius: 30px;
+    padding: 4%;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.input-box{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.title{
+    width: 40%;
+    height: 7%;
+    align-self: center;
+    font-size: 1.3em;
+}
+
+.flex-end{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.date{
+    align-self: center;
+    width: 20%;
+    height: 70%;
+}
+
+.text-box{
+    height: 70%;
+    font-size: 1.5em;
+}
