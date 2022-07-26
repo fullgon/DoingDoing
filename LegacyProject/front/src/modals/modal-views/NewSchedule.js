@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import Switch from '@mui/material/Switch';
-import axios from 'axios';
 import { useNavigate } from "react-router-dom"
-
+import addSchedule from '../../axios/scheduleAPI/addSchedule';
 import styles from './modals.module.css'
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
@@ -24,26 +23,26 @@ const NewSchedule = ({onSubmit, onClose}) =>{
         setSchedule({...schedule, content: e.target.value});
     }
     
-    const addSchedule = async () =>{
-        try{
-            const userId = localStorage.getItem('userId');
-            const res = await axios.post(`/api/schedules/${userId}`,
-            schedule,
-            {
-                headers:{
-                    'Content-Type' : 'application/json',
-                    'Authorization' : localStorage.getItem('accessToken'),
-                }
-            });
-        }catch(e){
-            //error
-            console.log(e);
-            alert("에러");
-        }
-    }
+    // const addSchedule = async () =>{
+    //     try{
+    //         const userId = localStorage.getItem('userId');
+    //         const res = await axios.post(`/api/schedules/${userId}`,
+    //         schedule,
+    //         {
+    //             headers:{
+    //                 'Content-Type' : 'application/json',
+    //                 'Authorization' : localStorage.getItem('accessToken'),
+    //             }
+    //         });
+    //     }catch(e){
+    //         //error
+    //         console.log(e);
+    //         alert("에러");
+    //     }
+    // }
 
     const handleClickSubmit = () => {
-        addSchedule();
+        addSchedule(schedule);
         navigate(0);
         onSubmit();
     }

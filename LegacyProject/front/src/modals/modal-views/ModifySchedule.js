@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Switch from '@mui/material/Switch';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom"
-
+import modifySchedule from "../../axios/scheduleAPI/modifySchedule"
 import styles from './modals.module.css'
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
@@ -28,23 +28,23 @@ const ModifySchedule = ({onSubmit, onClose, scheduleNo}) =>{
         setSchedule({...schedule, content: e.target.value});
     }
 
-    const modifySchedule = async () =>{
-        try{
-            const userId = localStorage.getItem('userId');
-            const res = await axios.put(`/api/schedules/${userId}/${scheduleNo}`,
-            schedule,
-            {
-                headers:{
-                    'Content-Type' : 'application/json',
-                    'Authorization' : localStorage.getItem('accessToken'),
-                }
-            })    
-        }catch(e){
-            //error
-            alert("에러");
-            console.log(e);
-        }
-    }
+    // const modifySchedule = async () =>{
+    //     try{
+    //         const userId = localStorage.getItem('userId');
+    //         const res = await axios.put(`/api/schedules/${userId}/${scheduleNo}`,
+    //         schedule,
+    //         {
+    //             headers:{
+    //                 'Content-Type' : 'application/json',
+    //                 'Authorization' : localStorage.getItem('accessToken'),
+    //             }
+    //         })    
+    //     }catch(e){
+    //         //error
+    //         alert("에러");
+    //         console.log(e);
+    //     }
+    // }
     
     const getSchedule = async () =>{
         try{
@@ -71,7 +71,7 @@ const ModifySchedule = ({onSubmit, onClose, scheduleNo}) =>{
     }
 
     const handleClickSubmit = () => {
-        modifySchedule();
+        modifySchedule(schedule, scheduleNo);
         navigate(0);
         onSubmit();
     }

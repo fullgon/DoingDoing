@@ -4,7 +4,7 @@ import { modals } from "../../modals/Modals"
 import Switch from '@mui/material/Switch';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom"
-
+import deleteSchedule from '../../axios/scheduleAPI/deleteSchedule';
 import styles from './modals.module.css'
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
@@ -30,29 +30,29 @@ const DetailSchedule = ({onClose, scheduleNo}) =>{
     }
 
     const handleClickDelete = () =>{
-        deleteSchedule();
-        navigate(0);
+        deleteSchedule(scheduleNo);
+        navigate(`/schedule`);
         onClose();
     }
 
-    const deleteSchedule = async () =>{
-        try{
-            const userId = localStorage.getItem('userId');
-            const res = await axios.delete(`/api/schedules/${userId}/${scheduleNo}`,
-            {
-                headers:{
-                    'Authorization' : localStorage.getItem('accessToken'),
-                }
-            });
+    // const deleteSchedule = async () =>{
+    //     try{
+    //         const userId = localStorage.getItem('userId');
+    //         const res = await axios.delete(`/api/schedules/${userId}/${scheduleNo}`,
+    //         {
+    //             headers:{
+    //                 'Authorization' : localStorage.getItem('accessToken'),
+    //             }
+    //         });
 
-            if(res.status == 200){
-                console.log('게시글 삭제 완료');
-                navigate(`/schedule`);
-            }
-        }catch(e){
-            //에러
-        }
-    }
+    //         if(res.status == 200){
+    //             console.log('게시글 삭제 완료');
+    //             navigate(`/schedule`);
+    //         }
+    //     }catch(e){
+    //         //에러
+    //     }
+    // }
 
     const [schedule, setSchedule] = useState({});
 
@@ -68,10 +68,10 @@ const DetailSchedule = ({onClose, scheduleNo}) =>{
 
             if(res.status == 200){
                 
-                if(res.data.endDate){
-                    setSchedule(res.data);
-                    return;
-                }
+                // if(res.data.endDate){
+                //     setSchedule(res.data);
+                //     return;
+                // }
                 setSchedule(res.data);
             }
             

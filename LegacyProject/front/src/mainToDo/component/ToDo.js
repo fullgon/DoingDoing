@@ -4,6 +4,8 @@ import { modals } from "../../modals/Modals"
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"
 import axios from "axios";
+import {getSchedules} from "../../axios/scheduleAPI/getSchedules"
+import isCompleteSchedule from "../../axios/scheduleAPI/isCompleteSchedule";
 
 function ToDo(){
     
@@ -18,54 +20,48 @@ function ToDo(){
             type:"detail",
             scheduleNo,
         });
-    };
+    };    
 
-    const getSchedules = async () =>{
-        try{
-            const userId = localStorage.getItem('userId');
-            const res = await axios.get(`/api/schedules/${userId}`,{
-                headers:{
-                    'Authorization' : localStorage.getItem('accessToken'),
-                },
-                params:{
-                    isComplete: 0,
-                    hasDeadLine: 0,
-                }
-            });
-            if(res.status == 200){
-                setSchedules(res.data)
-            }
-            
-        }catch(e){
-            alert("에러");
-            console.log("스케줄 불러오기 에러",e);
+    // const isCompleteSchedule = async (isComplete, scheduleNo) => {
+    //     try{
+    //         const userId = localStorage.getItem('userId');
+    //         const res = await axios.put(`/api/schedules/${userId}/${scheduleNo}`,
+    //         { isComplete },
+    //         {
+    //             headers:{
+    //                 'Content-Type' : 'application/json',
+    //                 'Authorization' : localStorage.getItem('accessToken'),
+    //             }
+    //         })    
+    //         if(res.status == 204){
+    //             //일정 완료처리 시 새로고침
+    //             navigate(0);
+    //         }
+    //     }catch(e){
+    //         //error
+    //         alert("에러");
+    //         console.log(e);
+    //     }
+    // }
+
+
+
+    const checkComplete = async (isComplete, scheduleNo) =>{
+        if(await isCompleteSchedule(isComplete, scheduleNo)){
+            getSchedulesApi();
         }
     }
 
-    const isCompleteSchedule = async (isComplete, scheduleNo) => {
-        try{
-            const userId = localStorage.getItem('userId');
-            const res = await axios.put(`/api/schedules/${userId}/${scheduleNo}`,
-            { isComplete },
-            {
-                headers:{
-                    'Content-Type' : 'application/json',
-                    'Authorization' : localStorage.getItem('accessToken'),
-                }
-            })    
-            if(res.status == 204){
-                //일정 완료처리 시 새로고침
-                navigate(0);
-            }
-        }catch(e){
-            //error
-            alert("에러");
-            console.log(e);
-        }
+    const getSchedulesApi = async () =>{
+        const data = await getSchedules(0, 0);
+        if(data){ setSchedules(data) }
     }
 
     useEffect(()=>{
-        getSchedules();
+        // getSchedules(0, 0).then(data=>{
+        //     if(data){ setSchedules(data); }
+        // })
+        getSchedulesApi();
     }, []);
 
     return(
@@ -80,7 +76,7 @@ function ToDo(){
                             <a className={styles.title} onClick={() => {handleClick(schedule.no)}}>{schedule.title}</a>
                         </div>
                         <input type="checkbox" className={styles.checkbox}
-                        onChange={(event)=>{isCompleteSchedule(event.target.checked, schedule.no)}}/>
+                        onChange={(event)=>{checkComplete(event.target.checked, schedule.no)}}/>
                     </div>
                 )) :
                 null
