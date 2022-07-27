@@ -2,34 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import SignIn from './sign/SignIn';
-import SignUp from './sign/SignUp';
-import FindPassword from './sign/FindPassword'
-import ToDoMain from './mainToDo/ToDoMain';
-import ReactModal from 'react-modal'
-import Privacy from './users/Privacy'
-
-import Modals from "./modals/Modals"
-import ModalsProvider from "./modals/ModalsProvider"
-
-ReactModal.setAppElement('#root');
+import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<App/>} />
-      <Route path="auth/signIn" element={<SignIn/>} />
-      <Route path='auth/signUp' element={<SignUp/>}/>
-      <Route path='auth/findPassword' element={<FindPassword/>}/>
-      <Route path='schedule'
-       element={<ModalsProvider>
-                   <ToDoMain/>
-                   <Modals/>
-                </ModalsProvider>}/>
-      <Route path='users' element={<Privacy/>}/>
-    </Routes>
-  </BrowserRouter>,
-  root
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
 );
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
