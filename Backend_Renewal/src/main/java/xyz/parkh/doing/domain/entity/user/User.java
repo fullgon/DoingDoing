@@ -1,6 +1,7 @@
-package xyz.parkh.doing.domain.entity;
+package xyz.parkh.doing.domain.entity.user;
 
 import lombok.*;
+import xyz.parkh.doing.domain.entity.Friendship;
 import xyz.parkh.doing.domain.model.Auth;
 import xyz.parkh.doing.domain.model.UserDetailInfo;
 import xyz.parkh.doing.domain.model.UserInfo;
@@ -14,6 +15,8 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "DTYPE")
 @Table(name = "USERS")
 public class User {
 
@@ -83,11 +86,11 @@ public class User {
     }
 
     /*
-    * 외래키가 Friendship 에 있기 때문에 객체 지향적인 것을 포기하더라도,
-    * Friendship 에서 친구를 관리하는 것이 좋지만,
-    * 조회 정도는 자주 할 것 같다고 판단해 양방향 매핑 추가.
-    * */
-     public List<User> readFriends() {
+     * 외래키가 Friendship 에 있기 때문에 객체 지향적인 것을 포기하더라도,
+     * Friendship 에서 친구를 관리하는 것이 좋지만,
+     * 조회 정도는 자주 할 것 같다고 판단해 양방향 매핑 추가.
+     * */
+    public List<User> readFriends() {
         List<User> memberList = new ArrayList<>();
         for (Friendship friendship : friendships) {
             if (friendship.getFriendshipState().equals(FriendshipState.ACCEPT)) {

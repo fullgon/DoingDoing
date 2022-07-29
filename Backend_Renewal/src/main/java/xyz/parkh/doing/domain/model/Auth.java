@@ -1,7 +1,7 @@
 package xyz.parkh.doing.domain.model;
 
 import lombok.Getter;
-import xyz.parkh.doing.domain.entity.User;
+import xyz.parkh.doing.domain.entity.user.User;
 
 @Getter
 public class Auth {

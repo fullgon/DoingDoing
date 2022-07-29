@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.entity.schedule.HabitSchedule;
 import xyz.parkh.doing.domain.entity.schedule.Schedule;
-import xyz.parkh.doing.domain.entity.User;
+import xyz.parkh.doing.domain.entity.user.User;
 
 import javax.persistence.EntityManager;
 

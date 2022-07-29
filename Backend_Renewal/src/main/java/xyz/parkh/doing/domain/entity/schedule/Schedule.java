@@ -3,7 +3,7 @@ package xyz.parkh.doing.domain.entity.schedule;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import xyz.parkh.doing.domain.entity.User;
+import xyz.parkh.doing.domain.entity.user.User;
 import xyz.parkh.doing.domain.model.schedule.OpenScope;
 import xyz.parkh.doing.domain.model.schedule.Period;
 

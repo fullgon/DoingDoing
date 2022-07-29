@@ -3,6 +3,7 @@ package xyz.parkh.doing.domain.entity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import xyz.parkh.doing.domain.entity.user.User;
 import xyz.parkh.doing.domain.model.friend.FriendshipState;
 
 import javax.persistence.*;

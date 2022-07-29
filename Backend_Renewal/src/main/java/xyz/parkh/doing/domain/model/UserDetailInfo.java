@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import xyz.parkh.doing.domain.entity.User;
+import xyz.parkh.doing.domain.entity.user.User;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
