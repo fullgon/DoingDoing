@@ -10,8 +10,7 @@ import javax.persistence.Entity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Individual extends User {
     @Builder
-    public Individual(Long no, String userId, String password, String name, String email, String company) {
-        super.setNo(no);
+    public Individual(String userId, String password, String name, String email, String company) {
         super.setUserId(userId);
         super.setPassword(password);
         super.setName(name);

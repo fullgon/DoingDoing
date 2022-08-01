@@ -27,7 +27,7 @@ public class IndividualDetailInfo {
     }
 
     public Individual convertToUserEntity() {
-        Individual individual = Individual.builder().no(no).userId(userId).password(password)
+        Individual individual = Individual.builder().userId(userId).password(password)
                 .name(name).email(email).company(company).build();
         return individual;
     }

@@ -27,8 +27,7 @@ public class DomainTests {
         Individual individual = Individual.builder().userId("PHJ").build();
         em.persist(individual);
 
-        Schedule schedule = new HabitSchedule();
-        schedule.setUser(individual);
+        Schedule schedule = HabitSchedule.builder().user(individual).build();
         em.persist(schedule);
 
         Schedule findSchedule = em.find(Schedule.class, schedule.getNo());
@@ -40,8 +39,7 @@ public class DomainTests {
         Individual individual = Individual.builder().userId("PHJ").build();
         em.persist(individual);
 
-        Schedule schedule = new HabitSchedule();
-        schedule.setUser(individual);
+        Schedule schedule = HabitSchedule.builder().user(individual).build();
         em.persist(schedule);
 
         // DB 에 반영 되었는지 확인
