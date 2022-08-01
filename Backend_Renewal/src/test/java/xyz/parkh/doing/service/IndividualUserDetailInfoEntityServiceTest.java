@@ -13,7 +13,7 @@ import xyz.parkh.doing.domain.model.UserInfo;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @Transactional
-public class IndividualDetailInfoEntityServiceTest {
+public class IndividualUserDetailInfoEntityServiceTest {
 
     @Autowired
     private UserService userService;

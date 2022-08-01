@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import xyz.parkh.doing.domain.entity.user.Individual;
+import xyz.parkh.doing.domain.entity.user.IndividualUser;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,10 +26,10 @@ public class IndividualDetailInfo {
         this.company = company;
     }
 
-    public Individual convertToUserEntity() {
-        Individual individual = Individual.builder().userId(userId).password(password)
+    public IndividualUser convertToIndividualUser() {
+        IndividualUser individualUser = IndividualUser.builder().userId(userId).password(password)
                 .name(name).email(email).company(company).build();
-        return individual;
+        return individualUser;
     }
 
     public UserInfo convertToUserInfo() {

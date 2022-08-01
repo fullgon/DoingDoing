@@ -26,7 +26,7 @@ public class UserService {
     }
 
     public UserInfo signUp(final IndividualDetailInfo individualDetailInfo) {
-        User user = individualDetailInfo.convertToUserEntity();
+        User user = individualDetailInfo.convertToIndividualUser();
         userRepository.save(user);
 
         User findUser = userRepository.findByNo(user.getNo());

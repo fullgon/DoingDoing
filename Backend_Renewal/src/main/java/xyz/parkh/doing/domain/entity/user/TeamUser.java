@@ -8,9 +8,9 @@ import javax.persistence.Entity;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Individual extends User {
+public class TeamUser extends User {
     @Builder
-    public Individual(String userId, String password, String name, String email, String company) {
+    public TeamUser(String userId, String password, String name, String email, String company) {
         super.setUserId(userId);
         super.setPassword(password);
         super.setName(name);

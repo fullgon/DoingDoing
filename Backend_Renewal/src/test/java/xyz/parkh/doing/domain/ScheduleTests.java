@@ -1,7 +1,6 @@
 package xyz.parkh.doing.domain;
 
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,7 +8,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.entity.schedule.Schedule;
 import xyz.parkh.doing.domain.entity.schedule.ToDoSchedule;
-import xyz.parkh.doing.domain.entity.user.Individual;
+import xyz.parkh.doing.domain.entity.user.IndividualUser;
 import xyz.parkh.doing.domain.entity.user.User;
 import xyz.parkh.doing.domain.model.schedule.OpenScope;
 import xyz.parkh.doing.domain.model.schedule.Period;
@@ -36,13 +35,13 @@ public class ScheduleTests {
         // 이건 Java 지식이 부족 했던거 인듯
         // 조회 할 때 알아서 업 캐스팅 되고,
         // 필요시 다운 캐스팅 해서 사용 하면 되겠다.
-        Individual individual = Individual.builder().userId("parkId").name("parkName").build();
-        userRepository.save(individual);
+        IndividualUser individualUser = IndividualUser.builder().userId("parkId").name("parkName").build();
+        userRepository.save(individualUser);
 
         ToDoSchedule toDoSchedule = new ToDoSchedule();
         toDoSchedule.setTitle("일정 제목");
         toDoSchedule.setOpenScope(OpenScope.PUBIC);
-        toDoSchedule.setUser(individual);
+        toDoSchedule.setUser(individualUser);
         toDoSchedule.setIsCompleted(true);
         scheduleRepository.save(toDoSchedule);
 
@@ -54,7 +53,7 @@ public class ScheduleTests {
 
     @Test
     public void toDoScheduleBuilderTest() {
-        User user = new Individual("userId", "password", "name", "email", "company");
+        User user = new IndividualUser("userId", "password", "name", "email", "company");
         String title = "title";
         String content = "content";
         OpenScope openScope = OpenScope.PUBIC;
