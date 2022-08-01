@@ -8,6 +8,8 @@ import xyz.parkh.doing.domain.model.friend.FriendshipState;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.*;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,11 +20,11 @@ public class Friendship {
     @Column(name = "FRIENDSHIP_ID")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "REQUESTER_ID", referencedColumnName = "USER_ID")
     private User requester;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "TARGET_ID", referencedColumnName = "USER_ID")
     private User target;
 

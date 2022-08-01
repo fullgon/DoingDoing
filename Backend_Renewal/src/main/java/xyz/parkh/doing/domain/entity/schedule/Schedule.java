@@ -9,6 +9,8 @@ import xyz.parkh.doing.domain.model.schedule.Period;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Entity
 @Getter
 @Setter
@@ -23,7 +25,7 @@ public abstract class Schedule {
     @Column(name = "schedule_no")
     private Long no;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_no")
     private User user;
 
