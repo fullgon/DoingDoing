@@ -13,6 +13,8 @@ import xyz.parkh.doing.domain.model.friend.FriendshipState;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 
 @Entity
 @Getter
@@ -45,6 +47,28 @@ public abstract class User {
 
     @OneToMany(mappedBy = "id")
     private List<Friendship> friendships = new ArrayList<>();
+
+    public User(String userId, String password, String name, String email, String company) {
+        this.userId = userId;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.company = company;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        // TODO LAZY 로딩으로 프록시 객체 조회 되어 비교에서 제외, 제대로 된 해결 방법 찾기
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(no, user.no) && Objects.equals(userId, user.userId) && Objects.equals(password, user.password) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(company, user.company);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(no, userId, password, name, email, company);
+    }
 
     public IndividualDetailInfo convertToIndividualUser() {
         IndividualDetailInfo individualDetailInfo = IndividualDetailInfo.builder().no(no).userId(userId).password(password)

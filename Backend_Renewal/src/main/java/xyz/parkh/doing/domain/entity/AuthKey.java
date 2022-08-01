@@ -1,12 +1,17 @@
 package xyz.parkh.doing.domain.entity;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import xyz.parkh.doing.domain.model.AuthKeyType;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
 @Table(name = "AUTHKEY")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AuthKey {
 
     @Id

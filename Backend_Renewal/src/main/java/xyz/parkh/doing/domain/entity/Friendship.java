@@ -3,12 +3,13 @@ package xyz.parkh.doing.domain.entity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import xyz.parkh.doing.domain.entity.user.User;
 import xyz.parkh.doing.domain.model.friend.FriendshipState;
 
 import javax.persistence.*;
 
-import static javax.persistence.FetchType.*;
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter

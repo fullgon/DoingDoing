@@ -1,8 +1,6 @@
 package xyz.parkh.doing.domain.entity.user;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 

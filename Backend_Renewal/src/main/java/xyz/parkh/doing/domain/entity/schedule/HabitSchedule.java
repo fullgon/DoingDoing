@@ -14,10 +14,6 @@ import javax.persistence.Entity;
 public class HabitSchedule extends Schedule {
     @Builder
     public HabitSchedule(User user, String title, String content, OpenScope openScope, Period period) {
-        super.setUser(user);
-        super.setContent(content);
-        super.setOpenScope(openScope);
-        super.setPeriod(period);
-        super.setTitle(title);
+        super(user, title, content, openScope, period);
     }
 }
