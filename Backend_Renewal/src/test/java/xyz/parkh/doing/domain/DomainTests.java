@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.entity.schedule.HabitSchedule;
 import xyz.parkh.doing.domain.entity.schedule.Schedule;
+import xyz.parkh.doing.domain.entity.user.Individual;
 import xyz.parkh.doing.domain.entity.user.User;
 
 import javax.persistence.EntityManager;
@@ -23,11 +24,11 @@ public class DomainTests {
 
     @Test
     public void equalsToInsertAndFindSchedule() {
-        User user = User.builder().userId("PHJ").build();
-        em.persist(user);
+        Individual individual = Individual.builder().userId("PHJ").build();
+        em.persist(individual);
 
         Schedule schedule = new HabitSchedule();
-        schedule.setUser(user);
+        schedule.setUser(individual);
         em.persist(schedule);
 
         Schedule findSchedule = em.find(Schedule.class, schedule.getNo());
@@ -36,16 +37,16 @@ public class DomainTests {
 
     @Test
     public void setUserNameForScheduleInUser() {
-        User user = User.builder().userId("PHJ").build();
-        em.persist(user);
+        Individual individual = Individual.builder().userId("PHJ").build();
+        em.persist(individual);
 
         Schedule schedule = new HabitSchedule();
-        schedule.setUser(user);
+        schedule.setUser(individual);
         em.persist(schedule);
 
         // DB 에 반영 되었는지 확인
         Schedule findSchedule = em.find(Schedule.class, schedule.getNo());
-        Assert.assertEquals(findSchedule.getUser(), user);
+        Assert.assertEquals(findSchedule.getUser(), individual);
 
         // 수정 된 값이 commit 되지 않아도 반영 되는지 확인
         // JPA 는 영속성 컨텍스트가 관리하는 1차 캐시가 존재해,

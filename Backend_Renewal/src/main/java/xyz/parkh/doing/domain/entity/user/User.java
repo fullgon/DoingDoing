@@ -1,9 +1,12 @@
 package xyz.parkh.doing.domain.entity.user;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import xyz.parkh.doing.domain.entity.Friendship;
 import xyz.parkh.doing.domain.model.Auth;
-import xyz.parkh.doing.domain.model.UserDetailInfo;
+import xyz.parkh.doing.domain.model.IndividualDetailInfo;
 import xyz.parkh.doing.domain.model.UserInfo;
 import xyz.parkh.doing.domain.model.friend.FriendshipState;
 
@@ -18,7 +21,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "DTYPE")
 @Table(name = "USERS")
-public class User {
+public abstract class User {
 
     @Id
     @GeneratedValue
@@ -43,20 +46,10 @@ public class User {
     @OneToMany(mappedBy = "id")
     private List<Friendship> friendships = new ArrayList<>();
 
-    @Builder
-    public User(Long no, String userId, String password, String name, String email, String company) {
-        this.no = no;
-        this.userId = userId;
-        this.password = password;
-        this.name = name;
-        this.email = email;
-        this.company = company;
-    }
-
-    public UserDetailInfo convertToUser() {
-        UserDetailInfo userDetailInfo = UserDetailInfo.builder().no(no).userId(userId).password(password)
+    public IndividualDetailInfo convertToIndividualUser() {
+        IndividualDetailInfo individualDetailInfo = IndividualDetailInfo.builder().no(no).userId(userId).password(password)
                 .name(name).email(email).company(company).build();
-        return userDetailInfo;
+        return individualDetailInfo;
     }
 
     public UserInfo convertToUserInfo() {

@@ -7,27 +7,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import xyz.parkh.doing.domain.model.UserDetailInfo;
+import xyz.parkh.doing.domain.model.IndividualDetailInfo;
 import xyz.parkh.doing.domain.model.UserInfo;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @Transactional
-public class UserDetailInfoEntityServiceTest {
+public class IndividualDetailInfoEntityServiceTest {
 
     @Autowired
     private UserService userService;
 
     @Test
     public void userSaveAfterFind() {
-        UserDetailInfo userDetailInfo = UserDetailInfo.builder().userId("parkId").name("parkName").build();
-        UserInfo saveUser = userService.signUp(userDetailInfo);
+        IndividualDetailInfo individualDetailInfo = IndividualDetailInfo.builder().userId("parkId").name("parkName").build();
+        UserInfo saveUser = userService.signUp(individualDetailInfo);
 
-        System.out.println("user = " + userDetailInfo);
+        System.out.println("user = " + individualDetailInfo);
         System.out.println("saveUser = " + saveUser);
 
-        Assert.assertEquals(userDetailInfo.getUserId(), saveUser.getUserId());
-        Assert.assertEquals(userDetailInfo.getName(), saveUser.getName());
+        Assert.assertEquals(individualDetailInfo.getUserId(), saveUser.getUserId());
+        Assert.assertEquals(individualDetailInfo.getName(), saveUser.getName());
     }
 
 }

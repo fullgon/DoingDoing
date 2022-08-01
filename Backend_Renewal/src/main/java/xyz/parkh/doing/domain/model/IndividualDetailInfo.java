@@ -4,11 +4,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import xyz.parkh.doing.domain.entity.user.User;
+import xyz.parkh.doing.domain.entity.user.Individual;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserDetailInfo {
+public class IndividualDetailInfo {
     private Long no;
     private String userId;
     private String password;
@@ -17,7 +17,7 @@ public class UserDetailInfo {
     private String company;
 
     @Builder
-    public UserDetailInfo(Long no, String userId, String password, String name, String email, String company) {
+    public IndividualDetailInfo(Long no, String userId, String password, String name, String email, String company) {
         this.no = no;
         this.userId = userId;
         this.password = password;
@@ -26,10 +26,10 @@ public class UserDetailInfo {
         this.company = company;
     }
 
-    public User convertToUserEntity() {
-        User user = User.builder().no(no).userId(userId).password(password)
+    public Individual convertToUserEntity() {
+        Individual individual = Individual.builder().no(no).userId(userId).password(password)
                 .name(name).email(email).company(company).build();
-        return user;
+        return individual;
     }
 
     public UserInfo convertToUserInfo() {

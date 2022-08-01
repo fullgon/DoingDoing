@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.entity.user.User;
 import xyz.parkh.doing.domain.model.Auth;
-import xyz.parkh.doing.domain.model.UserDetailInfo;
+import xyz.parkh.doing.domain.model.IndividualDetailInfo;
 import xyz.parkh.doing.domain.model.UserInfo;
 import xyz.parkh.doing.repository.UserRepository;
 
@@ -25,8 +25,8 @@ public class UserService {
         return findUserInfo;
     }
 
-    public UserInfo signUp(final UserDetailInfo userDetailInfo) {
-        User user = userDetailInfo.convertToUserEntity();
+    public UserInfo signUp(final IndividualDetailInfo individualDetailInfo) {
+        User user = individualDetailInfo.convertToUserEntity();
         userRepository.save(user);
 
         User findUser = userRepository.findByNo(user.getNo());
@@ -42,13 +42,13 @@ public class UserService {
         return savedPassword.equals(requestPassword);
     }
 
-    public UserDetailInfo modifyUserInfo(final UserInfo modifyUserInfo) {
+    public IndividualDetailInfo modifyUserInfo(final UserInfo modifyUserInfo) {
         String userId = modifyUserInfo.getUserId();
         User findUser = userRepository.findByUserId(userId);
 
         findUser.modifyUserInfo(modifyUserInfo);
-        UserDetailInfo findUserDetailInfo = findUser.convertToUser();
-        return findUserDetailInfo;
+        IndividualDetailInfo findIndividualDetailInfo = findUser.convertToIndividualUser();
+        return findIndividualDetailInfo;
     }
 
     public void remove(final String userId) {
