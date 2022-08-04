@@ -11,10 +11,10 @@ import javax.persistence.Entity;
 public class TeamUser extends User {
     @Builder
     public TeamUser(String userId, String password, String name, String email, String company) {
-        super.setUserId(userId);
-        super.setPassword(password);
-        super.setName(name);
-        super.setEmail(email);
-        super.setCompany(company);
+        setUserId(userId);
+        setPassword(password);
+        setName(name);
+        setEmail(email);
+        setCompany(company);
     }
 }

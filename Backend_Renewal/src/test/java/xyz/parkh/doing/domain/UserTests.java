@@ -1,5 +1,6 @@
 package xyz.parkh.doing.domain;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -19,6 +20,33 @@ public class UserTests {
 
     @Autowired
     EntityManager em;
+
+    @Test
+    public void builderUser() {
+        // User <- IndividualUser
+        // User 의 객체 변수의 접근 제어자를 private 에서 protected 로 변경
+        // IndividualUser 에서 toString override 해서 사용 가능
+        // 하지만 password 같은 정보를 다른 클래스에서
+        // 바로 접근, 변경 가능하다는게 걸려서 private 와 super()
+
+        String userId = "userId";
+        String password = "password";
+        String name = "name";
+        String email = "email";
+        String company = "company";
+
+        IndividualUser individualUserByBuilder = IndividualUser.builder()
+                .userId(userId).password(password).name(name)
+                .email(email).company(company)
+                .build();
+
+        User individualUserByConstructor = new IndividualUser(userId, password, name, email, company);
+
+        System.out.println("individualUserByConstructor = " + individualUserByConstructor);
+        System.out.println("individualUserByBuilder = " + individualUserByBuilder);
+
+        Assertions.assertEquals(individualUserByBuilder, individualUserByConstructor);
+    }
 
     @Test
     public void equalsUser() {
