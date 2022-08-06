@@ -1,5 +1,5 @@
 package xyz.parkh.doing.domain.model.friend;
 
 public enum FriendshipState {
-    DECLINE, REQUEST, ACCEPT
+    DECLINE, REQUEST, ACCEPT, CANCEL
 }

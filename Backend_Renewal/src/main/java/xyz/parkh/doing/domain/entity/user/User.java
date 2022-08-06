@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import xyz.parkh.doing.domain.entity.Friendship;
+import xyz.parkh.doing.domain.entity.FriendRequest;
 import xyz.parkh.doing.domain.model.Auth;
 import xyz.parkh.doing.domain.model.IndividualDetailInfo;
 import xyz.parkh.doing.domain.model.UserInfo;
@@ -46,7 +46,7 @@ public abstract class User {
     private String company;
 
     @OneToMany(mappedBy = "id")
-    private List<Friendship> friendships = new ArrayList<>();
+    private List<FriendRequest> friendRequests = new ArrayList<>();
 
     public User(String userId, String password, String name, String email, String company) {
         this.userId = userId;
@@ -109,9 +109,9 @@ public abstract class User {
      * */
     public List<User> readFriends() {
         List<User> memberList = new ArrayList<>();
-        for (Friendship friendship : friendships) {
-            if (friendship.getFriendshipState().equals(FriendshipState.ACCEPT)) {
-                memberList.add(friendship.getRequester());
+        for (FriendRequest friendRequest : friendRequests) {
+            if (friendRequest.getFriendshipState().equals(FriendshipState.ACCEPT)) {
+                memberList.add(friendRequest.getRequester());
             }
         }
         return memberList;
@@ -119,9 +119,9 @@ public abstract class User {
 
     public List<User> readSentFriendRequests() {
         List<User> memberList = new ArrayList<>();
-        for (Friendship friendship : friendships) {
-            if (friendship.getFriendshipState().equals(FriendshipState.REQUEST)) {
-                memberList.add(friendship.getRequester());
+        for (FriendRequest friendRequest : friendRequests) {
+            if (friendRequest.getFriendshipState().equals(FriendshipState.REQUEST)) {
+                memberList.add(friendRequest.getRequester());
             }
         }
         return memberList;

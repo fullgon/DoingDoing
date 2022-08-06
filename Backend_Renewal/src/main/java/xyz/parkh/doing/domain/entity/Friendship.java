@@ -1,41 +1,36 @@
 package xyz.parkh.doing.domain.entity;
 
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import xyz.parkh.doing.domain.entity.user.User;
-import xyz.parkh.doing.domain.model.friend.FriendshipState;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.*;
-
-import static javax.persistence.FetchType.LAZY;
+import java.lang.management.LockInfo;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Friendship {
 
     @Id
     @GeneratedValue
-    @Column(name = "FRIENDSHIP_ID")
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "REQUESTER_ID", referencedColumnName = "USER_ID")
-    private User requester;
+    private Long id1;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "TARGET_ID", referencedColumnName = "USER_ID")
-    private User target;
+    private Long id2;
 
-    @Enumerated(value = EnumType.STRING)
-    private FriendshipState friendshipState;
-
-    public Friendship(User requester, User target, FriendshipState friendshipState) {
-        this.requester = requester;
-        this.target = target;
-        this.friendshipState = friendshipState;
+    public Friendship(Long id1, Long id2) {
+        this.id1 = id1;
+        this.id2 = id2;
     }
 
+    public static List<Friendship> addFriendShip(Long id1, Long id2) {
+        List friendShipList = new ArrayList<>();
+        friendShipList.add(new Friendship(id1, id2));
+        friendShipList.add(new Friendship(id2, id1));
+
+        return friendShipList;
+    }
 }
