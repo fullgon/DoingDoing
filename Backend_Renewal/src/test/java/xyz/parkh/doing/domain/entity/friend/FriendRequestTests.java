@@ -1,4 +1,4 @@
-package xyz.parkh.doing.domain;
+package xyz.parkh.doing.domain.entity.friend;
 
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;

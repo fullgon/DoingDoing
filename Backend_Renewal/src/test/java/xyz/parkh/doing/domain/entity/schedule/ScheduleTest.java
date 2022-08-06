@@ -1,4 +1,4 @@
-package xyz.parkh.doing.domain;
+package xyz.parkh.doing.domain.entity.schedule;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import xyz.parkh.doing.domain.entity.schedule.Schedule;
-import xyz.parkh.doing.domain.entity.schedule.ToDoSchedule;
 import xyz.parkh.doing.domain.entity.user.User;
 import xyz.parkh.doing.domain.model.schedule.OpenScope;
 import xyz.parkh.doing.domain.model.schedule.Period;
@@ -17,13 +15,12 @@ import xyz.parkh.doing.repository.UserRepository;
 
 import javax.persistence.EntityManager;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @Transactional
-public class ScheduleTests {
+public class ScheduleTest {
 
     @Autowired
     EntityManager em;
