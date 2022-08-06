@@ -46,7 +46,7 @@ public class FriendRequestTests {
 //        em.flush();
 //        em.clear();
 
-        FriendRequest findFriendRequest = friendRequestRepository.findById(friendRequest.getNo()).get();
+        FriendRequest findFriendRequest = friendRequestRepository.findById(friendRequest.getId()).get();
 
         System.out.println("findFriendRequest = " + findFriendRequest);
         System.out.println("friendRequest = " + friendRequest);

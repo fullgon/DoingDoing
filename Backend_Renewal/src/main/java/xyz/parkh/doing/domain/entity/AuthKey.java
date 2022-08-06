@@ -16,11 +16,11 @@ public class AuthKey {
 
     @Id
     @GeneratedValue
-    @Column(name = "authkey_no")
-    private Long no;
+    @Column(name = "AUTHKEY_ID")
+    private Long id;
 
     @Column(length = 20)
-    private String userId;
+    private String authId;
 
     @Column(length = 50)
     private String email;

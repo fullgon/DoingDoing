@@ -1,12 +1,13 @@
 package xyz.parkh.doing.domain.entity.schedule;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import xyz.parkh.doing.domain.entity.user.User;
 import xyz.parkh.doing.domain.model.schedule.OpenScope;
 import xyz.parkh.doing.domain.model.schedule.Period;
 
 import javax.persistence.*;
-
 import java.util.Objects;
 
 import static javax.persistence.FetchType.LAZY;
@@ -20,11 +21,11 @@ public abstract class Schedule {
 
     @Id
     @GeneratedValue
-    @Column(name = "schedule_no")
-    private Long no;
+    @Column(name = "SCHEDULE_ID")
+    private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_no")
+    @JoinColumn(name = "USER_ID")
     private User user;
 
     private String title;
@@ -52,11 +53,11 @@ public abstract class Schedule {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Schedule schedule = (Schedule) o;
-        return Objects.equals(no, schedule.no) && Objects.equals(title, schedule.title) && Objects.equals(content, schedule.content) && openScope == schedule.openScope && Objects.equals(period, schedule.period);
+        return Objects.equals(id, schedule.id) && Objects.equals(title, schedule.title) && Objects.equals(content, schedule.content) && openScope == schedule.openScope && Objects.equals(period, schedule.period);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(no, title, content, openScope, period);
+        return Objects.hash(id, title, content, openScope, period);
     }
 }

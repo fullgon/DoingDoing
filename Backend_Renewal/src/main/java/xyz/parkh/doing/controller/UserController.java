@@ -34,7 +34,7 @@ public class UserController {
 
     @PostMapping("/check/user-id")
     public ResponseEntity<Check> checkUserId(@RequestBody Auth auth) {
-        Boolean isAbleSignUpUserId = userService.isAbleSignUpUserId(auth.getUserId());
+        Boolean isAbleSignUpUserId = userService.isAbleSignUpUserId(auth.getAuthId());
         return ResponseEntity.ok().body(new Check(isAbleSignUpUserId));
     }
 
@@ -72,7 +72,7 @@ public class UserController {
     // TODO 현재 로그인 한 사용자 만 삭제할 수 있도록 변경
     @DeleteMapping
     public ResponseEntity remove(@RequestBody UserInfo userInfo) {
-        String userId = userInfo.getUserId();
+        String userId = userInfo.getAuthId();
         userService.remove(userId);
         return ResponseEntity.noContent().build();
     }

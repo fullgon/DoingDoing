@@ -27,18 +27,18 @@ public class UserTests {
         // 하지만 password 같은 정보를 다른 클래스에서
         // 바로 접근, 변경 가능하다는게 걸려서 private 와 super()
 
-        String userId = "userId";
+        String authId = "userId";
         String password = "password";
         String name = "name";
         String email = "email";
         String company = "company";
 
         User userByBuilder = User.builder()
-                .userId(userId).password(password).name(name)
+                .authId(authId).password(password).name(name)
                 .email(email).company(company)
                 .build();
 
-        User UserByConstructor = new User(userId, password, name, email, company);
+        User UserByConstructor = new User(authId, password, name, email, company);
 
         System.out.println("UserByConstructor = " + UserByConstructor);
         System.out.println("UserByBuilder = " + userByBuilder);
@@ -49,19 +49,19 @@ public class UserTests {
     @Test
     public void equalsUser() {
         // TODO 지연 로딩 제외, 추후 올바른 방법으로 수정
-        String userId = "userId";
+        String authId = "userId";
         String password = "password";
         String name = "name";
         String email = "email";
         String company = "company";
-        User User = new User(userId, password, name, email, company);
+        User User = new User(authId, password, name, email, company);
 
         em.persist(User);
 
         em.flush();
         em.clear();
 
-        User findUser = em.find(User.class, User.getNo());
+        User findUser = em.find(User.class, User.getId());
         Assertions.assertEquals(User, findUser);
 
     }

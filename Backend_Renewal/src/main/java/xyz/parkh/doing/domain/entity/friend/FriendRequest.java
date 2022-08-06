@@ -8,7 +8,6 @@ import xyz.parkh.doing.domain.entity.user.User;
 import xyz.parkh.doing.domain.model.friend.FriendshipState;
 
 import javax.persistence.*;
-
 import java.util.Objects;
 
 import static javax.persistence.FetchType.LAZY;
@@ -21,15 +20,15 @@ public class FriendRequest {
 
     @Id
     @GeneratedValue
-    @Column(name = "FRIEND_REQUEST_NO")
-    private Long no;
+    @Column(name = "FRIEND_REQUEST_ID")
+    private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "REQUESTER_ID", referencedColumnName = "USER_NO")
+    @JoinColumn(name = "REQUESTER_ID")
     private User requester;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "TARGET_ID", referencedColumnName = "USER_NO")
+    @JoinColumn(name = "TARGET_ID")
     private User target;
 
     @Enumerated(value = EnumType.STRING)
@@ -50,12 +49,12 @@ public class FriendRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FriendRequest that = (FriendRequest) o;
-        return Objects.equals(no, that.no) && Objects.equals(requester, that.requester)
+        return Objects.equals(id, that.id) && Objects.equals(requester, that.requester)
                 && Objects.equals(target, that.target) && friendshipState == that.friendshipState;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(no, requester, target, friendshipState);
+        return Objects.hash(id, requester, target, friendshipState);
     }
 }

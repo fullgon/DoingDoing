@@ -4,6 +4,8 @@ import xyz.parkh.doing.domain.model.user.MemberType;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.*;
+
 @Entity
 public class TeamUser {
 
@@ -11,13 +13,13 @@ public class TeamUser {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id")
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "TEAM_ID")
     private Team team;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "USER_ID")
     private User user;
 
     @Enumerated(EnumType.STRING)

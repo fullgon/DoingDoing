@@ -22,8 +22,8 @@ public class FriendController {
         return new ResponseEntity(null);
     }
 
-    @GetMapping("/request/{no}")
-    public ResponseEntity responseRequest(@PathVariable Long no) {
+    @GetMapping("/request/{id}")
+    public ResponseEntity responseRequest(@PathVariable Long id) {
         // ?answer=yes, no
         // 친구 신청 수락, 친구 신청 거절
         return new ResponseEntity(null);

@@ -16,9 +16,9 @@ public class Team {
 
     @Id
     @GeneratedValue
-    private Long no;
+    private Long id;
 
-    private String teamId;
+    private String teamAuthId;
 
     private String teamName;
 

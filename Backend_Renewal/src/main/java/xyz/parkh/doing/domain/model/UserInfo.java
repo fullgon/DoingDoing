@@ -8,14 +8,14 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserInfo {
-    private String userId;
+    private String authId;
     private String name;
     private String email;
     private String company;
 
     @Builder
-    public UserInfo(String userId, String name, String email, String company) {
-        this.userId = userId;
+    public UserInfo(String authId, String name, String email, String company) {
+        this.authId = authId;
         this.name = name;
         this.email = email;
         this.company = company;

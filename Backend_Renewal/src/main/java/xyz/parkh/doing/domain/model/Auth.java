@@ -8,11 +8,11 @@ import xyz.parkh.doing.domain.entity.user.User;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Auth {
-    private String userId;
+    private String authId;
     private String password;
 
     public User convertToUser() {
         return User.builder()
-                .userId(userId).password(password).build();
+                .authId(authId).password(password).build();
     }
 }

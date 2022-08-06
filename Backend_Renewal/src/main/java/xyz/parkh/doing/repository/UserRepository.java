@@ -6,9 +6,6 @@ import xyz.parkh.doing.domain.entity.user.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-
-    User findByNo(Long no);
-    User findByUserId(String userId);
-
+    User findByAuthId(String authId);
     User findByEmail(String email);
 }

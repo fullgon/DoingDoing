@@ -1,11 +1,9 @@
 package xyz.parkh.doing.domain.entity.user;
 
 import lombok.*;
-import xyz.parkh.doing.domain.entity.friend.FriendRequest;
 import xyz.parkh.doing.domain.model.Auth;
 import xyz.parkh.doing.domain.model.UserDetailInfo;
 import xyz.parkh.doing.domain.model.UserInfo;
-import xyz.parkh.doing.domain.model.friend.FriendshipState;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -24,11 +22,11 @@ public class User {
 
     @Id
     @GeneratedValue
-    @Column(name = "user_no")
-    private Long no;
+    @Column(name = "USER_ID")
+    private Long id;
 
-    @Column(name = "user_id", length = 20)
-    private String userId; // friendId, userId 구분을 위해
+    @Column(length = 20)
+    private String authId;
 
     @Column(length = 255)
     private String password;
@@ -42,17 +40,18 @@ public class User {
     @Column(length = 50)
     private String company;
 
-//    private List<Friendship> friends = new ArrayList<>();
-//
-//    private List<Team> teams = new ArrayList<>();
+    @OneToMany(mappedBy = "id")
+    private List<TeamUser> teams = new ArrayList<>();
 
-//
-//    @OneToMany(mappedBy = "no")
+//    @OneToMany(mappedBy = "id")
+//    private List<Friendship> friends = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "id")
 //    private List<FriendRequest> friendRequests = new ArrayList<>();
 
     @Builder
-    public User(String userId, String password, String name, String email, String company) {
-        this.userId = userId;
+    public User(String authId, String password, String name, String email, String company) {
+        this.authId = authId;
         this.password = password;
         this.name = name;
         this.email = email;
@@ -65,32 +64,31 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(no, user.no) && Objects.equals(userId, user.userId) && Objects.equals(password, user.password) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(company, user.company);
+        return Objects.equals(id, user.id) && Objects.equals(authId, user.authId) && Objects.equals(password, user.password) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(company, user.company);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(no, userId, password, name, email, company);
+        return Objects.hash(id, authId, password, name, email, company);
     }
 
-    public UserDetailInfo convertToIndividualUser() {
-        UserDetailInfo individualDetailInfo = UserDetailInfo.builder().no(no).userId(userId).password(password)
-                .name(name).email(email).company(company).build();
+    public UserDetailInfo convertToUserDetailInfo() {
+        UserDetailInfo individualDetailInfo = UserDetailInfo.builder()
+                .authId(authId).password(password).name(name)
+                .email(email).company(company).build();
         return individualDetailInfo;
     }
 
     public UserInfo convertToUserInfo() {
-        UserInfo userInfo = UserInfo.builder().userId(userId).name(name)
+        UserInfo userInfo = UserInfo.builder().authId(authId).name(name)
                 .email(email).company(company).build();
         return userInfo;
     }
 
     public void modifyPassword(Auth auth) {
-        System.out.println("auth = " + auth.getPassword());
-        if (userId.equals(auth.getUserId())) {
+        if (authId.equals(auth.getAuthId())) {
             password = auth.getPassword();
         }
-        System.out.println("password = " + password);
     }
 
     public void modifyUserInfo(UserInfo userInfo) {

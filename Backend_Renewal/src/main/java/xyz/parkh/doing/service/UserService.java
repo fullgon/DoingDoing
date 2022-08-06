@@ -19,7 +19,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     public UserInfo findUserInfo(final String userId) {
-        User findUser = userRepository.findByUserId(userId);
+        User findUser = userRepository.findByAuthId(userId);
         UserInfo findUserInfo = findUser.convertToUserInfo();
 
         return findUserInfo;
@@ -29,13 +29,13 @@ public class UserService {
         User user = userDetailInfo.convertToUser();
         userRepository.save(user);
 
-        User findUser = userRepository.findByNo(user.getNo());
+        User findUser = userRepository.findById(user.getId()).get();
         UserInfo findUserInfo = findUser.convertToUserInfo();
         return findUserInfo;
     }
 
     public Boolean signIn(Auth auth) {
-        User findUser = userRepository.findByUserId(auth.getUserId());
+        User findUser = userRepository.findByAuthId(auth.getAuthId());
         String savedPassword = findUser.getPassword();
         String requestPassword = auth.getPassword();
 
@@ -43,21 +43,21 @@ public class UserService {
     }
 
     public UserDetailInfo modifyUserInfo(final UserInfo modifyUserInfo) {
-        String userId = modifyUserInfo.getUserId();
-        User findUser = userRepository.findByUserId(userId);
+        String userId = modifyUserInfo.getAuthId();
+        User findUser = userRepository.findByAuthId(userId);
 
         findUser.modifyUserInfo(modifyUserInfo);
-        UserDetailInfo findIndividualDetailInfo = findUser.convertToIndividualUser();
+        UserDetailInfo findIndividualDetailInfo = findUser.convertToUserDetailInfo();
         return findIndividualDetailInfo;
     }
 
     public void remove(final String userId) {
-        User findUser = userRepository.findByUserId(userId);
+        User findUser = userRepository.findByAuthId(userId);
         userRepository.delete(findUser);
     }
 
     public Boolean isExistUserByUserId(String userId) {
-        User existUser = userRepository.findByUserId(userId);
+        User existUser = userRepository.findByAuthId(userId);
         return existUser != null;
     }
 
@@ -77,7 +77,7 @@ public class UserService {
     }
 
     public void modifyPassword(Auth auth) {
-        User findUser = userRepository.findByUserId(auth.getUserId());
+        User findUser = userRepository.findByAuthId(auth.getAuthId());
         System.out.println("findUserEntity = " + findUser.getPassword());
         findUser.modifyPassword(auth);
         System.out.println("findUserEntity = " + findUser.getPassword());

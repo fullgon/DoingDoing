@@ -23,26 +23,26 @@ public class DomainTests {
 
     @Test
     public void equalsToInsertAndFindSchedule() {
-        User user = User.builder().userId("PHJ").build();
+        User user = User.builder().authId("PHJ").build();
         em.persist(user);
 
         Schedule schedule = HabitSchedule.builder().user(user).build();
         em.persist(schedule);
 
-        Schedule findSchedule = em.find(Schedule.class, schedule.getNo());
+        Schedule findSchedule = em.find(Schedule.class, schedule.getId());
         Assert.assertTrue(schedule == findSchedule); // 1차 캐시 때문에 == 가능
     }
 
     @Test
     public void setUserNameForScheduleInUser() {
-        User user = User.builder().userId("PHJ").build();
+        User user = User.builder().authId("PHJ").build();
         em.persist(user);
 
         Schedule schedule = HabitSchedule.builder().user(user).build();
         em.persist(schedule);
 
         // DB 에 반영 되었는지 확인
-        Schedule findSchedule = em.find(Schedule.class, schedule.getNo());
+        Schedule findSchedule = em.find(Schedule.class, schedule.getId());
         Assert.assertEquals(findSchedule.getUser(), user);
 
         // 수정 된 값이 commit 되지 않아도 반영 되는지 확인
@@ -51,7 +51,7 @@ public class DomainTests {
         // 1차 캐시에 있는 객체를 반환한다.
         User scheduleInUser = findSchedule.getUser();
         scheduleInUser.setName("parkh");
-        User findUser = em.find(User.class, scheduleInUser.getNo());
+        User findUser = em.find(User.class, scheduleInUser.getId());
         Assert.assertEquals(scheduleInUser, findUser);
 
         // 자바의 객체는 값을 그대로 복사하는 것이 아니라

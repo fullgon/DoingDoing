@@ -40,7 +40,7 @@ public class ScheduleTests {
         // 이건 Java 지식이 부족 했던거 인듯
         // 조회 할 때 알아서 업 캐스팅 되고,
         // 필요시 다운 캐스팅 해서 사용 하면 되겠다.
-        User user = User.builder().userId("parkId").name("parkName").build();
+        User user = User.builder().authId("parkId").name("parkName").build();
         userRepository.save(user);
 
         ToDoSchedule toDoSchedule = ToDoSchedule.builder().title("일정 제목")
@@ -48,7 +48,7 @@ public class ScheduleTests {
                 .isCompleted(true).build();
         scheduleRepository.save(toDoSchedule);
 
-        Schedule findBySchedule = scheduleRepository.findByNo(toDoSchedule.getNo());
+        Schedule findBySchedule = scheduleRepository.findById(toDoSchedule.getId()).get();
         ToDoSchedule convertSchedule = (ToDoSchedule) findBySchedule;
         Boolean isCompleted = convertSchedule.getIsCompleted();
         assertTrue(isCompleted);
@@ -116,9 +116,9 @@ public class ScheduleTests {
         em.flush();
         em.clear();
 
-        ToDoSchedule findSchedule = (ToDoSchedule) em.find(Schedule.class, toDoScheduleByBuilder.getNo());
+        ToDoSchedule findSchedule = (ToDoSchedule) em.find(Schedule.class, toDoScheduleByBuilder.getId());
 
-        assertEquals(toDoScheduleByBuilder.getNo(), findSchedule.getNo());
+        assertEquals(toDoScheduleByBuilder.getId(), findSchedule.getId());
         assertEquals(toDoScheduleByBuilder.getTitle(), findSchedule.getTitle());
         assertEquals(toDoScheduleByBuilder.getContent(), findSchedule.getContent());
         assertEquals(toDoScheduleByBuilder.getOpenScope(), findSchedule.getOpenScope());
