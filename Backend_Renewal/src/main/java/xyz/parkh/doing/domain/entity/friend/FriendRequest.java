@@ -17,15 +17,15 @@ public class FriendRequest {
 
     @Id
     @GeneratedValue
-    @Column(name = "FRIENDSHIP_ID")
-    private Long id;
+    @Column(name = "FRIEND_REQUEST_NO")
+    private Long no;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "REQUESTER_ID", referencedColumnName = "USER_ID")
+    @JoinColumn(name = "REQUESTER_ID", referencedColumnName = "USER_NO")
     private User requester;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "TARGET_ID", referencedColumnName = "USER_ID")
+    @JoinColumn(name = "TARGET_ID", referencedColumnName = "USER_NO")
     private User target;
 
     @Enumerated(value = EnumType.STRING)
@@ -37,4 +37,7 @@ public class FriendRequest {
         this.friendshipState = friendshipState;
     }
 
+    public void setFriendshipState(FriendshipState friendshipState) {
+        this.friendshipState = friendshipState;
+    }
 }

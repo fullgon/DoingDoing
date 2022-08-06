@@ -46,9 +46,9 @@ public class User {
 //
 //    private List<Team> teams = new ArrayList<>();
 
-
-    @OneToMany(mappedBy = "id")
-    private List<FriendRequest> friendRequests = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "no")
+//    private List<FriendRequest> friendRequests = new ArrayList<>();
 
     @Builder
     public User(String userId, String password, String name, String email, String company) {
@@ -110,25 +110,25 @@ public class User {
      * Friendship 에서 친구를 관리하는 것이 좋지만,
      * 조회 정도는 자주 할 것 같다고 판단해 양방향 매핑 추가.
      * */
-    public List<User> readFriends() {
-        List<User> memberList = new ArrayList<>();
-        for (FriendRequest friendRequest : friendRequests) {
-            if (friendRequest.getFriendshipState().equals(FriendshipState.ACCEPT)) {
-                memberList.add(friendRequest.getRequester());
-            }
-        }
-        return memberList;
-    }
-
-    public List<User> readSentFriendRequests() {
-        List<User> memberList = new ArrayList<>();
-        for (FriendRequest friendRequest : friendRequests) {
-            if (friendRequest.getFriendshipState().equals(FriendshipState.REQUEST)) {
-                memberList.add(friendRequest.getRequester());
-            }
-        }
-        return memberList;
-    }
+//    public List<User> readFriends() {
+//        List<User> memberList = new ArrayList<>();
+//        for (FriendRequest friendRequest : friendRequests) {
+//            if (friendRequest.getFriendshipState().equals(FriendshipState.ACCEPT)) {
+//                memberList.add(friendRequest.getRequester());
+//            }
+//        }
+//        return memberList;
+//    }
+//
+//    public List<User> readSentFriendRequests() {
+//        List<User> memberList = new ArrayList<>();
+//        for (FriendRequest friendRequest : friendRequests) {
+//            if (friendRequest.getFriendshipState().equals(FriendshipState.REQUEST)) {
+//                memberList.add(friendRequest.getRequester());
+//            }
+//        }
+//        return memberList;
+//    }
 
 // TODO
 //  가능 하다면 친구 요청 들어온 목록 확인 하는 메서드 생성
