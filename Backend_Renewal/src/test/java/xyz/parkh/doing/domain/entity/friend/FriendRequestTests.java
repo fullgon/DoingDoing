@@ -31,7 +31,6 @@ public class FriendRequestTests {
     private EntityManager em;
 
     @Test
-    @Rollback(value = false)
     public void 친구_신청() {
         User park1 = User.builder().name("park1").build();
         User park2 = User.builder().name("park2").build();

@@ -1,9 +1,6 @@
 package xyz.parkh.doing.domain.entity.friend;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import xyz.parkh.doing.domain.entity.user.User;
 import xyz.parkh.doing.domain.model.friend.FriendshipState;
 
@@ -34,6 +31,7 @@ public class FriendRequest {
     @Enumerated(value = EnumType.STRING)
     private FriendshipState friendshipState;
 
+    @Builder
     public FriendRequest(User requester, User target, FriendshipState friendshipState) {
         this.requester = requester;
         this.target = target;
