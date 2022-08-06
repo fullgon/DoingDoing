@@ -1,6 +1,7 @@
 package xyz.parkh.doing.domain;
 
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,13 +42,18 @@ public class FriendRequestTests {
         userRepository.save(park2);
         friendRequestRepository.save(friendRequest);
 
-        em.flush();
-        em.clear();
+        // TODO 중간에 1차캐시 비우면 아래 두 개의 assert 문 실패 하는데 지금은 왜 그런지 모르겠음.
+//        em.flush();
+//        em.clear();
 
-//        Optional<User> findUser = userRepository.findById(park1.getNo());
-//        System.out.println("findUser = " + findUser);
+        FriendRequest findFriendRequest = friendRequestRepository.findById(friendRequest.getNo()).get();
 
-        Optional<FriendRequest> findFriendRequest = friendRequestRepository.findById(friendRequest.getNo());
         System.out.println("findFriendRequest = " + findFriendRequest);
+        System.out.println("friendRequest = " + friendRequest);
+        Assertions.assertTrue(findFriendRequest.equals(friendRequest));
+        Assertions.assertEquals(findFriendRequest, friendRequest);
+
+        Assertions.assertEquals(friendRequest, findFriendRequest);
+        Assertions.assertTrue(friendRequest.equals(findFriendRequest));
     }
 }
