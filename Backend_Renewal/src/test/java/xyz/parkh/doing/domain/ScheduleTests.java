@@ -8,7 +8,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.entity.schedule.Schedule;
 import xyz.parkh.doing.domain.entity.schedule.ToDoSchedule;
-import xyz.parkh.doing.domain.entity.user.IndividualUser;
 import xyz.parkh.doing.domain.entity.user.User;
 import xyz.parkh.doing.domain.model.schedule.OpenScope;
 import xyz.parkh.doing.domain.model.schedule.Period;
@@ -41,11 +40,11 @@ public class ScheduleTests {
         // 이건 Java 지식이 부족 했던거 인듯
         // 조회 할 때 알아서 업 캐스팅 되고,
         // 필요시 다운 캐스팅 해서 사용 하면 되겠다.
-        IndividualUser individualUser = IndividualUser.builder().userId("parkId").name("parkName").build();
-        userRepository.save(individualUser);
+        User user = User.builder().userId("parkId").name("parkName").build();
+        userRepository.save(user);
 
         ToDoSchedule toDoSchedule = ToDoSchedule.builder().title("일정 제목")
-                .openScope(OpenScope.PUBIC).user(individualUser)
+                .openScope(OpenScope.PUBIC).user(user)
                 .isCompleted(true).build();
         scheduleRepository.save(toDoSchedule);
 
@@ -57,7 +56,7 @@ public class ScheduleTests {
 
     @Test
     public void toDoScheduleBuilderTest() {
-        User user = new IndividualUser("userId", "password", "name", "email", "company");
+        User user = new User("userId", "password", "name", "email", "company");
         String title = "title";
         String content = "content";
         OpenScope openScope = OpenScope.PUBIC;
@@ -78,8 +77,8 @@ public class ScheduleTests {
 
     @Test
     public void equalsSchedule() {
-        User user1 = new IndividualUser("userId", "password", "name", "email", "company");
-        User user2 = new IndividualUser("userId", "password", "name", "email", "company");
+        User user1 = new User("userId", "password", "name", "email", "company");
+        User user2 = new User("userId", "password", "name", "email", "company");
         String title = "title";
         String content = "content";
         OpenScope openScope = OpenScope.PUBIC;
@@ -100,7 +99,7 @@ public class ScheduleTests {
     @Test
     public void saveSchedule() {
         // TODO 지연 로딩 제외, 추후 올바른 방법으로 수정
-        User user = new IndividualUser("userId", "password", "name", "email", "company");
+        User user = new User("userId", "password", "name", "email", "company");
         em.persist(user);
 
         String title = "title";

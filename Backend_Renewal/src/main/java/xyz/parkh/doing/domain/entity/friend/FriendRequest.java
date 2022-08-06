@@ -1,4 +1,4 @@
-package xyz.parkh.doing.domain.entity;
+package xyz.parkh.doing.domain.entity.friend;
 
 import lombok.AccessLevel;
 import lombok.Getter;

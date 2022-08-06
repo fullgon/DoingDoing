@@ -1,12 +1,9 @@
 package xyz.parkh.doing.domain.entity.user;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import xyz.parkh.doing.domain.entity.FriendRequest;
+import lombok.*;
+import xyz.parkh.doing.domain.entity.friend.FriendRequest;
 import xyz.parkh.doing.domain.model.Auth;
-import xyz.parkh.doing.domain.model.IndividualDetailInfo;
+import xyz.parkh.doing.domain.model.UserDetailInfo;
 import xyz.parkh.doing.domain.model.UserInfo;
 import xyz.parkh.doing.domain.model.friend.FriendshipState;
 
@@ -23,7 +20,7 @@ import java.util.Objects;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "DTYPE")
 @Table(name = "USERS")
-public abstract class User {
+public class User {
 
     @Id
     @GeneratedValue
@@ -45,9 +42,15 @@ public abstract class User {
     @Column(length = 50)
     private String company;
 
+//    private List<Friendship> friends = new ArrayList<>();
+//
+//    private List<Team> teams = new ArrayList<>();
+
+
     @OneToMany(mappedBy = "id")
     private List<FriendRequest> friendRequests = new ArrayList<>();
 
+    @Builder
     public User(String userId, String password, String name, String email, String company) {
         this.userId = userId;
         this.password = password;
@@ -70,8 +73,8 @@ public abstract class User {
         return Objects.hash(no, userId, password, name, email, company);
     }
 
-    public IndividualDetailInfo convertToIndividualUser() {
-        IndividualDetailInfo individualDetailInfo = IndividualDetailInfo.builder().no(no).userId(userId).password(password)
+    public UserDetailInfo convertToIndividualUser() {
+        UserDetailInfo individualDetailInfo = UserDetailInfo.builder().no(no).userId(userId).password(password)
                 .name(name).email(email).company(company).build();
         return individualDetailInfo;
     }

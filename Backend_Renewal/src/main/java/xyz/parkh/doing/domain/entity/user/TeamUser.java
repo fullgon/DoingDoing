@@ -1,20 +1,25 @@
 package xyz.parkh.doing.domain.entity.user;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import xyz.parkh.doing.domain.model.user.MemberType;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TeamUser extends User {
-    @Builder
-    public TeamUser(String userId, String password, String name, String email, String company) {
-        setUserId(userId);
-        setPassword(password);
-        setName(name);
-        setEmail(email);
-        setCompany(company);
-    }
+public class TeamUser {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @Enumerated(EnumType.STRING)
+    private MemberType type;
 }

@@ -1,11 +1,9 @@
-package xyz.parkh.doing.domain.entity;
+package xyz.parkh.doing.domain.entity.friend;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.*;
-import java.lang.management.LockInfo;
 import java.util.ArrayList;
 import java.util.List;
 

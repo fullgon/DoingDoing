@@ -3,8 +3,7 @@ package xyz.parkh.doing.domain.model;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import xyz.parkh.doing.domain.entity.user.IndividualUser;
+import xyz.parkh.doing.domain.entity.user.User;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -12,8 +11,8 @@ public class Auth {
     private String userId;
     private String password;
 
-    public IndividualUser convertToIndividualUser() {
-        return IndividualUser.builder()
+    public User convertToUser() {
+        return User.builder()
                 .userId(userId).password(password).build();
     }
 }
