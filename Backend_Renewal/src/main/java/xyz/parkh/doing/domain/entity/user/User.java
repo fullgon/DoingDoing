@@ -1,6 +1,7 @@
 package xyz.parkh.doing.domain.entity.user;
 
 import lombok.*;
+import xyz.parkh.doing.domain.entity.schedule.Schedule;
 import xyz.parkh.doing.domain.model.Auth;
 import xyz.parkh.doing.domain.model.UserDetailInfo;
 import xyz.parkh.doing.domain.model.UserInfo;
@@ -22,7 +23,7 @@ public class User {
 
     @Id
     @GeneratedValue
-    @Column(name = "USER_ID")
+    @Column(name = "USERS_ID")
     private Long id;
 
     @Column(length = 20)
@@ -39,6 +40,10 @@ public class User {
 
     @Column(length = 50)
     private String company;
+
+//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinColumn(name = "USER_ID")
+//    private List<Schedule> schedules = new ArrayList<>();
 
     @OneToMany(mappedBy = "id")
     private List<TeamUser> teams = new ArrayList<>();

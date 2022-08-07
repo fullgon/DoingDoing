@@ -3,6 +3,7 @@ package xyz.parkh.doing.domain.entity.schedule;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import xyz.parkh.doing.domain.entity.user.User;
 import xyz.parkh.doing.domain.model.schedule.OpenScope;
 import xyz.parkh.doing.domain.model.schedule.Period;
@@ -12,6 +13,7 @@ import java.util.Objects;
 
 import static javax.persistence.FetchType.LAZY;
 
+@ToString
 @Entity
 @Getter
 @Table(name = "SCHEDULE")
@@ -25,7 +27,7 @@ public abstract class Schedule {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "USERS_ID")
     private User user;
 
     private String title;
