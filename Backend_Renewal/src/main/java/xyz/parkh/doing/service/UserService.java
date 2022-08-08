@@ -18,6 +18,12 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    public User findByAuthId(String authId) {
+        User findByAuthId = userRepository.findByAuthId(authId);
+        // TODO null 체크
+        return findByAuthId;
+    }
+
     public UserInfo findUserInfo(final String userId) {
         User findUser = userRepository.findByAuthId(userId);
         UserInfo findUserInfo = findUser.convertToUserInfo();
