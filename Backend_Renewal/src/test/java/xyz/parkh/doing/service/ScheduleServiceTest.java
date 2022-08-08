@@ -36,7 +36,7 @@ public class ScheduleServiceTest {
     public void 일정_추가() {
         User user = User.builder().name("name").build();
         userRepository.save(user);
-        Period period = Period.builder().build();
+        Period period = new Period();
 
 //        ToDoSchedule schedule = ToDoSchedule.builder()
 //                .user(user).title("title").content("content").openScope(OpenScope.PUBIC)

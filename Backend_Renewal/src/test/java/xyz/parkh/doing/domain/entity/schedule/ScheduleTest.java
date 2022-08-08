@@ -57,7 +57,7 @@ public class ScheduleTest {
         String title = "title";
         String content = "content";
         OpenScope openScope = OpenScope.PUBIC;
-        Period period = Period.builder().build();
+        Period period = new Period();
         Boolean isCompleted = true;
 
         ToDoSchedule toDoScheduleByBuilder = ToDoSchedule.builder().title(title).content(content)

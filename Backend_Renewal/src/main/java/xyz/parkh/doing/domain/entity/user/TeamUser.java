@@ -22,6 +22,6 @@ public class TeamUser {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     private MemberType type;
 }
