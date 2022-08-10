@@ -79,10 +79,8 @@ public class ScheduleTest {
         String title = "title";
         String content = "content";
         OpenScope openScope = OpenScope.PUBIC;
-        Period period1 = Period.builder().periodType(PeriodType.MONTH)
-                .year(2022L).month(10L).build();
-        Period period2 = Period.builder().periodType(PeriodType.MONTH)
-                .year(2022L).month(10L).build();
+        Period period1 = Period.createMonthPeriod();
+        Period period2 = Period.createMonthPeriod();
         Boolean isCompleted = true;
 
         ToDoSchedule schedule1 = ToDoSchedule.builder().title(title).content(content)
@@ -102,8 +100,7 @@ public class ScheduleTest {
         String title = "title";
         String content = "content";
         OpenScope openScope = OpenScope.PUBIC;
-        Period period = Period.builder().periodType(PeriodType.MONTH)
-                .year(2022L).month(10L).build();
+        Period period = Period.createMonthPeriod();
         Boolean isCompleted = true;
 
         ToDoSchedule toDoScheduleByBuilder = ToDoSchedule.builder().title(title).content(content)
