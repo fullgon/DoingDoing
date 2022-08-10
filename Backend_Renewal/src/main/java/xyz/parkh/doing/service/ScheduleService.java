@@ -24,16 +24,7 @@ public class ScheduleService {
     // 일정 생성
     public void addScheduleForScheduleDTO(ScheduleDTO scheduleDTO) {
         ScheduleType scheduleType = scheduleDTO.getScheduleType();
-        if (scheduleType == null) {
-            throw new NullPointerException();
-        }
-        Schedule schedule = null;
-
-        if (scheduleType == ScheduleType.HABIT) {
-            schedule = scheduleDTO.convertHabitSchedule();
-        } else if (scheduleType == ScheduleType.TODO) {
-            schedule = scheduleDTO.convertToDoSchedule();
-        }
+        Schedule schedule = scheduleDTO.convertSchedule();
         scheduleRepository.save(schedule);
     }
 

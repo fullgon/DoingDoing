@@ -8,14 +8,12 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.Objects;
 
 @ToString
 @Embeddable
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Period {
     @Column(name = "YEARS")
     private int year;
@@ -60,17 +58,17 @@ public class Period {
         return new Period(year, month, week, periodType);
     }
 
-    public static Period createMonthPeriod() {
+    public static Period createMonthlyPeriod() {
         LocalDate now = LocalDate.now();
         return makePeriod(now, PeriodType.MONTH);
     }
 
-    public static Period createWeekPeriod() {
+    public static Period createWeeklyPeriod() {
         LocalDate now = LocalDate.now();
         return makePeriod(now, PeriodType.WEEK);
     }
 
-    public static Period createDayPeriod() {
+    public static Period createDailyPeriod() {
         LocalDate now = LocalDate.now();
         return makePeriod(now, PeriodType.DAY);
     }

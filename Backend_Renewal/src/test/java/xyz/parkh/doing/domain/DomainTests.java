@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.entity.schedule.HabitSchedule;
 import xyz.parkh.doing.domain.entity.schedule.Schedule;
 import xyz.parkh.doing.domain.entity.user.User;
+import xyz.parkh.doing.domain.model.schedule.OpenScope;
 
 import javax.persistence.EntityManager;
 
@@ -26,7 +27,7 @@ public class DomainTests {
         User user = User.builder().authId("PHJ").build();
         em.persist(user);
 
-        Schedule schedule = HabitSchedule.builder().user(user).build();
+        Schedule schedule = HabitSchedule.createDailyHabitSchedule(user, "title", "content", OpenScope.PUBIC);
         em.persist(schedule);
 
         Schedule findSchedule = em.find(Schedule.class, schedule.getId());
@@ -38,7 +39,7 @@ public class DomainTests {
         User user = User.builder().authId("PHJ").build();
         em.persist(user);
 
-        Schedule schedule = HabitSchedule.builder().user(user).build();
+        Schedule schedule = HabitSchedule.createDailyHabitSchedule(user, "title", "content", OpenScope.PUBIC);
         em.persist(schedule);
 
         // DB 에 반영 되었는지 확인

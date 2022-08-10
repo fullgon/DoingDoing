@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.entity.user.User;
 import xyz.parkh.doing.domain.model.schedule.OpenScope;
 import xyz.parkh.doing.domain.model.schedule.Period;
-import xyz.parkh.doing.domain.model.schedule.PeriodType;
 import xyz.parkh.doing.repository.ScheduleRepository;
 import xyz.parkh.doing.repository.UserRepository;
 
@@ -40,9 +39,8 @@ public class ScheduleTest {
         User user = User.builder().authId("parkId").name("parkName").build();
         userRepository.save(user);
 
-        ToDoSchedule toDoSchedule = ToDoSchedule.builder().title("일정 제목")
-                .openScope(OpenScope.PUBIC).user(user)
-                .isCompleted(true).build();
+
+        ToDoSchedule toDoSchedule = ToDoSchedule.createMonthlyToDoSchedule(user, "title", "content", OpenScope.PUBIC, true);
         scheduleRepository.save(toDoSchedule);
 
         Schedule findBySchedule = scheduleRepository.findById(toDoSchedule.getId()).get();
@@ -52,23 +50,22 @@ public class ScheduleTest {
     }
 
     @Test
-    public void toDoScheduleBuilderTest() {
+    public void toDoScheduleTest() {
         User user = new User("userId", "password", "name", "email", "company");
         String title = "title";
         String content = "content";
         OpenScope openScope = OpenScope.PUBIC;
-        Period period = new Period();
+        Period period = Period.createMonthlyPeriod();
         Boolean isCompleted = true;
 
-        ToDoSchedule toDoScheduleByBuilder = ToDoSchedule.builder().title(title).content(content)
-                .user(user).openScope(openScope).period(period).isCompleted(isCompleted).build();
+        ToDoSchedule toDoSchedule = ToDoSchedule.createMonthlyToDoSchedule(user, title, content, OpenScope.PUBIC, isCompleted);
 
-        assertEquals(toDoScheduleByBuilder.getTitle(), title);
-        assertEquals(toDoScheduleByBuilder.getContent(), content);
-        assertEquals(toDoScheduleByBuilder.getUser(), user);
-        assertEquals(toDoScheduleByBuilder.getOpenScope(), openScope);
-        assertEquals(toDoScheduleByBuilder.getPeriod(), period);
-        assertEquals(toDoScheduleByBuilder.getIsCompleted(), isCompleted);
+        assertEquals(toDoSchedule.getTitle(), title);
+        assertEquals(toDoSchedule.getContent(), content);
+        assertEquals(toDoSchedule.getUser(), user);
+        assertEquals(toDoSchedule.getOpenScope(), openScope);
+        assertEquals(toDoSchedule.getPeriod(), period);
+        assertEquals(toDoSchedule.getIsCompleted(), isCompleted);
     }
 
 
@@ -79,15 +76,9 @@ public class ScheduleTest {
         String title = "title";
         String content = "content";
         OpenScope openScope = OpenScope.PUBIC;
-        Period period1 = Period.createMonthPeriod();
-        Period period2 = Period.createMonthPeriod();
         Boolean isCompleted = true;
-
-        ToDoSchedule schedule1 = ToDoSchedule.builder().title(title).content(content)
-                .user(user1).openScope(openScope).period(period1).isCompleted(isCompleted).build();
-        ToDoSchedule schedule2 = ToDoSchedule.builder().title(title).content(content)
-                .user(user2).openScope(openScope).period(period2).isCompleted(isCompleted).build();
-
+        Schedule schedule1 = ToDoSchedule.createDailyToDoSchedule(user1, title, content, openScope, isCompleted);
+        Schedule schedule2 = ToDoSchedule.createDailyToDoSchedule(user2, title, content, openScope, isCompleted);
         assertEquals(schedule1, schedule2);
     }
 
@@ -100,24 +91,22 @@ public class ScheduleTest {
         String title = "title";
         String content = "content";
         OpenScope openScope = OpenScope.PUBIC;
-        Period period = Period.createMonthPeriod();
         Boolean isCompleted = true;
 
-        ToDoSchedule toDoScheduleByBuilder = ToDoSchedule.builder().title(title).content(content)
-                .user(user).openScope(openScope).period(period).isCompleted(isCompleted).build();
-        em.persist(toDoScheduleByBuilder);
+        Schedule schedule = ToDoSchedule.createMonthlyToDoSchedule(user, title, content, openScope, isCompleted);
+        em.persist(schedule);
 
         em.flush();
         em.clear();
 
-        ToDoSchedule findSchedule = (ToDoSchedule) em.find(Schedule.class, toDoScheduleByBuilder.getId());
+        ToDoSchedule findSchedule = (ToDoSchedule) em.find(Schedule.class, schedule.getId());
 
-        assertEquals(toDoScheduleByBuilder.getId(), findSchedule.getId());
-        assertEquals(toDoScheduleByBuilder.getTitle(), findSchedule.getTitle());
-        assertEquals(toDoScheduleByBuilder.getContent(), findSchedule.getContent());
-        assertEquals(toDoScheduleByBuilder.getOpenScope(), findSchedule.getOpenScope());
-        assertEquals(toDoScheduleByBuilder.getIsCompleted(), findSchedule.getIsCompleted());
-        assertEquals(toDoScheduleByBuilder.getPeriod().getPeriodType(), findSchedule.getPeriod().getPeriodType());
+        assertEquals(schedule.getId(), findSchedule.getId());
+        assertEquals(schedule.getTitle(), findSchedule.getTitle());
+        assertEquals(schedule.getContent(), findSchedule.getContent());
+        assertEquals(schedule.getOpenScope(), findSchedule.getOpenScope());
+        assertEquals(((ToDoSchedule) schedule).getIsCompleted(), findSchedule.getIsCompleted());
+        assertEquals(schedule.getPeriod().getPeriodType(), findSchedule.getPeriod().getPeriodType());
     }
 
 }
