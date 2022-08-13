@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.entity.user.User;
-import xyz.parkh.doing.domain.model.Auth;
-import xyz.parkh.doing.domain.model.UserDetailInfo;
-import xyz.parkh.doing.domain.model.UserInfo;
+import xyz.parkh.doing.api.model.request.Auth;
+import xyz.parkh.doing.api.model.request.UserDetailInfo;
+import xyz.parkh.doing.api.model.request.UserInfo;
 import xyz.parkh.doing.repository.UserRepository;
 
 @Slf4j

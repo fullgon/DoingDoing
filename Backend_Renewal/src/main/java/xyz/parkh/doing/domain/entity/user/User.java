@@ -1,10 +1,9 @@
 package xyz.parkh.doing.domain.entity.user;
 
 import lombok.*;
-import xyz.parkh.doing.domain.entity.schedule.Schedule;
-import xyz.parkh.doing.domain.model.Auth;
-import xyz.parkh.doing.domain.model.UserDetailInfo;
-import xyz.parkh.doing.domain.model.UserInfo;
+import xyz.parkh.doing.api.model.request.Auth;
+import xyz.parkh.doing.api.model.request.UserDetailInfo;
+import xyz.parkh.doing.api.model.request.UserInfo;
 
 import javax.persistence.*;
 import java.util.ArrayList;

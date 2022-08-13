@@ -1,4 +1,4 @@
-package xyz.parkh.doing.domain.model;
+package xyz.parkh.doing.api.model.response;
 
 import lombok.Getter;
 

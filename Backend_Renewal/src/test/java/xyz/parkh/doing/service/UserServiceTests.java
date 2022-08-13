@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import xyz.parkh.doing.domain.model.UserDetailInfo;
-import xyz.parkh.doing.domain.model.UserInfo;
+import xyz.parkh.doing.api.model.request.UserDetailInfo;
+import xyz.parkh.doing.api.model.request.UserInfo;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)

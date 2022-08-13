@@ -17,7 +17,6 @@ public class ScheduleDTO {
     private OpenScope openScope;
     private Period period;
     private Boolean isCompleted;
-
     private ScheduleType scheduleType;
 
     public ScheduleDTO() {
