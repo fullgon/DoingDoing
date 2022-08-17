@@ -7,11 +7,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import xyz.parkh.doing.domain.entity.friend.FriendRequest;
-import xyz.parkh.doing.domain.entity.user.User;
-import xyz.parkh.doing.domain.model.friend.FriendshipState;
-import xyz.parkh.doing.repository.FriendRequestRepository;
-import xyz.parkh.doing.repository.UserRepository;
+import xyz.parkh.doing.domain.friend.service.FriendService;
+import xyz.parkh.doing.domain.friend.entity.FriendRequest;
+import xyz.parkh.doing.domain.user.entity.User;
+import xyz.parkh.doing.domain.friend.model.FriendshipState;
+import xyz.parkh.doing.domain.friend.repository.FriendRequestRepository;
+import xyz.parkh.doing.domain.user.service.UserService;
+import xyz.parkh.doing.domain.user.repository.UserRepository;
 
 import javax.persistence.EntityManager;
 

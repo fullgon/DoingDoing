@@ -3,7 +3,7 @@ package xyz.parkh.doing.api.model.request;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import xyz.parkh.doing.domain.entity.user.User;
+import xyz.parkh.doing.domain.user.entity.User;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

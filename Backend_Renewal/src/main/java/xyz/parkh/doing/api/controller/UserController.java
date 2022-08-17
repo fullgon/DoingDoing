@@ -9,7 +9,7 @@ import xyz.parkh.doing.api.model.request.Auth;
 import xyz.parkh.doing.api.model.response.Check;
 import xyz.parkh.doing.api.model.request.UserDetailInfo;
 import xyz.parkh.doing.api.model.request.UserInfo;
-import xyz.parkh.doing.service.UserService;
+import xyz.parkh.doing.domain.user.service.UserService;
 
 
 @Slf4j
