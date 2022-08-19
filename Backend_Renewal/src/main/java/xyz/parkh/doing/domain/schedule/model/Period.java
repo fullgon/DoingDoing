@@ -38,7 +38,7 @@ public class Period {
         this.createDate = LocalDate.now();
     }
 
-    public static Period makePeriod(LocalDate date, PeriodType periodType) {
+    public static Period makeNowPeriod(LocalDate date, PeriodType periodType) {
         int dayOfWeek = date.getDayOfWeek().getValue();
         LocalDate thursdayOfDate = date.minusDays(dayOfWeek - 4);
 
@@ -60,17 +60,17 @@ public class Period {
 
     public static Period createMonthlyPeriod() {
         LocalDate now = LocalDate.now();
-        return makePeriod(now, PeriodType.MONTH);
+        return makeNowPeriod(now, PeriodType.MONTH);
     }
 
     public static Period createWeeklyPeriod() {
         LocalDate now = LocalDate.now();
-        return makePeriod(now, PeriodType.WEEK);
+        return makeNowPeriod(now, PeriodType.WEEK);
     }
 
     public static Period createDailyPeriod() {
         LocalDate now = LocalDate.now();
-        return makePeriod(now, PeriodType.DAY);
+        return makeNowPeriod(now, PeriodType.DAY);
     }
 
     @Override
