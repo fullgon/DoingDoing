@@ -4,11 +4,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import xyz.parkh.doing.domain.user.entity.User;
+import xyz.parkh.doing.domain.user.model.UserDetailInfo;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserDetailInfo {
+public class SignUpRequest {
     private Long id;
     private String authId;
     private String password;
@@ -17,7 +17,7 @@ public class UserDetailInfo {
     private String company;
 
     @Builder
-    public UserDetailInfo(String authId, String password, String name, String email, String company) {
+    public SignUpRequest(String authId, String password, String name, String email, String company) {
         this.authId = authId;
         this.password = password;
         this.name = name;
@@ -25,15 +25,9 @@ public class UserDetailInfo {
         this.company = company;
     }
 
-    public User convertToUser() {
-        User user = User.builder().authId(authId).password(password)
+    public UserDetailInfo convertToUserInfoDetail() {
+        UserDetailInfo userDetailInfo = UserDetailInfo.builder().authId(authId).password(password)
                 .name(name).email(email).company(company).build();
-        return user;
-    }
-
-    public UserInfo convertToUserInfo() {
-        UserInfo userInfo = UserInfo.builder().authId(authId).name(name)
-                .email(email).company(company).build();
-        return userInfo;
+        return userDetailInfo;
     }
 }

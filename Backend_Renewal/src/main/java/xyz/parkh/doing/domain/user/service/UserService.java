@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.user.entity.User;
-import xyz.parkh.doing.api.model.request.Auth;
-import xyz.parkh.doing.api.model.request.UserDetailInfo;
-import xyz.parkh.doing.api.model.request.UserInfo;
+import xyz.parkh.doing.domain.user.model.Auth;
+import xyz.parkh.doing.domain.user.model.UserDetailInfo;
+import xyz.parkh.doing.domain.user.model.UserSimpleInfo;
 import xyz.parkh.doing.domain.user.repository.UserRepository;
 
 @Slf4j
@@ -24,23 +24,25 @@ public class UserService {
         return findByAuthId;
     }
 
-    public UserInfo findUserInfo(final String userId) {
+    //
+    public UserSimpleInfo findUser(final String userId) {
         User findUser = userRepository.findByAuthId(userId);
-        UserInfo findUserInfo = findUser.convertToUserInfo();
+        UserSimpleInfo findUserSimpleInfo = findUser.convertToUserSimpleInfo();
 
-        return findUserInfo;
+        return findUserSimpleInfo;
     }
 
-    public UserInfo signUp(final UserDetailInfo userDetailInfo) {
+    //
+    public UserSimpleInfo signUp(final UserDetailInfo userDetailInfo) {
         User user = userDetailInfo.convertToUser();
         userRepository.save(user);
 
         User findUser = userRepository.findById(user.getId()).get();
-        UserInfo findUserInfo = findUser.convertToUserInfo();
-        return findUserInfo;
+        UserSimpleInfo findUserSimpleInfo = findUser.convertToUserSimpleInfo();
+        return findUserSimpleInfo;
     }
 
-    public Boolean signIn(Auth auth) {
+    public Boolean signIn(final Auth auth) {
         User findUser = userRepository.findByAuthId(auth.getAuthId());
         String savedPassword = findUser.getPassword();
         String requestPassword = auth.getPassword();
@@ -48,13 +50,15 @@ public class UserService {
         return savedPassword.equals(requestPassword);
     }
 
-    public UserDetailInfo modifyUserInfo(final UserInfo modifyUserInfo) {
-        String userId = modifyUserInfo.getAuthId();
+    public void modifyUser(final UserSimpleInfo modifyUser) {
+        String userId = modifyUser.getAuthId();
         User findUser = userRepository.findByAuthId(userId);
+        findUser.modifyUser(modifyUser);
+    }
 
-        findUser.modifyUserInfo(modifyUserInfo);
-        UserDetailInfo findIndividualDetailInfo = findUser.convertToUserDetailInfo();
-        return findIndividualDetailInfo;
+    public void modifyPassword(final Auth auth) {
+        User findUser = userRepository.findByAuthId(auth.getAuthId());
+        findUser.modifyPassword(auth);
     }
 
     public void remove(final String userId) {
@@ -82,10 +86,4 @@ public class UserService {
         return !isExistUserByEmail(email);
     }
 
-    public void modifyPassword(Auth auth) {
-        User findUser = userRepository.findByAuthId(auth.getAuthId());
-        System.out.println("findUserEntity = " + findUser.getPassword());
-        findUser.modifyPassword(auth);
-        System.out.println("findUserEntity = " + findUser.getPassword());
-    }
 }

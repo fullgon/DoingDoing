@@ -1,10 +1,10 @@
 package xyz.parkh.doing.domain.user.entity;
 
 import lombok.*;
-import xyz.parkh.doing.api.model.request.Auth;
-import xyz.parkh.doing.api.model.request.UserDetailInfo;
-import xyz.parkh.doing.api.model.request.UserInfo;
 import xyz.parkh.doing.domain.team.entity.TeamUser;
+import xyz.parkh.doing.domain.user.model.Auth;
+import xyz.parkh.doing.domain.user.model.UserDetailInfo;
+import xyz.parkh.doing.domain.user.model.UserSimpleInfo;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -84,10 +84,10 @@ public class User {
         return individualDetailInfo;
     }
 
-    public UserInfo convertToUserInfo() {
-        UserInfo userInfo = UserInfo.builder().authId(authId).name(name)
+    public UserSimpleInfo convertToUserSimpleInfo() {
+        UserSimpleInfo userSimpleInfo = UserSimpleInfo.builder().authId(authId).name(name)
                 .email(email).company(company).build();
-        return userInfo;
+        return userSimpleInfo;
     }
 
     public void modifyPassword(Auth auth) {
@@ -96,15 +96,15 @@ public class User {
         }
     }
 
-    public void modifyUserInfo(UserInfo userInfo) {
-        if (userInfo.getCompany() != null) {
-            this.company = userInfo.getCompany();
+    public void modifyUser(UserSimpleInfo userSimpleInfo) {
+        if (userSimpleInfo.getCompany() != null) {
+            this.company = userSimpleInfo.getCompany();
         }
-        if (userInfo.getName() != null) {
-            this.name = userInfo.getName();
+        if (userSimpleInfo.getName() != null) {
+            this.name = userSimpleInfo.getName();
         }
-        if (userInfo.getEmail() != null) {
-            this.email = userInfo.getEmail();
+        if (userSimpleInfo.getEmail() != null) {
+            this.email = userSimpleInfo.getEmail();
         }
     }
 
