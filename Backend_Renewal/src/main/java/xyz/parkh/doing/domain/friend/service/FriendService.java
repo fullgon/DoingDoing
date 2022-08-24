@@ -26,7 +26,13 @@ public class FriendService {
     private final FriendshipRepository friendshipRepository;
     private final UserService userService;
 
-    public void requestFriendApplication(String requesterAuthId, String targetAuthId) {
+    public void requestFriendApplication(String requesterAuthId, String targetAuthId) throws Exception {
+        FriendApplication friendshipState = friendRequestRepository.findByRequester_AuthIdAndTarget_AuthIdAndFriendshipState(requesterAuthId, targetAuthId, FriendshipState.REQUEST);
+        if (friendshipState != null) {
+            // TODO 기존에 전송한 요청이 있을 경우 에러 메시지 전송("이미 신청한 사용자")
+            throw new Exception();
+        }
+
         User requester = userService.findByAuthId(requesterAuthId);
         User target = userService.findByAuthId(targetAuthId);
 
@@ -47,9 +53,16 @@ public class FriendService {
         }
     }
 
+    public Boolean isFriend(String authId1, String authId2) {
+        Friendship friendship = friendshipRepository.findAllByUser1_AuthIdAndUser2_AuthId(authId1, authId2);
+        if (friendship == null) {
+            return false;
+        }
+        return true;
+    }
+
     public List<FriendInfo> getReceiveFriendApplicationList(String authId) {
-        User targetUser = userService.findByAuthId(authId);
-        List<FriendApplication> findFriendApplicationList = friendRequestRepository.findAllByTargetAndFriendshipState(targetUser, FriendshipState.REQUEST);
+        List<FriendApplication> findFriendApplicationList = friendRequestRepository.findAllByTarget_AuthIdAndFriendshipState(authId, FriendshipState.REQUEST);
 
         List<FriendInfo> friendInfoList = new ArrayList<>();
         for (FriendApplication friendApplication : findFriendApplicationList) {
@@ -61,6 +74,7 @@ public class FriendService {
     }
 
     public List<FriendInfo> getSendFriendApplicationList(String authId) {
+        // TODO 최근 거절된 요청도 확인 가능 하도록.
         List<FriendApplication> findFriendApplicationList = friendRequestRepository.findAllByRequester_AuthIdAndFriendshipState(authId, FriendshipState.REQUEST);
 
         List<FriendInfo> friendInfoList = new ArrayList<>();
@@ -71,9 +85,6 @@ public class FriendService {
         return friendInfoList;
     }
 
-    // 친구 신청 - 수락, 거절
-
-    // 친구 요청 목록 확인
 
     // 친구 목록 확인
 

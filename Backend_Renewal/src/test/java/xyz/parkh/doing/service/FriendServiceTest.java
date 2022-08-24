@@ -1,16 +1,15 @@
 package xyz.parkh.doing.service;
 
+import org.hibernate.AssertionFailure;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.friend.model.FriendInfo;
 import xyz.parkh.doing.domain.friend.service.FriendService;
-import xyz.parkh.doing.domain.friend.entity.FriendApplication;
 import xyz.parkh.doing.domain.user.entity.User;
 import xyz.parkh.doing.domain.friend.model.FriendshipState;
 import xyz.parkh.doing.domain.friend.repository.FriendRequestRepository;
@@ -44,7 +43,7 @@ public class FriendServiceTest {
     private EntityManager em;
 
     @Before
-    public void 친구_요청() {
+    public void 친구_요청() throws Exception {
         User userA = User.builder().name("userAName").authId("userAID").build();
         User userB = User.builder().name("userBName").authId("userBID").build();
         User userC = User.builder().name("userCName").authId("userCID").build();
@@ -72,22 +71,53 @@ public class FriendServiceTest {
         assertEquals(friendInfoList.size(), 2);
     }
 
-    // 친구 삭제
-
 
     // 친구 신청 응답
     @Test
-//    @Rollback(value = false)
     public void 친구_요청_수락() {
         List<FriendInfo> friendInfoList = friendService.getReceiveFriendApplicationList("userAID");
         assertEquals(friendInfoList.size(), 1);
 
         for (FriendInfo friendInfo : friendInfoList) {
-            friendService.responseFriendApplication(friendInfo.getFriendApplicationId(), FriendshipState.ACCEPT);
+            friendService.responseFriendApplication(friendInfo.getId(), FriendshipState.ACCEPT);
         }
 
         friendInfoList = friendService.getReceiveFriendApplicationList("userAID");
         assertEquals(friendInfoList.size(), 0);
-        // TODO 친구 관계인지 파악하는 메서드 추가
+
+        Boolean isFriend = friendService.isFriend("userAID", "userBID");
+        if (!isFriend) {
+            throw new AssertionFailure("친구 수락 실패");
+        }
     }
+
+    @Test
+    public void 친구_요청_거절() {
+        List<FriendInfo> friendInfoList = friendService.getReceiveFriendApplicationList("userAID");
+        assertEquals(friendInfoList.size(), 1);
+
+        for (FriendInfo friendInfo : friendInfoList) {
+            friendService.responseFriendApplication(friendInfo.getId(), FriendshipState.DECLINE);
+        }
+
+        friendInfoList = friendService.getReceiveFriendApplicationList("userAID");
+        assertEquals(friendInfoList.size(), 0);
+
+        Boolean isFriend = friendService.isFriend("userAID", "userBID");
+        if (isFriend) {
+            throw new AssertionFailure("친구 거절 실패");
+        }
+    }
+
+    // TODO 친구 삭제
+//    @Test
+    public void 친구_삭제() {
+        List<FriendInfo> friendInfoList = friendService.getReceiveFriendApplicationList("userAID");
+
+        for (FriendInfo friendInfo : friendInfoList) {
+            friendService.responseFriendApplication(friendInfo.getId(), FriendshipState.ACCEPT);
+        }
+
+    }
+
 }

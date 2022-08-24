@@ -4,12 +4,12 @@ import lombok.Getter;
 
 @Getter
 public class FriendInfo {
-    private Long friendApplicationId;
+    private Long id;
     private String authId;
     private String name;
 
-    public FriendInfo(Long friendApplicationId, String authId, String name) {
-        this.friendApplicationId = friendApplicationId;
+    public FriendInfo(Long id, String authId, String name) {
+        this.id = id;
         this.authId = authId;
         this.name = name;
     }

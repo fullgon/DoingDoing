@@ -9,9 +9,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.user.service.UserService;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
-@Transactional
+//@SpringBootTest
+//@RunWith(SpringRunner.class)
+//@Transactional
 public class UserServiceTests {
 
     @Autowired
