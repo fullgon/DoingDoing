@@ -27,17 +27,30 @@ public class FriendService {
     private final UserService userService;
 
     public void requestFriendApplication(String requesterAuthId, String targetAuthId) throws Exception {
-        FriendApplication friendshipState = friendRequestRepository.findByRequester_AuthIdAndTarget_AuthIdAndFriendshipState(requesterAuthId, targetAuthId, FriendshipState.REQUEST);
-        if (friendshipState != null) {
-            // TODO 기존에 전송한 요청이 있을 경우 에러 메시지 전송("이미 신청한 사용자")
-            throw new Exception();
+        if (isFriend(requesterAuthId, targetAuthId)) {
+            throw new Exception("이미 친구");
         }
+
+        if (hasRequestFriendApplication(requesterAuthId, targetAuthId)) {
+            throw new Exception("이미 존재하는 요청");
+        }
+
+        if (hasRequestFriendApplication(targetAuthId, requesterAuthId)) {
+            throw new Exception("이미 상대방이 요청 함");
+        }
+
 
         User requester = userService.findByAuthId(requesterAuthId);
         User target = userService.findByAuthId(targetAuthId);
 
         FriendApplication friendApplication = new FriendApplication(requester, target, FriendshipState.REQUEST);
         friendRequestRepository.save(friendApplication);
+    }
+
+
+    public void requestCancelFriendApplication(Long friendApplicationId) {
+        FriendApplication friendApplication = friendRequestRepository.findById(friendApplicationId).get();
+        friendApplication.setFriendshipState(FriendshipState.CANCEL);
     }
 
     public void responseFriendApplication(Long friendApplicationId, FriendshipState friendshipState) {
@@ -53,13 +66,23 @@ public class FriendService {
         }
     }
 
-    public Boolean isFriend(String authId1, String authId2) {
-        Friendship friendship = friendshipRepository.findAllByUser1_AuthIdAndUser2_AuthId(authId1, authId2);
-        if (friendship == null) {
+    public boolean isFriend(String authId1, String authId2) {
+        Friendship friendship1 = friendshipRepository.findByUser1_AuthIdAndUser2_AuthId(authId1, authId2);
+        Friendship friendship2 = friendshipRepository.findByUser1_AuthIdAndUser2_AuthId(authId2, authId1);
+        if (friendship1 == null && friendship2 == null) {
             return false;
         }
         return true;
     }
+
+    public boolean hasRequestFriendApplication(String requesterAuthId, String targetAuthId) {
+        FriendApplication sendFriendApplication = friendRequestRepository.findByRequester_AuthIdAndTarget_AuthIdAndFriendshipState(requesterAuthId, targetAuthId, FriendshipState.REQUEST);
+        if (sendFriendApplication == null) {
+            return false;
+        }
+        return true;
+    }
+
 
     public List<FriendInfo> getReceiveFriendApplicationList(String authId) {
         List<FriendApplication> findFriendApplicationList = friendRequestRepository.findAllByTarget_AuthIdAndFriendshipState(authId, FriendshipState.REQUEST);
@@ -85,8 +108,11 @@ public class FriendService {
         return friendInfoList;
     }
 
+    public void deleteFriend(String authId1, String authId2) {
+        Friendship friendship1 = friendshipRepository.findByUser1_AuthIdAndUser2_AuthId(authId1, authId2);
+        friendshipRepository.delete(friendship1);
 
-    // 친구 목록 확인
-
-
+        Friendship friendship2 = friendshipRepository.findByUser1_AuthIdAndUser2_AuthId(authId2, authId1);
+        friendshipRepository.delete(friendship2);
+    }
 }
