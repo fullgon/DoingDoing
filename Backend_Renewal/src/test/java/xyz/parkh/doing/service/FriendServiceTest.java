@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.friend.model.FriendInfo;
-import xyz.parkh.doing.domain.friend.model.FriendshipState;
 import xyz.parkh.doing.domain.friend.repository.FriendRequestRepository;
 import xyz.parkh.doing.domain.friend.service.FriendService;
 import xyz.parkh.doing.domain.user.entity.User;
@@ -95,7 +94,7 @@ public class FriendServiceTest {
         assertEquals(friendInfoList.size(), 1);
 
         for (FriendInfo friendInfo : friendInfoList) {
-            friendService.responseFriendApplication(friendInfo.getId(), FriendshipState.ACCEPT);
+            friendService.responseAccept(friendInfo.getId());
         }
 
         Boolean isFriend = friendService.isFriend("userAID", "userDID");
@@ -108,7 +107,7 @@ public class FriendServiceTest {
         assertEquals(friendInfoList.size(), 1);
 
         for (FriendInfo friendInfo : friendInfoList) {
-            friendService.responseFriendApplication(friendInfo.getId(), FriendshipState.DECLINE);
+            friendService.responseDecline(friendInfo.getId());
         }
 
         Boolean isFriend = friendService.isFriend("userAID", "userDID");
@@ -120,7 +119,7 @@ public class FriendServiceTest {
         // given
         List<FriendInfo> friendInfoList = friendService.getReceiveFriendApplicationList("userAID");
         for (FriendInfo friendInfo : friendInfoList) {
-            friendService.responseFriendApplication(friendInfo.getId(), FriendshipState.ACCEPT);
+            friendService.responseAccept(friendInfo.getId());
         }
         Boolean isFriend = friendService.isFriend("userAID", "userDID");
         assertTrue(isFriend);
@@ -132,5 +131,4 @@ public class FriendServiceTest {
         Boolean isFriendAfterDelete = friendService.isFriend("userAID", "userDID");
         assertTrue(!isFriendAfterDelete);
     }
-
 }

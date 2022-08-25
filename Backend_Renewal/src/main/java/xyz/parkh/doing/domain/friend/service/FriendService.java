@@ -53,6 +53,14 @@ public class FriendService {
         friendApplication.setFriendshipState(FriendshipState.CANCEL);
     }
 
+    public void responseAccept(Long friendApplicationId) {
+        responseFriendApplication(friendApplicationId, FriendshipState.ACCEPT);
+    }
+
+    public void responseDecline(Long friendApplicationId) {
+        responseFriendApplication(friendApplicationId, FriendshipState.DECLINE);
+    }
+
     public void responseFriendApplication(Long friendApplicationId, FriendshipState friendshipState) {
         FriendApplication friendApplication = friendRequestRepository.findById(friendApplicationId).get();
         friendApplication.setFriendshipState(friendshipState);
