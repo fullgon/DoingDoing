@@ -6,7 +6,7 @@ const Container = styled.div`
 display: flex;
 `;
 
-const Schedule = () =>{
+const Schedule_test = () =>{
     return(
         <Container>
             <div>
@@ -25,4 +25,4 @@ const Schedule = () =>{
     )
 }
 
-export default Schedule;
+export default Schedule_test;
