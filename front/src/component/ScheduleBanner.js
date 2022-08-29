@@ -28,7 +28,7 @@ align-self: center;
 `;
 
 const Hr = styled.hr`
-width: 100%;
+width: 95%;
 `
 const ScheduleBanner = ({title}) =>{
     return(
