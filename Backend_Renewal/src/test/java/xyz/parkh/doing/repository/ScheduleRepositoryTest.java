@@ -7,12 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import xyz.parkh.doing.domain.entity.schedule.ToDoSchedule;
-import xyz.parkh.doing.domain.entity.user.User;
-import xyz.parkh.doing.domain.model.schedule.Period;
-import xyz.parkh.doing.domain.model.schedule.PeriodType;
-
-import static org.junit.jupiter.api.Assertions.*;
+import xyz.parkh.doing.domain.user.entity.User;
+import xyz.parkh.doing.domain.user.repository.UserRepository;
+import xyz.parkh.doing.domain.schedule.repository.ScheduleRepository;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
