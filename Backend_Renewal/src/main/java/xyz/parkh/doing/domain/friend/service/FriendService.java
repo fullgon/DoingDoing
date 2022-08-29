@@ -123,4 +123,11 @@ public class FriendService {
         Friendship friendship2 = friendshipRepository.findByUser1_AuthIdAndUser2_AuthId(authId2, authId1);
         friendshipRepository.delete(friendship2);
     }
+
+    public List<User> getFriendList(String authId) {
+        User user = userService.findByAuthId(authId);
+        List<User> friendList = friendshipRepository.getFriendList(user);
+        return friendList;
+    }
+
 }
