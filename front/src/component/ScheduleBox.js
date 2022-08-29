@@ -9,7 +9,7 @@ import styled from 'styled-components'
 const Schedules = styled.div`
 display: flex;
 flex-direction: column;
-height: 50px;
+height: 70vh;
 border: solid 1px;
 overflow: auto;
 &::-webkit-scrollbar {
