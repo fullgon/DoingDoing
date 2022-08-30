@@ -33,3 +33,17 @@
 Test 시 롤백 되지 않도록
 
 @Rollback(value=false)
+
+Repository
+
+```
+List<FriendApplication> findAllByTarget_AuthIdAndFriendshipState(String authId, FriendshipState friendshipState);
+List<FriendApplication> findAllByRequester_AuthIdAndFriendshipState(String authId, FriendshipState friendshipState);
+FriendApplication findByRequester_AuthIdAndTarget_AuthIdAndFriendshipState(String requesterAuthId, String targetAuthId, FriendshipState friendshipState);
+```
+
+```
+List<FriendApplication> findAllByTargetAndFriendshipState(User target, FriendshipState friendshipState);
+List<FriendApplication> findAllByRequesterAndFriendshipState(User requester, FriendshipState friendshipState);
+FriendApplication findByRequesterAndTargetAndFriendshipState(User requester, User target, FriendshipState friendshipState);
+```

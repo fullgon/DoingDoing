@@ -75,8 +75,11 @@ public class FriendService {
     }
 
     public boolean isFriend(String authId1, String authId2) {
-        Friendship friendship1 = friendshipRepository.findByUser1_AuthIdAndUser2_AuthId(authId1, authId2);
-        Friendship friendship2 = friendshipRepository.findByUser1_AuthIdAndUser2_AuthId(authId2, authId1);
+        User user1 = userService.findByAuthId(authId1);
+        User user2 = userService.findByAuthId(authId2);
+
+        Friendship friendship1 = friendshipRepository.findByUser1AndUser2(user1, user2);
+        Friendship friendship2 = friendshipRepository.findByUser1AndUser2(user2, user1);
         if (friendship1 == null && friendship2 == null) {
             return false;
         }
@@ -84,7 +87,10 @@ public class FriendService {
     }
 
     public boolean hasRequestFriendApplication(String requesterAuthId, String targetAuthId) {
-        FriendApplication sendFriendApplication = friendRequestRepository.findByRequester_AuthIdAndTarget_AuthIdAndFriendshipState(requesterAuthId, targetAuthId, FriendshipState.REQUEST);
+        User requester = userService.findByAuthId(requesterAuthId);
+        User target = userService.findByAuthId(targetAuthId);
+
+        FriendApplication sendFriendApplication = friendRequestRepository.findByRequesterAndTargetAndFriendshipState(requester, target, FriendshipState.REQUEST);
         if (sendFriendApplication == null) {
             return false;
         }
@@ -93,7 +99,8 @@ public class FriendService {
 
 
     public List<FriendInfo> getReceiveFriendApplicationList(String authId) {
-        List<FriendApplication> findFriendApplicationList = friendRequestRepository.findAllByTarget_AuthIdAndFriendshipState(authId, FriendshipState.REQUEST);
+        User user = userService.findByAuthId(authId);
+        List<FriendApplication> findFriendApplicationList = friendRequestRepository.findAllByTargetAndFriendshipState(user, FriendshipState.REQUEST);
 
         List<FriendInfo> friendInfoList = new ArrayList<>();
         for (FriendApplication friendApplication : findFriendApplicationList) {
@@ -106,7 +113,8 @@ public class FriendService {
 
     public List<FriendInfo> getSendFriendApplicationList(String authId) {
         // TODO 최근 거절된 요청도 확인 가능 하도록.
-        List<FriendApplication> findFriendApplicationList = friendRequestRepository.findAllByRequester_AuthIdAndFriendshipState(authId, FriendshipState.REQUEST);
+        User user = userService.findByAuthId(authId);
+        List<FriendApplication> findFriendApplicationList = friendRequestRepository.findAllByRequesterAndFriendshipState(user, FriendshipState.REQUEST);
 
         List<FriendInfo> friendInfoList = new ArrayList<>();
         for (FriendApplication friendApplication : findFriendApplicationList) {
@@ -117,10 +125,13 @@ public class FriendService {
     }
 
     public void deleteFriend(String authId1, String authId2) {
-        Friendship friendship1 = friendshipRepository.findByUser1_AuthIdAndUser2_AuthId(authId1, authId2);
-        friendshipRepository.delete(friendship1);
+        User user1 = userService.findByAuthId(authId1);
+        User user2 = userService.findByAuthId(authId2);
 
-        Friendship friendship2 = friendshipRepository.findByUser1_AuthIdAndUser2_AuthId(authId2, authId1);
+        Friendship friendship1 = friendshipRepository.findByUser1AndUser2(user1, user2);
+        Friendship friendship2 = friendshipRepository.findByUser1AndUser2(user2, user1);
+
+        friendshipRepository.delete(friendship1);
         friendshipRepository.delete(friendship2);
     }
 

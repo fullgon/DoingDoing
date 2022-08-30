@@ -9,10 +9,7 @@ import xyz.parkh.doing.domain.user.entity.User;
 import java.util.List;
 
 public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
-    Friendship findByUser1_AuthIdAndUser2_AuthId(String authId1, String authId2);
-
-    List<Friendship> findAllByUser1(User user1);
-
+    Friendship findByUser1AndUser2(User user1, User user2);
 
     @Query("select f.user2 from Friendship f where f.user1 = :user")
     List<User> getFriendList(@Param("user") User user);
