@@ -53,11 +53,11 @@ public class ScheduleDTO {
 
         ToDoSchedule toDoSchedule = null;
         if (periodType == PeriodType.MONTH) {
-            toDoSchedule = ToDoSchedule.createMonthlyToDoSchedule(user, title, openScope, isCompleted);
+            toDoSchedule = ToDoSchedule.createTodayMonthly(user, title, openScope, isCompleted);
         } else if (periodType == PeriodType.WEEK) {
-            toDoSchedule = ToDoSchedule.createWeeklyToDoSchedule(user, title,  openScope, isCompleted);
+            toDoSchedule = ToDoSchedule.createTodayWeekly(user, title,  openScope, isCompleted);
         } else if (periodType == PeriodType.DAY) {
-            toDoSchedule = ToDoSchedule.createDailyToDoSchedule(user, title,  openScope, isCompleted);
+            toDoSchedule = ToDoSchedule.createTodayDaily(user, title,  openScope, isCompleted);
         }
         return toDoSchedule;
     }
@@ -70,11 +70,11 @@ public class ScheduleDTO {
 
         HabitSchedule habitSchedule = null;
         if (periodType == PeriodType.MONTH) {
-            habitSchedule = HabitSchedule.createMonthlyHabitSchedule(user, title, openScope);
+            habitSchedule = HabitSchedule.createTodayMonthly(user, title, openScope);
         } else if (periodType == PeriodType.WEEK) {
-            habitSchedule = HabitSchedule.createWeeklyHabitSchedule(user, title, openScope);
+            habitSchedule = HabitSchedule.createTodayWeekly(user, title, openScope);
         } else if (periodType == PeriodType.DAY) {
-            habitSchedule = HabitSchedule.createDailyHabitSchedule(user, title, openScope);
+            habitSchedule = HabitSchedule.createTodayDaily(user, title, openScope);
         }
         return habitSchedule;
     }

@@ -15,17 +15,17 @@ public class HabitSchedule extends Schedule {
         super(user, title, openScope, period);
     }
 
-    public static HabitSchedule createMonthlyHabitSchedule(User user, String title, OpenScope openScope) {
+    public static HabitSchedule createTodayMonthly(User user, String title, OpenScope openScope) {
         Period period = Period.createMonthlyPeriod();
         return new HabitSchedule(user, title, openScope, period);
     }
 
-    public static HabitSchedule createWeeklyHabitSchedule(User user, String title, OpenScope openScope) {
+    public static HabitSchedule createTodayWeekly(User user, String title, OpenScope openScope) {
         Period period = Period.createWeeklyPeriod();
         return new HabitSchedule(user, title, openScope, period);
     }
 
-    public static HabitSchedule createDailyHabitSchedule(User user, String title, OpenScope openScope) {
+    public static HabitSchedule createTodayDaily(User user, String title, OpenScope openScope) {
         Period period = Period.createDailyPeriod();
         return new HabitSchedule(user, title, openScope, period);
     }

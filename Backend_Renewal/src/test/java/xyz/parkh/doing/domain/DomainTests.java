@@ -27,7 +27,7 @@ public class DomainTests {
         User user = User.builder().authId("PHJ").build();
         em.persist(user);
 
-        Schedule schedule = HabitSchedule.createDailyHabitSchedule(user, "title", OpenScope.PUBIC);
+        Schedule schedule = HabitSchedule.createTodayDaily(user, "title", OpenScope.PUBIC);
         em.persist(schedule);
 
         Schedule findSchedule = em.find(Schedule.class, schedule.getId());
@@ -39,7 +39,7 @@ public class DomainTests {
         User user = User.builder().authId("PHJ").build();
         em.persist(user);
 
-        Schedule schedule = HabitSchedule.createDailyHabitSchedule(user, "title", OpenScope.PUBIC);
+        Schedule schedule = HabitSchedule.createTodayDaily(user, "title", OpenScope.PUBIC);
         em.persist(schedule);
 
         // DB 에 반영 되었는지 확인
