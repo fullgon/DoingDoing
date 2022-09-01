@@ -5,11 +5,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.schedule.entity.Schedule;
+import xyz.parkh.doing.domain.schedule.model.OpenScope;
+import xyz.parkh.doing.domain.schedule.model.Period;
 import xyz.parkh.doing.domain.schedule.model.ScheduleConditionDTO;
-import xyz.parkh.doing.domain.schedule.model.ScheduleDTO;
-import xyz.parkh.doing.domain.schedule.model.ScheduleType;
+import xyz.parkh.doing.domain.schedule.model.ScheduleDto;
 import xyz.parkh.doing.domain.schedule.repository.ScheduleRepository;
+import xyz.parkh.doing.domain.user.entity.User;
+import xyz.parkh.doing.domain.user.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -18,19 +22,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleService {
 
+    private final UserService userService;
     private final ScheduleRepository scheduleRepository;
 
     // 일정 생성
-    public void addScheduleForScheduleDTO(ScheduleDTO scheduleDTO) {
-        ScheduleType scheduleType = scheduleDTO.getScheduleType();
+    public void addSchedule(ScheduleDto scheduleDTO) {
         Schedule schedule = scheduleDTO.convertSchedule();
         scheduleRepository.save(schedule);
     }
 
     // 일정 목록 조회
-    public List<ScheduleDTO> findScheduleList(ScheduleConditionDTO scheduleConditionDTO) {
-        System.out.println("scheduleConditionDTO = " + scheduleConditionDTO);
-
+    public List<Schedule> findScheduleList(ScheduleConditionDTO scheduleConditionDto) {
         // 요청하는 사람과 일정 주인의 관계 확인
         // - OpenScope.PRIVATE : 본인
         // - OpenScope.FRIEND : 본인, 친구
@@ -46,8 +48,13 @@ public class ScheduleService {
         // - ScheduleType.HABIT : 습관
         // - ScheduleType.TODO : 할일
 
+        User user = userService.findByAuthId(scheduleConditionDto.getAuthId());
+        Period period = scheduleConditionDto.getPeriod();
+        OpenScope openScope = scheduleConditionDto.getOpenScope();
 
-        return null;
+        List<Schedule> scheduleList = scheduleRepository.findAllByUserAndPeriodAndOpenScope(user, period, openScope);
+
+        return scheduleList;
     }
 
 

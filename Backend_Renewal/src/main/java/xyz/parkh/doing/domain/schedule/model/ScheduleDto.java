@@ -10,7 +10,7 @@ import xyz.parkh.doing.domain.user.entity.User;
 
 @Getter
 @ToString
-public class ScheduleDTO {
+public class ScheduleDto {
     private User user;
     private String title;
     private OpenScope openScope;
@@ -18,11 +18,11 @@ public class ScheduleDTO {
     private Boolean isCompleted;
     private ScheduleType scheduleType;
 
-    public ScheduleDTO() {
+    public ScheduleDto() {
     }
 
     @Builder
-    public ScheduleDTO(User user, String title, OpenScope openScope, Period period, Boolean isCompleted, ScheduleType scheduleType) {
+    public ScheduleDto(User user, String title, OpenScope openScope, Period period, Boolean isCompleted, ScheduleType scheduleType) {
         this.user = user;
         this.title = title;
         this.openScope = openScope;
