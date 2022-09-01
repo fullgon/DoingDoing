@@ -51,7 +51,7 @@ public class ScheduleService {
     }
 
 
-    // 일정 상세 조회
+    // 오늘 일정 조회
 
 
     // 일정 수정

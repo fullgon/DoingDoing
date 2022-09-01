@@ -32,19 +32,15 @@ public abstract class Schedule {
 
     private String title;
 
-    @Lob
-    private String content;
-
     @Enumerated(value = EnumType.STRING)
     private OpenScope openScope;
 
     @Embedded
     private Period period;
 
-    public Schedule(User user, String title, String content, OpenScope openScope, Period period) {
+    public Schedule(User user, String title, OpenScope openScope, Period period) {
         this.user = user;
         this.title = title;
-        this.content = content;
         this.openScope = openScope;
         this.period = period;
     }
@@ -55,11 +51,11 @@ public abstract class Schedule {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Schedule schedule = (Schedule) o;
-        return Objects.equals(id, schedule.id) && Objects.equals(title, schedule.title) && Objects.equals(content, schedule.content) && openScope == schedule.openScope && Objects.equals(period, schedule.period);
+        return Objects.equals(id, schedule.id) && Objects.equals(title, schedule.title) && openScope == schedule.openScope && Objects.equals(period, schedule.period);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, content, openScope, period);
+        return Objects.hash(id, title, openScope, period);
     }
 }

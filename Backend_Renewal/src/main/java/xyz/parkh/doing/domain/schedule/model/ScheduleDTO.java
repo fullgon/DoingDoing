@@ -13,7 +13,6 @@ import xyz.parkh.doing.domain.user.entity.User;
 public class ScheduleDTO {
     private User user;
     private String title;
-    private String content;
     private OpenScope openScope;
     private Period period;
     private Boolean isCompleted;
@@ -23,10 +22,9 @@ public class ScheduleDTO {
     }
 
     @Builder
-    public ScheduleDTO(User user, String title, String content, OpenScope openScope, Period period, Boolean isCompleted, ScheduleType scheduleType) {
+    public ScheduleDTO(User user, String title, OpenScope openScope, Period period, Boolean isCompleted, ScheduleType scheduleType) {
         this.user = user;
         this.title = title;
-        this.content = content;
         this.openScope = openScope;
         this.period = period;
         this.isCompleted = isCompleted;
@@ -55,11 +53,11 @@ public class ScheduleDTO {
 
         ToDoSchedule toDoSchedule = null;
         if (periodType == PeriodType.MONTH) {
-            toDoSchedule = ToDoSchedule.createMonthlyToDoSchedule(user, title, content, openScope, isCompleted);
+            toDoSchedule = ToDoSchedule.createMonthlyToDoSchedule(user, title, openScope, isCompleted);
         } else if (periodType == PeriodType.WEEK) {
-            toDoSchedule = ToDoSchedule.createWeeklyToDoSchedule(user, title, content, openScope, isCompleted);
+            toDoSchedule = ToDoSchedule.createWeeklyToDoSchedule(user, title,  openScope, isCompleted);
         } else if (periodType == PeriodType.DAY) {
-            toDoSchedule = ToDoSchedule.createDailyToDoSchedule(user, title, content, openScope, isCompleted);
+            toDoSchedule = ToDoSchedule.createDailyToDoSchedule(user, title,  openScope, isCompleted);
         }
         return toDoSchedule;
     }
@@ -72,11 +70,11 @@ public class ScheduleDTO {
 
         HabitSchedule habitSchedule = null;
         if (periodType == PeriodType.MONTH) {
-            habitSchedule = HabitSchedule.createMonthlyHabitSchedule(user, title, content, openScope);
+            habitSchedule = HabitSchedule.createMonthlyHabitSchedule(user, title, openScope);
         } else if (periodType == PeriodType.WEEK) {
-            habitSchedule = HabitSchedule.createWeeklyHabitSchedule(user, title, content, openScope);
+            habitSchedule = HabitSchedule.createWeeklyHabitSchedule(user, title, openScope);
         } else if (periodType == PeriodType.DAY) {
-            habitSchedule = HabitSchedule.createDailyHabitSchedule(user, title, content, openScope);
+            habitSchedule = HabitSchedule.createDailyHabitSchedule(user, title, openScope);
         }
         return habitSchedule;
     }

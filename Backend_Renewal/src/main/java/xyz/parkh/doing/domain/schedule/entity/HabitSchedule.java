@@ -11,22 +11,22 @@ import javax.persistence.Entity;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class HabitSchedule extends Schedule {
-    public HabitSchedule(User user, String title, String content, OpenScope openScope, Period period) {
-        super(user, title, content, openScope, period);
+    public HabitSchedule(User user, String title, OpenScope openScope, Period period) {
+        super(user, title, openScope, period);
     }
 
-    public static HabitSchedule createMonthlyHabitSchedule(User user, String title, String content, OpenScope openScope) {
+    public static HabitSchedule createMonthlyHabitSchedule(User user, String title, OpenScope openScope) {
         Period period = Period.createMonthlyPeriod();
-        return new HabitSchedule(user, title, content, openScope, period);
+        return new HabitSchedule(user, title, openScope, period);
     }
 
-    public static HabitSchedule createWeeklyHabitSchedule(User user, String title, String content, OpenScope openScope) {
+    public static HabitSchedule createWeeklyHabitSchedule(User user, String title, OpenScope openScope) {
         Period period = Period.createWeeklyPeriod();
-        return new HabitSchedule(user, title, content, openScope, period);
+        return new HabitSchedule(user, title, openScope, period);
     }
 
-    public static HabitSchedule createDailyHabitSchedule(User user, String title, String content, OpenScope openScope) {
+    public static HabitSchedule createDailyHabitSchedule(User user, String title, OpenScope openScope) {
         Period period = Period.createDailyPeriod();
-        return new HabitSchedule(user, title, content, openScope, period);
+        return new HabitSchedule(user, title, openScope, period);
     }
 }

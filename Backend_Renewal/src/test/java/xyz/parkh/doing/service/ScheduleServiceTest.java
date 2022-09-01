@@ -38,13 +38,13 @@ public class ScheduleServiceTest {
         Period period = Period.createMonthlyPeriod();
 
 //        ToDoSchedule schedule = ToDoSchedule.builder()
-//                .user(user).title("title").content("content").openScope(OpenScope.PUBIC)
+//                .user(user).title("title").openScope(OpenScope.PUBIC)
 //                .period(period).isCompleted(true).build();
 //
 //        scheduleRepository.save(schedule);
 
         ScheduleDTO scheduleDTO = ScheduleDTO.builder()
-                .user(user).title("title").content("content")
+                .user(user).title("title")
                 .openScope(OpenScope.PUBIC).period(period).scheduleType(ScheduleType.TODO)
                 .isCompleted(true).build();
 
