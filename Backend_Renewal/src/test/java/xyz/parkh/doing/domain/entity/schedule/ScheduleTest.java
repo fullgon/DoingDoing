@@ -57,7 +57,7 @@ public class ScheduleTest {
         String title = "title";
         String content = "content";
         OpenScope openScope = OpenScope.PUBIC;
-        Period period = Period.createMonthlyPeriod();
+        Period period = Period.createTodayMonthlyPeriod();
         Boolean isCompleted = true;
 
         ToDoSchedule toDoSchedule = ToDoSchedule.createTodayMonthly(user, title, OpenScope.PUBIC, isCompleted);

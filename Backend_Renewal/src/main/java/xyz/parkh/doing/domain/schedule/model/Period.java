@@ -38,7 +38,28 @@ public class Period {
         this.createDate = LocalDate.now();
     }
 
-    public static Period makeNowPeriod(LocalDate date, PeriodType periodType) {
+    public static Period makeTodayPeriod(PeriodType periodType) {
+        LocalDate now = LocalDate.now();
+        int dayOfWeek = now.getDayOfWeek().getValue();
+        LocalDate thursdayOfDate = now.minusDays(dayOfWeek - 4);
+
+        LocalDate firstThursdayOfDate = null;
+        for (int i = 1; i <= 7; i++) {
+            LocalDate sequentialDate = thursdayOfDate.withDayOfMonth(i);
+            if (sequentialDate.getDayOfWeek() == DayOfWeek.THURSDAY) {
+                firstThursdayOfDate = sequentialDate;
+                break;
+            }
+        }
+
+        int year = thursdayOfDate.getYear();
+        int month = thursdayOfDate.getMonth().getValue();
+        int week = (thursdayOfDate.getDayOfMonth() - firstThursdayOfDate.getDayOfMonth()) / 7 + 1;
+
+        return new Period(year, month, week, periodType);
+    }
+
+    public static Period makePeriod(LocalDate date, PeriodType periodType) {
         int dayOfWeek = date.getDayOfWeek().getValue();
         LocalDate thursdayOfDate = date.minusDays(dayOfWeek - 4);
 
@@ -58,19 +79,16 @@ public class Period {
         return new Period(year, month, week, periodType);
     }
 
-    public static Period createMonthlyPeriod() {
-        LocalDate now = LocalDate.now();
-        return makeNowPeriod(now, PeriodType.MONTH);
+    public static Period createTodayMonthlyPeriod() {
+        return makeTodayPeriod(PeriodType.MONTH);
     }
 
-    public static Period createWeeklyPeriod() {
-        LocalDate now = LocalDate.now();
-        return makeNowPeriod(now, PeriodType.WEEK);
+    public static Period createTodayWeeklyPeriod() {
+        return makeTodayPeriod(PeriodType.WEEK);
     }
 
-    public static Period createDailyPeriod() {
-        LocalDate now = LocalDate.now();
-        return makeNowPeriod(now, PeriodType.DAY);
+    public static Period createTodayDailyPeriod() {
+        return makeTodayPeriod(PeriodType.DAY);
     }
 
     @Override

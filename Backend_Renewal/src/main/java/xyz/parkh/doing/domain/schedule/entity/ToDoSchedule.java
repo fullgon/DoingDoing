@@ -24,17 +24,17 @@ public class ToDoSchedule extends Schedule {
     }
 
     public static ToDoSchedule createTodayMonthly(User user, String title, OpenScope openScope, Boolean isCompleted) {
-        Period period = Period.createMonthlyPeriod();
+        Period period = Period.createTodayMonthlyPeriod();
         return new ToDoSchedule(user, title, openScope, period, isCompleted);
     }
 
     public static ToDoSchedule createTodayWeekly(User user, String title, OpenScope openScope, Boolean isCompleted) {
-        Period period = Period.createWeeklyPeriod();
+        Period period = Period.createTodayWeeklyPeriod();
         return new ToDoSchedule(user, title, openScope, period, isCompleted);
     }
 
     public static ToDoSchedule createTodayDaily(User user, String title, OpenScope openScope, Boolean isCompleted) {
-        Period period = Period.createDailyPeriod();
+        Period period = Period.createTodayDailyPeriod();
         return new ToDoSchedule(user, title, openScope, period, isCompleted);
     }
 }
