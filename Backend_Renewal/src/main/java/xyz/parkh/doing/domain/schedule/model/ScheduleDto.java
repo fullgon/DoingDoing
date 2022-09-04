@@ -31,52 +31,12 @@ public class ScheduleDto {
         this.scheduleType = scheduleType;
     }
 
-    public Schedule convertSchedule() {
-        if (scheduleType == null) {
-            throw new NullPointerException();
-        }
-        Schedule schedule = null;
-
-        if (scheduleType == ScheduleType.HABIT) {
-            schedule = convertHabitSchedule();
-        } else if (scheduleType == ScheduleType.TODO) {
-            schedule = convertToDoSchedule();
-        }
-        return schedule;
+    public ToDoSchedule convertToDoSchedule() {
+        return new ToDoSchedule(user, title, openScope, period, isCompleted);
     }
 
-    private ToDoSchedule convertToDoSchedule() {
-        PeriodType periodType = period.getPeriodType();
-        if (periodType == null) {
-            throw new NullPointerException();
-        }
-
-        ToDoSchedule toDoSchedule = null;
-        if (periodType == PeriodType.MONTH) {
-            toDoSchedule = ToDoSchedule.createTodayMonthly(user, title, openScope, isCompleted);
-        } else if (periodType == PeriodType.WEEK) {
-            toDoSchedule = ToDoSchedule.createTodayWeekly(user, title,  openScope, isCompleted);
-        } else if (periodType == PeriodType.DAY) {
-            toDoSchedule = ToDoSchedule.createTodayDaily(user, title,  openScope, isCompleted);
-        }
-        return toDoSchedule;
-    }
-
-    private HabitSchedule convertHabitSchedule() {
-        PeriodType periodType = period.getPeriodType();
-        if (periodType == null) {
-            throw new NullPointerException();
-        }
-
-        HabitSchedule habitSchedule = null;
-        if (periodType == PeriodType.MONTH) {
-            habitSchedule = HabitSchedule.createTodayMonthly(user, title, openScope);
-        } else if (periodType == PeriodType.WEEK) {
-            habitSchedule = HabitSchedule.createTodayWeekly(user, title, openScope);
-        } else if (periodType == PeriodType.DAY) {
-            habitSchedule = HabitSchedule.createTodayDaily(user, title, openScope);
-        }
-        return habitSchedule;
+    public HabitSchedule convertHabitSchedule() {
+        return new HabitSchedule(user, title, openScope, period);
     }
 
 }

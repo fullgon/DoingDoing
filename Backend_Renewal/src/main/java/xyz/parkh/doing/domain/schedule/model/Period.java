@@ -24,71 +24,34 @@ public class Period {
     @Column(name = "WEEKS")
     private int week;
 
-    @Column(name = "CREATE_DATE")
-    private LocalDate createDate;
+    @Column(name = "DAYS")
+    private int day;
 
     @Enumerated(value = EnumType.STRING)
     private PeriodType periodType;
 
-    private Period(int year, int month, int week, PeriodType periodType) {
+    @Builder
+    public Period(int year, int month, int week, int day, PeriodType periodType) {
         this.year = year;
         this.month = month;
         this.week = week;
+        this.day = day;
         this.periodType = periodType;
-        this.createDate = LocalDate.now();
     }
 
-    public static Period makeTodayPeriod(PeriodType periodType) {
-        LocalDate now = LocalDate.now();
-        int dayOfWeek = now.getDayOfWeek().getValue();
-        LocalDate thursdayOfDate = now.minusDays(dayOfWeek - 4);
-
-        LocalDate firstThursdayOfDate = null;
-        for (int i = 1; i <= 7; i++) {
-            LocalDate sequentialDate = thursdayOfDate.withDayOfMonth(i);
-            if (sequentialDate.getDayOfWeek() == DayOfWeek.THURSDAY) {
-                firstThursdayOfDate = sequentialDate;
-                break;
-            }
-        }
-
-        int year = thursdayOfDate.getYear();
-        int month = thursdayOfDate.getMonth().getValue();
-        int week = (thursdayOfDate.getDayOfMonth() - firstThursdayOfDate.getDayOfMonth()) / 7 + 1;
-
-        return new Period(year, month, week, periodType);
+    public static Period createMonthlyPeriod(int year, int month) {
+        return Period.builder().year(year).month(month)
+                .periodType(PeriodType.MONTH).build();
     }
 
-    public static Period makePeriod(LocalDate date, PeriodType periodType) {
-        int dayOfWeek = date.getDayOfWeek().getValue();
-        LocalDate thursdayOfDate = date.minusDays(dayOfWeek - 4);
-
-        LocalDate firstThursdayOfDate = null;
-        for (int i = 1; i <= 7; i++) {
-            LocalDate sequentialDate = thursdayOfDate.withDayOfMonth(i);
-            if (sequentialDate.getDayOfWeek() == DayOfWeek.THURSDAY) {
-                firstThursdayOfDate = sequentialDate;
-                break;
-            }
-        }
-
-        int year = thursdayOfDate.getYear();
-        int month = thursdayOfDate.getMonth().getValue();
-        int week = (thursdayOfDate.getDayOfMonth() - firstThursdayOfDate.getDayOfMonth()) / 7 + 1;
-
-        return new Period(year, month, week, periodType);
+    public static Period createWeeklyPeriod(int year, int month, int week) {
+        return Period.builder().year(year).month(month).week(week)
+                .periodType(PeriodType.WEEK).build();
     }
 
-    public static Period createTodayMonthlyPeriod() {
-        return makeTodayPeriod(PeriodType.MONTH);
-    }
-
-    public static Period createTodayWeeklyPeriod() {
-        return makeTodayPeriod(PeriodType.WEEK);
-    }
-
-    public static Period createTodayDailyPeriod() {
-        return makeTodayPeriod(PeriodType.DAY);
+    public static Period createDailyPeriod(int year, int month, int day) {
+        return Period.builder().year(year).month(month).day(day)
+                .periodType(PeriodType.DAY).build();
     }
 
     @Override
@@ -96,12 +59,11 @@ public class Period {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Period period = (Period) o;
-        return year == period.year && month == period.month && week == period.week
-                && Objects.equals(createDate, period.createDate) && periodType == period.periodType;
+        return year == period.year && month == period.month && week == period.week && day == period.day && periodType == period.periodType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(year, month, week, createDate, periodType);
+        return Objects.hash(year, month, week, day, periodType);
     }
 }

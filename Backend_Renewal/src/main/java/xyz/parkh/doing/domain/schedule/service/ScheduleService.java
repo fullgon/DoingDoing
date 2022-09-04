@@ -5,10 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.schedule.entity.Schedule;
-import xyz.parkh.doing.domain.schedule.model.OpenScope;
-import xyz.parkh.doing.domain.schedule.model.Period;
-import xyz.parkh.doing.domain.schedule.model.ScheduleConditionDTO;
-import xyz.parkh.doing.domain.schedule.model.ScheduleDto;
+import xyz.parkh.doing.domain.schedule.model.*;
 import xyz.parkh.doing.domain.schedule.repository.ScheduleRepository;
 import xyz.parkh.doing.domain.user.entity.User;
 import xyz.parkh.doing.domain.user.service.UserService;
@@ -27,7 +24,17 @@ public class ScheduleService {
 
     // 일정 생성
     public void addSchedule(ScheduleDto scheduleDTO) {
-        Schedule schedule = scheduleDTO.convertSchedule();
+        Schedule schedule = null;
+
+        if (scheduleDTO.getScheduleType() == ScheduleType.HABIT) {
+            schedule = scheduleDTO.convertHabitSchedule();
+        } else if (scheduleDTO.getScheduleType() == ScheduleType.TODO) {
+            schedule = scheduleDTO.convertToDoSchedule();
+        }
+
+        if (schedule == null) {
+            throw new NullPointerException();
+        }
         scheduleRepository.save(schedule);
     }
 
@@ -51,8 +58,9 @@ public class ScheduleService {
         User user = userService.findByAuthId(scheduleConditionDto.getAuthId());
         Period period = scheduleConditionDto.getPeriod();
         OpenScope openScope = scheduleConditionDto.getOpenScope();
+        ScheduleType scheduleType = scheduleConditionDto.getScheduleType();
 
-        List<Schedule> scheduleList = scheduleRepository.findAllByUserAndPeriodAndOpenScope(user, period, openScope);
+        List<Schedule> scheduleList = scheduleRepository.findAllByUserAndPeriodAndOpenScopeAndScheduleType(user, period, openScope, scheduleType);
 
         return scheduleList;
     }

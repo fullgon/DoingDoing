@@ -32,11 +32,10 @@ public class ScheduleServiceTest {
     UserRepository userRepository;
 
     @Test
-    @Rollback(value = false)
     public void 할일_월간_일정_추가() {
         User user = User.builder().name("name").build();
         userRepository.save(user);
-        Period period = Period.createTodayMonthlyPeriod();
+        Period period = Period.createMonthlyPeriod(2022, 8);
 
         ScheduleDto scheduleDTO = ScheduleDto.builder()
                 .user(user).title("title")
@@ -47,11 +46,10 @@ public class ScheduleServiceTest {
     }
 
     @Test
-    @Rollback(value = false)
     public void 습관_월간_일정_추가() {
         User user = User.builder().name("name").build();
         userRepository.save(user);
-        Period period = Period.createTodayMonthlyPeriod();
+        Period period = Period.createMonthlyPeriod(2022, 8);
 
         ScheduleDto scheduleDTO = ScheduleDto.builder()
                 .user(user).title("title")
@@ -65,42 +63,37 @@ public class ScheduleServiceTest {
     public void 습관_월간_일정_조회() {
         User user = User.builder().authId("userA").name("name").build();
         userRepository.save(user);
-        Period monthlyPeriod = Period.createTodayMonthlyPeriod();
-        Period dailyPeriod = Period.createTodayDailyPeriod();
 
-        ScheduleDto scheduleDTO1 = ScheduleDto.builder()
+        Period monthlyPeriod = Period.createMonthlyPeriod(2022, 8);
+        Period dailyPeriod = Period.createDailyPeriod(2022, 8, 1);
+
+        ScheduleDto publicHabitMonthlySchedule = ScheduleDto.builder()
                 .user(user).title("title")
                 .openScope(OpenScope.PUBIC).period(monthlyPeriod)
                 .scheduleType(ScheduleType.HABIT).build();
+        scheduleService.addSchedule(publicHabitMonthlySchedule);
 
-        scheduleService.addSchedule(scheduleDTO1);
+        ScheduleDto publicTodoMonthlySchedule = ScheduleDto.builder()
+                .user(user).title("title")
+                .openScope(OpenScope.PUBIC).period(monthlyPeriod)
+                .scheduleType(ScheduleType.TODO).build();
+        scheduleService.addSchedule(publicTodoMonthlySchedule);
 
-        // TODO, HABIT 구분 못 함
-//        ScheduleDto scheduleDTO2 = ScheduleDto.builder()
-//                .user(user).title("title")
-//                .openScope(OpenScope.PUBIC).period(monthlyPeriod)
-//                .scheduleType(ScheduleType.TODO).build();
-
-//        scheduleService.addSchedule(scheduleDTO2);
-
-        ScheduleDto scheduleDTO3 = ScheduleDto.builder()
+        ScheduleDto privateHabitMonthlySchedule = ScheduleDto.builder()
                 .user(user).title("title")
                 .openScope(OpenScope.PRIVATE).period(monthlyPeriod)
                 .scheduleType(ScheduleType.HABIT).build();
+        scheduleService.addSchedule(privateHabitMonthlySchedule);
 
-        scheduleService.addSchedule(scheduleDTO3);
-
-        ScheduleDto scheduleDTO4 = ScheduleDto.builder()
+        ScheduleDto publicHabitDailySchedule = ScheduleDto.builder()
                 .user(user).title("title")
                 .openScope(OpenScope.PUBIC).period(dailyPeriod)
                 .scheduleType(ScheduleType.HABIT).build();
+        scheduleService.addSchedule(publicHabitDailySchedule);
 
-        scheduleService.addSchedule(scheduleDTO4);
-
-        ScheduleConditionDTO scheduleConditionDTO = new ScheduleConditionDTO("userA", monthlyPeriod, ScheduleType.HABIT, OpenScope.PUBIC);
+        ScheduleConditionDTO scheduleConditionDTO = new ScheduleConditionDTO("userA", monthlyPeriod, ScheduleType.TODO, OpenScope.PUBIC);
         List<Schedule> scheduleList = scheduleService.findScheduleList(scheduleConditionDTO);
-
-        Assertions.assertEquals(scheduleList.size(), 1);
+        Assertions.assertEquals(1, scheduleList.size());
     }
 
 }
