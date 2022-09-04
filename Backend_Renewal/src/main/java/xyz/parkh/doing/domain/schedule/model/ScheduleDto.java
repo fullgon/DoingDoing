@@ -39,4 +39,8 @@ public class ScheduleDto {
         return new HabitSchedule(user, title, openScope, period);
     }
 
+//    TODO
+//    public static ScheduleDto createForToDoSchedule()
+//    public static ScheduleDto createForHabitSchedule()
+
 }
