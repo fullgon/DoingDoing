@@ -76,7 +76,8 @@ public class ScheduleServiceTest {
         ScheduleDto publicTodoMonthlySchedule = ScheduleDto.builder()
                 .user(user).title("title")
                 .openScope(OpenScope.PUBIC).period(monthlyPeriod)
-                .scheduleType(ScheduleType.TODO).build();
+                .scheduleType(ScheduleType.TODO)
+                .isCompleted(true).build();
         scheduleService.addSchedule(publicTodoMonthlySchedule);
 
         ScheduleDto privateHabitMonthlySchedule = ScheduleDto.builder()
@@ -91,9 +92,11 @@ public class ScheduleServiceTest {
                 .scheduleType(ScheduleType.HABIT).build();
         scheduleService.addSchedule(publicHabitDailySchedule);
 
-        ScheduleConditionDTO scheduleConditionDTO = new ScheduleConditionDTO("userA", monthlyPeriod, ScheduleType.TODO, OpenScope.PUBIC);
-        List<Schedule> scheduleList = scheduleService.findScheduleList(scheduleConditionDTO);
-        Assertions.assertEquals(1, scheduleList.size());
+        ScheduleConditionDTO scheduleConditionDTO = new ScheduleConditionDTO("userA", monthlyPeriod, OpenScope.PUBIC);
+        CategorizedScheduleList scheduleList = scheduleService.findCategorizedScheduleList(scheduleConditionDTO);
+        Assertions.assertEquals(1, scheduleList.getToDoScheduleList().size());
+        Assertions.assertEquals(1, scheduleList.getHabitScheduleList().size());
+
     }
 
 }

@@ -13,6 +13,8 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     List<Schedule> findAllByPeriod(Period period);
 
     List<Schedule> findAllByUserAndPeriodAndOpenScopeAndScheduleType(User user, Period period, OpenScope openScope, ScheduleType scheduleType);
+    List<Schedule> findAllByUserAndPeriodAndOpenScope(User user, Period period, OpenScope openScope);
+    List<Schedule> findAllByUserAndPeriod(User user, Period period);
 
 
 }
