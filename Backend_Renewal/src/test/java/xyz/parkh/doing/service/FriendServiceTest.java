@@ -131,4 +131,14 @@ public class FriendServiceTest {
         Boolean isFriendAfterDelete = friendService.isFriend("userAID", "userDID");
         assertTrue(!isFriendAfterDelete);
     }
+
+    @Test
+    public void 친구_목록_조회() {
+        List<FriendInfo> friendInfoList = friendService.getReceiveFriendApplicationList("userAID");
+        for (FriendInfo friendInfo : friendInfoList) {
+            friendService.responseAccept(friendInfo.getId());
+        }
+        List<User> friendList = friendService.getFriendList("userAID");
+        assertEquals(friendList.size(), 1);
+    }
 }

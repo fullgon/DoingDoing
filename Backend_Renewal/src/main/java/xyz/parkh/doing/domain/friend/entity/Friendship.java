@@ -1,6 +1,7 @@
 package xyz.parkh.doing.domain.friend.entity;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import xyz.parkh.doing.domain.user.entity.User;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
+@Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Friendship {

@@ -33,3 +33,42 @@
 Test 시 롤백 되지 않도록
 
 @Rollback(value=false)
+
+Repository
+
+```
+List<FriendApplication> findAllByTarget_AuthIdAndFriendshipState(String authId, FriendshipState friendshipState);
+List<FriendApplication> findAllByRequester_AuthIdAndFriendshipState(String authId, FriendshipState friendshipState);
+FriendApplication findByRequester_AuthIdAndTarget_AuthIdAndFriendshipState(String requesterAuthId, String targetAuthId, FriendshipState friendshipState);
+```
+
+```
+List<FriendApplication> findAllByTargetAndFriendshipState(User target, FriendshipState friendshipState);
+List<FriendApplication> findAllByRequesterAndFriendshipState(User requester, FriendshipState friendshipState);
+FriendApplication findByRequesterAndTargetAndFriendshipState(User requester, User target, FriendshipState friendshipState);
+```
+
+주차 구하기
+
+```
+public static Period getWeek(LocalDate date) {
+    int dayOfWeek = date.getDayOfWeek().getValue();
+    LocalDate thursdayOfDate = date.minusDays(dayOfWeek - 4);
+
+    LocalDate firstThursdayOfDate = null;
+    for (int i = 1; i <= 7; i++) {
+        LocalDate sequentialDate = thursdayOfDate.withDayOfMonth(i);
+        if (sequentialDate.getDayOfWeek() == DayOfWeek.THURSDAY) {
+            firstThursdayOfDate = sequentialDate;
+            break;
+        }
+    }
+
+    int year = thursdayOfDate.getYear();
+    int month = thursdayOfDate.getMonth().getValue();
+    int week = (thursdayOfDate.getDayOfMonth() - firstThursdayOfDate.getDayOfMonth()) / 7 + 1;
+
+    return Period.builder().year(year).month(month).week(week)
+            .periodType(PeriodType.WEEK).build();
+}
+```

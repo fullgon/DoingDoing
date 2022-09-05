@@ -4,13 +4,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import xyz.parkh.doing.domain.schedule.entity.HabitSchedule;
 import xyz.parkh.doing.domain.schedule.entity.Schedule;
-import xyz.parkh.doing.domain.schedule.model.ScheduleConditionDTO;
-import xyz.parkh.doing.domain.schedule.model.ScheduleDTO;
-import xyz.parkh.doing.domain.schedule.model.ScheduleType;
+import xyz.parkh.doing.domain.schedule.entity.ToDoSchedule;
+import xyz.parkh.doing.domain.schedule.model.*;
 import xyz.parkh.doing.domain.schedule.repository.ScheduleRepository;
+import xyz.parkh.doing.domain.user.entity.User;
+import xyz.parkh.doing.domain.user.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -18,40 +22,86 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleService {
 
+    private final UserService userService;
     private final ScheduleRepository scheduleRepository;
 
     // 일정 생성
-    public void addScheduleForScheduleDTO(ScheduleDTO scheduleDTO) {
-        ScheduleType scheduleType = scheduleDTO.getScheduleType();
-        Schedule schedule = scheduleDTO.convertSchedule();
+    public void addSchedule(ScheduleDto scheduleDTO) {
+        Schedule schedule = null;
+
+        if (scheduleDTO.getScheduleType() == ScheduleType.HABIT) {
+            schedule = scheduleDTO.convertHabitSchedule();
+        } else if (scheduleDTO.getScheduleType() == ScheduleType.TODO) {
+            schedule = scheduleDTO.convertToDoSchedule();
+        }
+
+        if (schedule == null) {
+            throw new NullPointerException();
+        }
         scheduleRepository.save(schedule);
     }
 
     // 일정 목록 조회
-    public List<ScheduleDTO> findScheduleList(ScheduleConditionDTO scheduleConditionDTO) {
-        System.out.println("scheduleConditionDTO = " + scheduleConditionDTO);
+//    public List<Schedule> findScheduleList(ScheduleConditionDTO scheduleConditionDto) {
+//        // 요청하는 사람과 일정 주인의 관계 확인
+//        // - OpenScope.PRIVATE : 본인
+//        // - OpenScope.FRIEND : 본인, 친구
+//        // - OpenScope.PUBLIC : 모든 사용자 (본인, 친구, 친구X, 로그인 안 한 사용자)
+//
+//        // 일정 조회 기간 확인
+//        //    일정 기간 타입 확인
+//        //    - PeriodType.YEAR, PeriodType.MONTH, PeriodType.DAY
+//        //    일정 기간 확인
+//        //    - Period.year, Period.week, Period.day
+//
+//        // 일정 타입 확인
+//        // - ScheduleType.HABIT : 습관
+//        // - ScheduleType.TODO : 할일
+//
+//        User user = userService.findByAuthId(scheduleConditionDto.getAuthId());
+//        Period period = scheduleConditionDto.getPeriod();
+//        OpenScope openScope = scheduleConditionDto.getOpenScope();
+//
+//        List<Schedule> scheduleList = scheduleRepository.findAllByUserAndPeriodAndOpenScopeAndScheduleType(user, period, openScope, scheduleType);
+//
+//        return scheduleList;
+//    }
 
-        // 요청하는 사람과 일정 주인의 관계 확인
-        // - OpenScope.PRIVATE : 본인
-        // - OpenScope.FRIEND : 본인, 친구
-        // - OpenScope.PUBLIC : 모든 사용자 (본인, 친구, 친구X, 로그인 안 한 사용자)
+    // 오늘 일정 조회
+    // 일정 타입별 일정 조회
+    public CategorizedScheduleList findCategorizedScheduleList(ScheduleConditionDTO scheduleConditionDto) {
+        User user = userService.findByAuthId(scheduleConditionDto.getAuthId());
+        Period period = scheduleConditionDto.getPeriod();
+        OpenScope openScope = scheduleConditionDto.getOpenScope();
 
-        // 일정 조회 기간 확인
-        //    일정 기간 타입 확인
-        //    - PeriodType.YEAR, PeriodType.MONTH, PeriodType.DAY
-        //    일정 기간 확인
-        //    - Period.year, Period.week, Period.day
+        List<Schedule> scheduleList = scheduleRepository.findAllByUserAndPeriod(user, period);
 
-        // 일정 타입 확인
-        // - ScheduleType.HABIT : 습관
-        // - ScheduleType.TODO : 할일
+        List<Schedule> habitList = scheduleList.stream()
+                .filter(schedule -> schedule.getScheduleType() == ScheduleType.HABIT)
+                .filter(schedule -> schedule.getOpenScope() == openScope)
+                .collect(Collectors.toList());
 
+        List<ShortHabitSchedule> shortHabitList = new ArrayList<>();
+        for (Schedule schedule : habitList) {
+            HabitSchedule habit = (HabitSchedule) schedule;
+            ShortHabitSchedule shortHabit = new ShortHabitSchedule(habit.getId(), habit.getTitle(), habit.getOpenScope());
+            shortHabitList.add(shortHabit);
+        }
 
-        return null;
+        List<Schedule> toDoList = scheduleList.stream()
+                .filter(schedule -> schedule.getScheduleType() == ScheduleType.TODO)
+                .filter(schedule -> schedule.getOpenScope() == openScope)
+                .collect(Collectors.toList());
+
+        List<ShortToDoSchedule> shortToDoList = new ArrayList<>();
+        for (Schedule schedule : toDoList) {
+            ToDoSchedule toDo = (ToDoSchedule) schedule;
+            ShortToDoSchedule shortToDo = new ShortToDoSchedule(toDo.getId(), toDo.getTitle(), toDo.getOpenScope(), toDo.getIsCompleted());
+            shortToDoList.add(shortToDo);
+        }
+
+        return new CategorizedScheduleList(shortHabitList, shortToDoList);
     }
-
-
-    // 일정 상세 조회
 
 
     // 일정 수정

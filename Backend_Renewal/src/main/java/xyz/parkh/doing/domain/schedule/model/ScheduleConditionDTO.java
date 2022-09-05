@@ -11,14 +11,12 @@ import lombok.ToString;
 public class ScheduleConditionDTO {
     private String authId;
     private Period period;
-    private ScheduleType scheduleType;
     private OpenScope openScope;
 
     @Builder
-    public ScheduleConditionDTO(String authId, Period period, ScheduleType scheduleType, OpenScope openScope) {
+    public ScheduleConditionDTO(String authId, Period period, OpenScope openScope) {
         this.authId = authId;
         this.period = period;
-        this.scheduleType = scheduleType;
         this.openScope = openScope;
     }
 }

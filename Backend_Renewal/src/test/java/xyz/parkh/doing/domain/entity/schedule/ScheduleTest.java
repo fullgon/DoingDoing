@@ -4,8 +4,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+import xyz.parkh.doing.domain.schedule.entity.HabitSchedule;
+import xyz.parkh.doing.domain.schedule.model.PeriodType;
+import xyz.parkh.doing.domain.schedule.model.ScheduleDto;
 import xyz.parkh.doing.domain.user.entity.User;
 import xyz.parkh.doing.domain.schedule.entity.Schedule;
 import xyz.parkh.doing.domain.schedule.entity.ToDoSchedule;
@@ -27,88 +31,43 @@ public class ScheduleTest {
     EntityManager em;
 
     @Autowired
-    ScheduleRepository scheduleRepository;
-
-    @Autowired
     UserRepository userRepository;
 
     @Test
-    public void readExtendsClass() {
-        // Schedule 을 상속 받는 클래스 별로 Repository 가 필요한가?를 검증 하기 위한 테스트
-        // 이건 Java 지식이 부족 했던거 인듯
-        // 조회 할 때 알아서 업 캐스팅 되고,
-        // 필요시 다운 캐스팅 해서 사용 하면 되겠다.
-        User user = User.builder().authId("parkId").name("parkName").build();
-        userRepository.save(user);
+    public void 월간_할일() {
+        User user1 = User.builder().name("USER1NAME").authId("USER1AUTHID").build();
+        em.persist(user1);
 
-
-        ToDoSchedule toDoSchedule = ToDoSchedule.createMonthlyToDoSchedule(user, "title", "content", OpenScope.PUBIC, true);
-        scheduleRepository.save(toDoSchedule);
-
-        Schedule findBySchedule = scheduleRepository.findById(toDoSchedule.getId()).get();
-        ToDoSchedule convertSchedule = (ToDoSchedule) findBySchedule;
-        Boolean isCompleted = convertSchedule.getIsCompleted();
-        assertTrue(isCompleted);
-    }
-
-    @Test
-    public void toDoScheduleTest() {
-        User user = new User("userId", "password", "name", "email", "company");
-        String title = "title";
-        String content = "content";
-        OpenScope openScope = OpenScope.PUBIC;
-        Period period = Period.createMonthlyPeriod();
-        Boolean isCompleted = true;
-
-        ToDoSchedule toDoSchedule = ToDoSchedule.createMonthlyToDoSchedule(user, title, content, OpenScope.PUBIC, isCompleted);
-
-        assertEquals(toDoSchedule.getTitle(), title);
-        assertEquals(toDoSchedule.getContent(), content);
-        assertEquals(toDoSchedule.getUser(), user);
-        assertEquals(toDoSchedule.getOpenScope(), openScope);
-        assertEquals(toDoSchedule.getPeriod(), period);
-        assertEquals(toDoSchedule.getIsCompleted(), isCompleted);
-    }
-
-
-    @Test
-    public void equalsSchedule() {
-        User user1 = new User("userId", "password", "name", "email", "company");
-        User user2 = new User("userId", "password", "name", "email", "company");
-        String title = "title";
-        String content = "content";
-        OpenScope openScope = OpenScope.PUBIC;
-        Boolean isCompleted = true;
-        Schedule schedule1 = ToDoSchedule.createDailyToDoSchedule(user1, title, content, openScope, isCompleted);
-        Schedule schedule2 = ToDoSchedule.createDailyToDoSchedule(user2, title, content, openScope, isCompleted);
-        assertEquals(schedule1, schedule2);
-    }
-
-    @Test
-    public void saveSchedule() {
-        // TODO 지연 로딩 제외, 추후 올바른 방법으로 수정
-        User user = new User("userId", "password", "name", "email", "company");
-        em.persist(user);
-
-        String title = "title";
-        String content = "content";
-        OpenScope openScope = OpenScope.PUBIC;
-        Boolean isCompleted = true;
-
-        Schedule schedule = ToDoSchedule.createMonthlyToDoSchedule(user, title, content, openScope, isCompleted);
-        em.persist(schedule);
+        ToDoSchedule toDoSchedule = new ToDoSchedule(user1, "ToDoTitle", OpenScope.PUBIC, Period.createMonthlyPeriod(2022, 8), true);
+        em.persist(toDoSchedule);
 
         em.flush();
         em.clear();
 
-        ToDoSchedule findSchedule = (ToDoSchedule) em.find(Schedule.class, schedule.getId());
+        ToDoSchedule findToDoSchedule = em.find(ToDoSchedule.class, toDoSchedule.getId());
 
-        assertEquals(schedule.getId(), findSchedule.getId());
-        assertEquals(schedule.getTitle(), findSchedule.getTitle());
-        assertEquals(schedule.getContent(), findSchedule.getContent());
-        assertEquals(schedule.getOpenScope(), findSchedule.getOpenScope());
-        assertEquals(((ToDoSchedule) schedule).getIsCompleted(), findSchedule.getIsCompleted());
-        assertEquals(schedule.getPeriod().getPeriodType(), findSchedule.getPeriod().getPeriodType());
+        assertEquals(toDoSchedule, findToDoSchedule);
+        assertEquals(toDoSchedule, findToDoSchedule);
+        assertEquals(toDoSchedule.getClass(), toDoSchedule.getClass());
     }
+
+    @Test
+    public void 월간_습관() {
+        User user1 = User.builder().name("USER1NAME").authId("USER1AUTHID").build();
+        em.persist(user1);
+
+        HabitSchedule habitSchedule = new HabitSchedule(user1, "HabitTitle", OpenScope.PUBIC, Period.createMonthlyPeriod(2022, 8));
+        em.persist(habitSchedule);
+
+        em.flush();
+        em.clear();
+
+        HabitSchedule findHabitSchedule = em.find(HabitSchedule.class, habitSchedule.getId());
+
+        assertEquals(habitSchedule, findHabitSchedule);
+        assertEquals(findHabitSchedule.getPeriod().getPeriodType(), PeriodType.MONTH);
+        assertEquals(findHabitSchedule.getClass(), HabitSchedule.class);
+    }
+
 
 }
