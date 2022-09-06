@@ -25,7 +25,7 @@ overflow: auto;
   }
 `;
 
-const ScheduleBox = ({title}) =>{
+const ScheduleBox = () =>{
     return(
         <ScheduleList>
             <Schedule/>
