@@ -5,9 +5,10 @@
 //그걸 뿌려주고
 //버튼추가로 배열에 일정 추가해서 일정이 추가되어 표시되도록
 import styled from 'styled-components'
+import NewSchedule from './NewSchedule';
 import Schedule from './Schedule';
 
-const Schedules = styled.div`
+const ScheduleList = styled.div`
 display: flex;
 flex-direction: column;
 height: 70vh;
@@ -25,11 +26,12 @@ overflow: auto;
   }
 `;
 
-const ScheduleBox = ({title}) =>{
+const ScheduleBox = () =>{
     return(
-        <Schedules>
+        <ScheduleList>
             <Schedule/>
-        </Schedules>
+            <NewSchedule/>
+        </ScheduleList>
     )
 }
 
