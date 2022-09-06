@@ -5,6 +5,7 @@
 //그걸 뿌려주고
 //버튼추가로 배열에 일정 추가해서 일정이 추가되어 표시되도록
 import styled from 'styled-components'
+import NewSchedule from './NewSchedule';
 import Schedule from './Schedule';
 
 const ScheduleList = styled.div`
@@ -29,6 +30,7 @@ const ScheduleBox = () =>{
     return(
         <ScheduleList>
             <Schedule/>
+            <NewSchedule/>
         </ScheduleList>
     )
 }
