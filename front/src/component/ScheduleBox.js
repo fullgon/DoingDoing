@@ -7,7 +7,7 @@
 import styled from 'styled-components'
 import Schedule from './Schedule';
 
-const Schedules = styled.div`
+const ScheduleList = styled.div`
 display: flex;
 flex-direction: column;
 height: 70vh;
@@ -27,9 +27,9 @@ overflow: auto;
 
 const ScheduleBox = ({title}) =>{
     return(
-        <Schedules>
+        <ScheduleList>
             <Schedule/>
-        </Schedules>
+        </ScheduleList>
     )
 }
 
