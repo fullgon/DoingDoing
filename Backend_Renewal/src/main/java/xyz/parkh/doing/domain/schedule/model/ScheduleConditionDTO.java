@@ -9,14 +9,13 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 public class ScheduleConditionDTO {
-    private String authId;
+    private String targetId;
+    private String requesterId;
     private Period period;
-    private OpenScope openScope;
 
-    @Builder
-    public ScheduleConditionDTO(String authId, Period period, OpenScope openScope) {
-        this.authId = authId;
+    public ScheduleConditionDTO(String targetId, String requesterId, Period period) {
+        this.targetId = targetId;
+        this.requesterId = requesterId;
         this.period = period;
-        this.openScope = openScope;
     }
 }

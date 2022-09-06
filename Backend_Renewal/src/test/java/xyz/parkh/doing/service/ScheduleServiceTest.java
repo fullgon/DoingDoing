@@ -92,7 +92,7 @@ public class ScheduleServiceTest {
                 .scheduleType(ScheduleType.HABIT).build();
         scheduleService.addSchedule(publicHabitDailySchedule);
 
-        ScheduleConditionDTO scheduleConditionDTO = new ScheduleConditionDTO("userA", monthlyPeriod, OpenScope.PUBIC);
+        ScheduleConditionDTO scheduleConditionDTO = new ScheduleConditionDTO("userA", null, monthlyPeriod);
         CategorizedScheduleList scheduleList = scheduleService.findCategorizedScheduleList(scheduleConditionDTO);
         Assertions.assertEquals(1, scheduleList.getToDoScheduleList().size());
         Assertions.assertEquals(1, scheduleList.getHabitScheduleList().size());
