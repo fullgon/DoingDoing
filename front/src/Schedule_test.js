@@ -20,7 +20,7 @@ const Schedule_test = () =>{
             <div>
                 <ScheduleBanner title="일간"/>
                 <ScheduleBox/>
-            </div>            
+            </div>
         </Container>
     )
 }
