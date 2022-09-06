@@ -1,10 +1,8 @@
 package xyz.parkh.doing.domain.schedule.model;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import xyz.parkh.doing.domain.schedule.entity.HabitSchedule;
-import xyz.parkh.doing.domain.schedule.entity.Schedule;
 import xyz.parkh.doing.domain.schedule.entity.ToDoSchedule;
 import xyz.parkh.doing.domain.user.entity.User;
 
@@ -18,10 +16,14 @@ public class ScheduleDto {
     private Boolean isCompleted;
     private ScheduleType scheduleType;
 
-    public ScheduleDto() {
+    public ScheduleDto(User user, String title, OpenScope openScope, Period period, ScheduleType scheduleType) {
+        this.user = user;
+        this.title = title;
+        this.openScope = openScope;
+        this.period = period;
+        this.scheduleType = scheduleType;
     }
 
-    @Builder
     public ScheduleDto(User user, String title, OpenScope openScope, Period period, Boolean isCompleted, ScheduleType scheduleType) {
         this.user = user;
         this.title = title;
@@ -39,8 +41,11 @@ public class ScheduleDto {
         return new HabitSchedule(user, title, openScope, period);
     }
 
-//    TODO
-//    public static ScheduleDto createForToDoSchedule()
-//    public static ScheduleDto createForHabitSchedule()
+    public static ScheduleDto createForToDoSchedule(User user, String title, OpenScope openScope, Period period, Boolean isCompleted) {
+        return new ScheduleDto(user, title, openScope, period, isCompleted, ScheduleType.TODO);
+    }
 
+    public static ScheduleDto createForHabitSchedule(User user, String title, OpenScope openScope, Period period) {
+        return new ScheduleDto(user, title, openScope, period, ScheduleType.HABIT);
+    }
 }

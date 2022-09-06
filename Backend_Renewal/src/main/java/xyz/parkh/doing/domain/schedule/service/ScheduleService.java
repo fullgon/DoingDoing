@@ -13,6 +13,7 @@ import xyz.parkh.doing.domain.schedule.repository.ScheduleRepository;
 import xyz.parkh.doing.domain.user.entity.User;
 import xyz.parkh.doing.domain.user.service.UserService;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -72,6 +73,10 @@ public class ScheduleService {
     // 권한에 따른 일정 조회
     public List<Schedule> findAccessibleSchedule(String targetId, String requesterId, Period period) {
         User target = userService.findByAuthId(targetId);
+        if (target == null) {
+            throw new NullPointerException("조회하려는 사용자가 없습니다.");
+        }
+
         User requester = userService.findByAuthId(requesterId);
 
         if (target.equals(requester)) {
@@ -90,6 +95,35 @@ public class ScheduleService {
                 .filter(schedule -> schedule.getOpenScope() == OpenScope.PUBIC)
                 .collect(Collectors.toList());
     }
+
+
+    public AllCategorizedScheduleList findAllCategorizedScheduleList(LocalDate localDate, String targetId, String requesterId) {
+        int year = localDate.getYear();
+        int month = localDate.getMonth().getValue();
+        int day = localDate.getDayOfMonth();
+
+        Period monthlyPeriod = Period.createMonthlyPeriod(year, month);
+        Period weeklyPeriod = Period.createWeeklyPeriod(localDate);
+        Period dailyPeriod = Period.createDailyPeriod(year, month, day);
+
+        ScheduleConditionDTO monthlyCondition = new ScheduleConditionDTO(targetId, requesterId, monthlyPeriod);
+        CategorizedScheduleList monthlySchedule = findCategorizedScheduleList(monthlyCondition);
+
+        ScheduleConditionDTO weeklyCondition = new ScheduleConditionDTO(targetId, requesterId, weeklyPeriod);
+        CategorizedScheduleList weeklySchedule = findCategorizedScheduleList(weeklyCondition);
+
+        ScheduleConditionDTO dailyCondition = new ScheduleConditionDTO(targetId, requesterId, dailyPeriod);
+        CategorizedScheduleList dailySchedule = findCategorizedScheduleList(dailyCondition);
+
+        AllCategorizedScheduleList scheduleList = new AllCategorizedScheduleList(monthlySchedule, weeklySchedule, dailySchedule);
+        return scheduleList;
+    }
+
+    public AllCategorizedScheduleList findAllCategorizedScheduleList(LocalDate localDate, String targetId) {
+        return findAllCategorizedScheduleList(localDate, targetId, null);
+
+    }
+
 
     // 일정 타입별 일정 조회
     public CategorizedScheduleList findCategorizedScheduleList(ScheduleConditionDTO scheduleConditionDto) {

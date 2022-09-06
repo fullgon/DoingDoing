@@ -10,6 +10,9 @@ public class CategorizedScheduleList {
     List<ShortHabitSchedule> habitScheduleList = new ArrayList<>();
     List<ShortToDoSchedule> toDoScheduleList = new ArrayList<>();
 
+    public CategorizedScheduleList() {
+    }
+
     public CategorizedScheduleList(List<ShortHabitSchedule> habitScheduleList, List<ShortToDoSchedule> toDoScheduleList) {
         this.habitScheduleList = habitScheduleList;
         this.toDoScheduleList = toDoScheduleList;
