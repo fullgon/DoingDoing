@@ -54,6 +54,45 @@ public class Period {
                 .periodType(PeriodType.DAY).build();
     }
 
+    public static Period createMonthlyPeriod(LocalDate date) {
+        int year = date.getYear();
+        int month = date.getMonth().getValue();
+        return Period.builder().year(year).month(month)
+                .periodType(PeriodType.MONTH).build();
+    }
+
+    public static Period createWeeklyPeriod(LocalDate date) {
+        int year = date.getYear();
+        int month = date.getMonth().getValue();
+        int week = calculateWeek(date);
+        return Period.builder().year(year).month(month).week(week)
+                .periodType(PeriodType.WEEK).build();
+    }
+
+    public static Period createDailyPeriod(LocalDate date) {
+        int year = date.getYear();
+        int month = date.getMonth().getValue();
+        int day = date.getDayOfMonth();
+        return Period.builder().year(year).month(month).day(day)
+                .periodType(PeriodType.DAY).build();
+    }
+
+    public static int calculateWeek(LocalDate date) {
+        int dayOfWeek = date.getDayOfWeek().getValue();
+        LocalDate thursdayOfDate = date.minusDays(dayOfWeek - 4);
+        LocalDate firstThursdayOfDate = null;
+        for (int i = 1; i <= 7; i++) {
+            LocalDate sequentialDate = thursdayOfDate.withDayOfMonth(i);
+            if (sequentialDate.getDayOfWeek() == DayOfWeek.THURSDAY) {
+                firstThursdayOfDate = sequentialDate;
+                break;
+            }
+        }
+
+        return (thursdayOfDate.getDayOfMonth() - firstThursdayOfDate.getDayOfMonth()) / 7 + 1;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

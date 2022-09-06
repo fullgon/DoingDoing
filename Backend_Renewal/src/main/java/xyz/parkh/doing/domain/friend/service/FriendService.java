@@ -111,6 +111,14 @@ public class FriendService {
         return friendInfoList;
     }
 
+    public FriendInfo getReceiveFriendApplication(String requesterId, String targetId, FriendshipState friendshipState) {
+        User target = userService.findByAuthId(targetId);
+        User requester = userService.findByAuthId(requesterId);
+        FriendApplication friendApplication = friendRequestRepository.findByRequesterAndTargetAndFriendshipState(requester, target, friendshipState);
+
+        return new FriendInfo(friendApplication.getId(), requester.getAuthId(), requester.getName());
+    }
+
     public List<FriendInfo> getSendFriendApplicationList(String authId) {
         // TODO 최근 거절된 요청도 확인 가능 하도록.
         User user = userService.findByAuthId(authId);

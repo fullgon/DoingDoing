@@ -1,6 +1,5 @@
 package xyz.parkh.doing.domain.schedule.model;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -16,6 +15,11 @@ public class ScheduleConditionDTO {
     public ScheduleConditionDTO(String targetId, String requesterId, Period period) {
         this.targetId = targetId;
         this.requesterId = requesterId;
+        this.period = period;
+    }
+
+    public ScheduleConditionDTO(String userId, Period period) {
+        this.targetId = userId;
         this.period = period;
     }
 }
