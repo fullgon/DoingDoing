@@ -18,13 +18,11 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User findByAuthId(String authId) {
+    public User findByAuthId(final String authId) {
         User findByAuthId = userRepository.findByAuthId(authId);
-        // TODO null 체크
         return findByAuthId;
     }
 
-    //
     public UserSimpleInfo findUser(final String userId) {
         User findUser = userRepository.findByAuthId(userId);
         UserSimpleInfo findUserSimpleInfo = findUser.convertToUserSimpleInfo();
@@ -66,23 +64,21 @@ public class UserService {
         userRepository.delete(findUser);
     }
 
-    public Boolean isExistUserByUserId(String userId) {
+    public Boolean isExistUserByUserId(final String userId) {
         User existUser = userRepository.findByAuthId(userId);
         return existUser != null;
     }
 
-    // 회원 가입이 가능한 아이디인지 확인
-    public Boolean isAbleSignUpUserId(String userId) {
+    public Boolean isAbleSignUpUserId(final String userId) {
         return !isExistUserByUserId(userId);
     }
 
-    public Boolean isExistUserByEmail(String email) {
+    public Boolean isExistUserByEmail(final String email) {
         User existUser = userRepository.findByEmail(email);
         return existUser != null;
     }
 
-    // 회원 가임이 가능한 이메일인지 확인
-    public Boolean isAbleSignUpEmail(String email) {
+    public Boolean isAbleSignUpEmail(final String email) {
         return !isExistUserByEmail(email);
     }
 
