@@ -38,7 +38,7 @@ public class ScheduleTest {
         User user1 = User.builder().name("USER1NAME").authId("USER1AUTHID").build();
         em.persist(user1);
 
-        ToDoSchedule toDoSchedule = new ToDoSchedule(user1, "ToDoTitle", OpenScope.PUBIC, Period.createMonthlyPeriod(2022, 8), true);
+        ToDoSchedule toDoSchedule = new ToDoSchedule(user1, "ToDoTitle", OpenScope.PUBLIC, Period.createMonthlyPeriod(2022, 8), true);
         em.persist(toDoSchedule);
 
         em.flush();
@@ -56,7 +56,7 @@ public class ScheduleTest {
         User user1 = User.builder().name("USER1NAME").authId("USER1AUTHID").build();
         em.persist(user1);
 
-        HabitSchedule habitSchedule = new HabitSchedule(user1, "HabitTitle", OpenScope.PUBIC, Period.createMonthlyPeriod(2022, 8));
+        HabitSchedule habitSchedule = new HabitSchedule(user1, "HabitTitle", OpenScope.PUBLIC, Period.createMonthlyPeriod(2022, 8));
         em.persist(habitSchedule);
 
         em.flush();

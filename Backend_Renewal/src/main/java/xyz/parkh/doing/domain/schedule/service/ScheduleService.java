@@ -85,14 +85,14 @@ public class ScheduleService {
 
         if (friendService.isFriend(targetId, requesterId)) {
             return scheduleRepository.findAllByUserAndPeriod(target, period).stream()
-                    .filter(schedule -> schedule.getOpenScope() == OpenScope.PUBIC
+                    .filter(schedule -> schedule.getOpenScope() == OpenScope.PUBLIC
                             || schedule.getOpenScope() == OpenScope.FRIEND)
                     .collect(Collectors.toList());
 
         }
 
         return scheduleRepository.findAllByUserAndPeriod(target, period).stream()
-                .filter(schedule -> schedule.getOpenScope() == OpenScope.PUBIC)
+                .filter(schedule -> schedule.getOpenScope() == OpenScope.PUBLIC)
                 .collect(Collectors.toList());
     }
 

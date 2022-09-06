@@ -88,7 +88,7 @@ public static Period getWeek(LocalDate date) {
 ```
 {
     "title": "완료 O",
-    "openScope":"PUBIC",
+    "openScope":"PUBLIC",
     "period":{
         "year":2022,
         "month":9,

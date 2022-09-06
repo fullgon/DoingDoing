@@ -52,9 +52,9 @@ public class TestDataInit {
         Period dailyPeriod = Period.createDailyPeriod(now);
 
         if (scheduleService.findAllCategorizedScheduleList(now, userA.getAuthId(), userA.getAuthId()).getDaily().getHabitScheduleList().size() == 0) {
-            ScheduleDto monthToDoPublicTrue = ScheduleDto.createForToDoSchedule(userA, "MonthToDoPublicTrue", OpenScope.PUBIC, monthlyPeriod, true);
-            ScheduleDto monthToDoPublicFalse = ScheduleDto.createForToDoSchedule(userA, "MonthToDoPublicFalse", OpenScope.PUBIC, monthlyPeriod, false);
-            ScheduleDto monthHabitPublic = ScheduleDto.createForHabitSchedule(userA, "MonthHabitPublic", OpenScope.PUBIC, monthlyPeriod);
+            ScheduleDto monthToDoPublicTrue = ScheduleDto.createForToDoSchedule(userA, "MonthToDoPublicTrue", OpenScope.PUBLIC, monthlyPeriod, true);
+            ScheduleDto monthToDoPublicFalse = ScheduleDto.createForToDoSchedule(userA, "MonthToDoPublicFalse", OpenScope.PUBLIC, monthlyPeriod, false);
+            ScheduleDto monthHabitPublic = ScheduleDto.createForHabitSchedule(userA, "MonthHabitPublic", OpenScope.PUBLIC, monthlyPeriod);
             ScheduleDto monthToDoPrivateTrue = ScheduleDto.createForToDoSchedule(userA, "MonthToDoPrivateTrue", OpenScope.PRIVATE, monthlyPeriod, true);
             ScheduleDto monthToDoPrivateFalse = ScheduleDto.createForToDoSchedule(userA, "MonthToDoPublicTrue", OpenScope.PRIVATE, monthlyPeriod, false);
             ScheduleDto monthHabitPrivate = ScheduleDto.createForHabitSchedule(userA, "MonthHabitPrivate", OpenScope.PRIVATE, monthlyPeriod);
@@ -72,9 +72,9 @@ public class TestDataInit {
             scheduleService.addSchedule(monthToDoFriendTrue);
             scheduleService.addSchedule(monthHabitFriend);
 
-            ScheduleDto weekToDoPublicTrue = ScheduleDto.createForToDoSchedule(userA, "weekToDoPublicTrue", OpenScope.PUBIC, weeklyPeriod, true);
-            ScheduleDto weekToDoPublicFalse = ScheduleDto.createForToDoSchedule(userA, "weekToDoPublicFalse", OpenScope.PUBIC, weeklyPeriod, false);
-            ScheduleDto weekHabitPublic = ScheduleDto.createForHabitSchedule(userA, "weekHabitPublic", OpenScope.PUBIC, weeklyPeriod);
+            ScheduleDto weekToDoPublicTrue = ScheduleDto.createForToDoSchedule(userA, "weekToDoPublicTrue", OpenScope.PUBLIC, weeklyPeriod, true);
+            ScheduleDto weekToDoPublicFalse = ScheduleDto.createForToDoSchedule(userA, "weekToDoPublicFalse", OpenScope.PUBLIC, weeklyPeriod, false);
+            ScheduleDto weekHabitPublic = ScheduleDto.createForHabitSchedule(userA, "weekHabitPublic", OpenScope.PUBLIC, weeklyPeriod);
             ScheduleDto weekToDoPrivateTrue = ScheduleDto.createForToDoSchedule(userA, "weekToDoPrivateTrue", OpenScope.PRIVATE, weeklyPeriod, true);
             ScheduleDto weekToDoPrivateFalse = ScheduleDto.createForToDoSchedule(userA, "weekToDoPublicTrue", OpenScope.PRIVATE, weeklyPeriod, false);
             ScheduleDto weekHabitPrivate = ScheduleDto.createForHabitSchedule(userA, "weekHabitPrivate", OpenScope.PRIVATE, weeklyPeriod);
@@ -92,9 +92,9 @@ public class TestDataInit {
             scheduleService.addSchedule(weekToDoFriendFalse);
             scheduleService.addSchedule(weekHabitFriend);
 
-            ScheduleDto dayToDoPublicTrue = ScheduleDto.createForToDoSchedule(userA, "dayToDoPublicTrue", OpenScope.PUBIC, dailyPeriod, true);
-            ScheduleDto dayToDoPublicFalse = ScheduleDto.createForToDoSchedule(userA, "dayToDoPublicFalse", OpenScope.PUBIC, dailyPeriod, false);
-            ScheduleDto dayHabitPublic = ScheduleDto.createForHabitSchedule(userA, "dayHabitPublic", OpenScope.PUBIC, dailyPeriod);
+            ScheduleDto dayToDoPublicTrue = ScheduleDto.createForToDoSchedule(userA, "dayToDoPublicTrue", OpenScope.PUBLIC, dailyPeriod, true);
+            ScheduleDto dayToDoPublicFalse = ScheduleDto.createForToDoSchedule(userA, "dayToDoPublicFalse", OpenScope.PUBLIC, dailyPeriod, false);
+            ScheduleDto dayHabitPublic = ScheduleDto.createForHabitSchedule(userA, "dayHabitPublic", OpenScope.PUBLIC, dailyPeriod);
             ScheduleDto dayToDoPrivateTrue = ScheduleDto.createForToDoSchedule(userA, "dayToDoPrivateTrue", OpenScope.PRIVATE, dailyPeriod, true);
             ScheduleDto dayToDoPrivateFalse = ScheduleDto.createForToDoSchedule(userA, "dayToDoPublicTrue", OpenScope.PRIVATE, dailyPeriod, false);
             ScheduleDto dayHabitPrivate = ScheduleDto.createForHabitSchedule(userA, "dayHabitPrivate", OpenScope.PRIVATE, dailyPeriod);

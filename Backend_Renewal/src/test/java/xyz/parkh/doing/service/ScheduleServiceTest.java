@@ -48,7 +48,7 @@ public class ScheduleServiceTest {
         User user = userService.findByAuthId("authIdA");
         Period period = Period.createMonthlyPeriod(2022, 8);
 
-        ScheduleDto scheduleDTO = ScheduleDto.createForToDoSchedule(user, "title", OpenScope.PUBIC, period, true);
+        ScheduleDto scheduleDTO = ScheduleDto.createForToDoSchedule(user, "title", OpenScope.PUBLIC, period, true);
 
         scheduleService.addSchedule(scheduleDTO);
     }
@@ -57,7 +57,7 @@ public class ScheduleServiceTest {
     public void 습관_월간_일정_추가() {
         User user = userService.findByAuthId("authIdA");
         Period period = Period.createMonthlyPeriod(2022, 8);
-        ScheduleDto scheduleDTO = ScheduleDto.createForToDoSchedule(user, "title", OpenScope.PUBIC, period, true);
+        ScheduleDto scheduleDTO = ScheduleDto.createForToDoSchedule(user, "title", OpenScope.PUBLIC, period, true);
 
         scheduleService.addSchedule(scheduleDTO);
     }
