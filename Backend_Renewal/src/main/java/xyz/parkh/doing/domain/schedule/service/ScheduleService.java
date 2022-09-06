@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import xyz.parkh.doing.domain.friend.service.FriendService;
 import xyz.parkh.doing.domain.schedule.entity.HabitSchedule;
 import xyz.parkh.doing.domain.schedule.entity.Schedule;
 import xyz.parkh.doing.domain.schedule.entity.ToDoSchedule;
@@ -24,6 +25,7 @@ public class ScheduleService {
 
     private final UserService userService;
     private final ScheduleRepository scheduleRepository;
+    private final FriendService friendService;
 
     // 일정 생성
     public void addSchedule(ScheduleDto scheduleDTO) {
@@ -67,18 +69,37 @@ public class ScheduleService {
 //        return scheduleList;
 //    }
 
-    // 오늘 일정 조회
+    // 권한에 따른 일정 조회
+    public List<Schedule> findAccessibleSchedule(String targetId, String requesterId, Period period) {
+        User target = userService.findByAuthId(targetId);
+        User requester = userService.findByAuthId(requesterId);
+
+        if (target.equals(requester)) {
+            return scheduleRepository.findAllByUserAndPeriod(target, period);
+        }
+
+        if (friendService.isFriend(targetId, requesterId)) {
+            return scheduleRepository.findAllByUserAndPeriod(target, period).stream()
+                    .filter(schedule -> schedule.getOpenScope() == OpenScope.PUBIC
+                            || schedule.getOpenScope() == OpenScope.FRIEND)
+                    .collect(Collectors.toList());
+
+        }
+
+        return scheduleRepository.findAllByUserAndPeriod(target, period).stream()
+                .filter(schedule -> schedule.getOpenScope() == OpenScope.PUBIC)
+                .collect(Collectors.toList());
+    }
+
     // 일정 타입별 일정 조회
     public CategorizedScheduleList findCategorizedScheduleList(ScheduleConditionDTO scheduleConditionDto) {
-        User user = userService.findByAuthId(scheduleConditionDto.getAuthId());
+        String requesterId = scheduleConditionDto.getRequesterId();
+        String targetId = scheduleConditionDto.getTargetId();
         Period period = scheduleConditionDto.getPeriod();
-        OpenScope openScope = scheduleConditionDto.getOpenScope();
 
-        List<Schedule> scheduleList = scheduleRepository.findAllByUserAndPeriod(user, period);
-
+        List<Schedule> scheduleList = findAccessibleSchedule(targetId, requesterId, period);
         List<Schedule> habitList = scheduleList.stream()
                 .filter(schedule -> schedule.getScheduleType() == ScheduleType.HABIT)
-                .filter(schedule -> schedule.getOpenScope() == openScope)
                 .collect(Collectors.toList());
 
         List<ShortHabitSchedule> shortHabitList = new ArrayList<>();
@@ -90,7 +111,6 @@ public class ScheduleService {
 
         List<Schedule> toDoList = scheduleList.stream()
                 .filter(schedule -> schedule.getScheduleType() == ScheduleType.TODO)
-                .filter(schedule -> schedule.getOpenScope() == openScope)
                 .collect(Collectors.toList());
 
         List<ShortToDoSchedule> shortToDoList = new ArrayList<>();
