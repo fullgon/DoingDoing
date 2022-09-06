@@ -9,7 +9,7 @@ display: flex;
 const History_test = () => {
     return (
         <Container>
-            <ToggleHistory/>
+            <ToggleHistory content={"안녕"}/>
         </Container>
     )
 }

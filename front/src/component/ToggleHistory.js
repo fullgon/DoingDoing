@@ -5,19 +5,23 @@ const Container = styled.div`
 display: flex;
 `;
 
-const ToggleHistory = () => {
+const ToggleHistory = ({ content }) => {
+    const [icon, setIcon] = useState("▶");
 
-    const changeIcon = (e) =>{
-        if(e.target.innerText =="▶"){
-            e.target.innerText = "▼";
-            return
+    const changeIcon = () =>{
+        if(icon =="▶"){
+            setIcon("▼");
+            return;
         }
-        e.target.innerText = "▶";            
+        setIcon("▶");            
     }
     return(
-        <Container onClick={changeIcon}>
-            ▶
-            
+        <Container onClick={()=>{
+            changeIcon();
+
+        }}>
+            {icon}
+            <div>{content}</div>
         </Container>
     )
 }
