@@ -10,6 +10,8 @@ import xyz.parkh.doing.api.model.request.GetScheduleRequest;
 import xyz.parkh.doing.domain.schedule.model.AllCategorizedScheduleList;
 import xyz.parkh.doing.domain.schedule.model.ScheduleDto;
 import xyz.parkh.doing.domain.schedule.service.ScheduleService;
+import xyz.parkh.doing.domain.user.entity.User;
+import xyz.parkh.doing.domain.user.service.UserService;
 
 import java.time.LocalDate;
 
@@ -19,6 +21,7 @@ import java.time.LocalDate;
 @RequestMapping("/api/schedules")
 public class ScheduleController {
     private final ScheduleService scheduleService;
+    private final UserService userService;
 
     // TODO 인증 추가 전까지 요청에 요청한 사용자 아이디 받음
     @GetMapping("/{authId}/{localDate}")
@@ -38,10 +41,9 @@ public class ScheduleController {
             @PathVariable String authId,
             @RequestBody AddScheduleRequest addScheduleRequest,
             String userInJwt) {
-
-        System.out.println("authId = " + authId);
-        System.out.println("userInJwt = " + userInJwt);
-        System.out.println("addScheduleRequest = " + addScheduleRequest);
+        User user = userService.findByAuthId(authId);
+        ScheduleDto scheduleDto = addScheduleRequest.convert(user);
+        scheduleService.addSchedule(scheduleDto);
 
         return ResponseEntity.noContent().build();
     }

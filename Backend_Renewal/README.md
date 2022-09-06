@@ -72,3 +72,30 @@ public static Period getWeek(LocalDate date) {
             .periodType(PeriodType.WEEK).build();
 }
 ```
+
+## API
+
+### 일정 전체 목록 조회
+* /api/schedules/authIdA/2022-09-07
+```
+{
+    "userInJwt":"authIdB"
+}
+```
+
+### 일정 정보 등록
+* /api/schedules/authIdA
+```
+{
+    "title": "완료 O",
+    "openScope":"PUBIC",
+    "period":{
+        "year":2022,
+        "month":9,
+        "day":7,
+        "periodType":"DAY"
+    },
+    "scheduleType":"TODO",
+    "isCompleted": true
+}
+```
