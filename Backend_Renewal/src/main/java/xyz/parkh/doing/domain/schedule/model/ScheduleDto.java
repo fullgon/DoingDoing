@@ -1,8 +1,10 @@
 package xyz.parkh.doing.domain.schedule.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import xyz.parkh.doing.domain.schedule.entity.HabitSchedule;
+import xyz.parkh.doing.domain.schedule.entity.Schedule;
 import xyz.parkh.doing.domain.schedule.entity.ToDoSchedule;
 import xyz.parkh.doing.domain.user.entity.User;
 

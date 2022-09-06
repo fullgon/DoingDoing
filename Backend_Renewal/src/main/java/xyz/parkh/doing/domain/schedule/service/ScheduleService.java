@@ -39,7 +39,7 @@ public class ScheduleService {
         }
 
         if (schedule == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("일정 형식이 잘 못 되었습니다.");
         }
         scheduleRepository.save(schedule);
     }
