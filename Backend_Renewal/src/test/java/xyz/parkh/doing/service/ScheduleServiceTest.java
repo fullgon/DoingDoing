@@ -247,7 +247,7 @@ public class ScheduleServiceTest {
         ScheduleAddDto scheduleAddDto = ScheduleAddDto.createForHabitSchedule(userA, "dayHabitPublicTrue", OpenScope.PUBLIC, dailyPeriod);
         Schedule schedule = scheduleService.addSchedule(scheduleAddDto);
 
-        scheduleService.deleteSchedule(userA.getAuthId(), userA.getAuthId(), schedule.getId());
+        scheduleService.deleteSchedule(schedule.getId(), userA.getAuthId(), userA.getAuthId());
 
         Optional<Schedule> findById = scheduleRepository.findById(schedule.getId());
         Assertions.assertTrue(findById.isEmpty());

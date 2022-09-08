@@ -29,6 +29,14 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final FriendService friendService;
 
+    public Schedule findByScheduleId(Long scheduleId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId).get();
+        if (schedule == null) {
+            throw new NullPointerException("존재하는 일정이 없습니다");
+        }
+        return schedule;
+    }
+
     // 일정 생성
     public Schedule addSchedule(ScheduleAddDto scheduleAddDTO) {
         Schedule schedule = null;
@@ -162,7 +170,12 @@ public class ScheduleService {
 
     // 일정 수정
     public void updateSchedule(Long scheduleId, ScheduleChangeDto scheduleChangeDto) {
+        // TODO 없는 일정 조회 시 에러 발생 Optional 공부 후 처리 변경
         Schedule schedule = scheduleRepository.findById(scheduleId).get();
+
+        if (schedule == null) {
+            throw new NullPointerException();
+        }
         if (schedule.getScheduleType() == ScheduleType.HABIT) {
             if (scheduleChangeDto.getIsCompleted() != null) {
                 throw new NullPointerException("습관 일정은 완료 여부를 수정할 수 없습니다.");
@@ -174,7 +187,7 @@ public class ScheduleService {
     }
 
     // 일정 삭제
-    public void deleteSchedule(String targetId, String requesterId, Long scheduleId) {
+    public void deleteSchedule(Long scheduleId, String targetId, String requesterId) {
         if (targetId.equals(requesterId)) {
             Optional<Schedule> findSchedule = scheduleRepository.findById(scheduleId);
             if (findSchedule.isEmpty()) {

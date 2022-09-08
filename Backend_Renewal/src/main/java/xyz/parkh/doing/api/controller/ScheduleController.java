@@ -68,8 +68,8 @@ public class ScheduleController {
     // 일정 수정
     @PatchMapping("/{scheduleId}")
     public ResponseEntity updateSchedule(@PathVariable Long scheduleId,
+                                         @RequestBody UpdateScheduleRequest updateScheduleRequest,
                                          String userInJwt) {
-        UpdateScheduleRequest updateScheduleRequest = new UpdateScheduleRequest();
         ScheduleChangeDto scheduleChangeDto = ScheduleChangeDto.builder()
                 .title(updateScheduleRequest.getTitle())
                 .openScope(updateScheduleRequest.getOpenScope())
@@ -94,8 +94,13 @@ public class ScheduleController {
     // 일정 삭제
     @DeleteMapping("/{scheduleId}")
     public ResponseEntity removeSchedule(@PathVariable Long scheduleId,
-                                         String userInJwt) {
-
+                                         String userInJwt
+                                         ) {
+        String targetId = scheduleService.findByScheduleId(scheduleId).getUser().getAuthId();
+        String requesterId = userInJwt;
+        scheduleService.deleteSchedule(scheduleId, targetId, requesterId);
         return ResponseEntity.noContent().build();
     }
+
+
 }
