@@ -1,5 +1,6 @@
 package xyz.parkh.doing.api.controller;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -7,8 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xyz.parkh.doing.api.model.request.AddScheduleRequest;
 import xyz.parkh.doing.api.model.response.Check;
-import xyz.parkh.doing.domain.schedule.model.AllCategorizedScheduleList;
-import xyz.parkh.doing.domain.schedule.model.ScheduleAddDto;
+import xyz.parkh.doing.domain.schedule.model.*;
 import xyz.parkh.doing.domain.schedule.service.ScheduleService;
 import xyz.parkh.doing.domain.user.entity.User;
 import xyz.parkh.doing.domain.user.service.UserService;
@@ -69,8 +69,26 @@ public class ScheduleController {
     @PatchMapping("/{scheduleId}")
     public ResponseEntity updateSchedule(@PathVariable Long scheduleId,
                                          String userInJwt) {
+        UpdateScheduleRequest updateScheduleRequest = new UpdateScheduleRequest();
+        ScheduleChangeDto scheduleChangeDto = ScheduleChangeDto.builder()
+                .title(updateScheduleRequest.getTitle())
+                .openScope(updateScheduleRequest.getOpenScope())
+                .period(updateScheduleRequest.getPeriod())
+                .isCompleted(updateScheduleRequest.getIsCompleted())
+                .scheduleType(updateScheduleRequest.getScheduleType())
+                .build();
 
+        scheduleService.updateSchedule(scheduleId, scheduleChangeDto);
         return ResponseEntity.noContent().build();
+    }
+
+    @Getter
+    static class UpdateScheduleRequest{
+        private String title;
+        private OpenScope openScope;
+        private Period period;
+        private Boolean isCompleted;
+        private ScheduleType scheduleType;
     }
 
     // 일정 삭제

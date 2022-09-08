@@ -53,7 +53,7 @@ public class ScheduleServiceTest {
 
 
     @Before
-    public void init() throws Exception {
+    public void init(){
         if (userService.findByAuthId("authIdA") == null) {
             UserDetailInfo userDetailInfoA = new UserDetailInfo("authIdA", "passwordA", "nameA", "emailA@naver.com", "companyA");
             userA = userService.signUp(userDetailInfoA);
@@ -214,7 +214,7 @@ public class ScheduleServiceTest {
     }
 
     @Test
-    public void 할일_일정_수정() throws Exception {
+    public void 할일_일정_수정(){
         ScheduleAddDto scheduleAddDto = ScheduleAddDto.createForToDoSchedule(userA, "dayToDoPublicTrue", OpenScope.PUBLIC, dailyPeriod, true);
         Schedule schedule = scheduleService.addSchedule(scheduleAddDto);
 
@@ -228,13 +228,14 @@ public class ScheduleServiceTest {
     }
 
     @Test
-    public void 습관_일정_수정() throws Exception {
+    public void 습관_일정_수정(){
         Period dailyPeriod = Period.createDailyPeriod(LocalDate.now());
         ScheduleAddDto scheduleAddDto = ScheduleAddDto.createForHabitSchedule(userA, "dayHabitPublicTrue", OpenScope.PUBLIC, dailyPeriod);
         Schedule schedule = scheduleService.addSchedule(scheduleAddDto);
 
         ScheduleChangeDto scheduleChangeDto = ScheduleChangeDto.builder()
-                .title("UpdateTitle").build();
+                .title("UpdateTitle")
+                .build();
         scheduleService.updateSchedule(schedule.getId(), scheduleChangeDto);
 
         Assertions.assertEquals(scheduleChangeDto.getTitle(), schedule.getTitle());

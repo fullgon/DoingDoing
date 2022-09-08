@@ -39,7 +39,7 @@ public class FriendshipRepositoryTest {
     private UserService userService;
 
     @Before
-    public void 친구_요청() throws Exception {
+    public void 친구_요청(){
         User userA = User.builder().name("userAName").authId("userAID").build();
         User userB = User.builder().name("userBName").authId("userBID").build();
         User userC = User.builder().name("userCName").authId("userCID").build();

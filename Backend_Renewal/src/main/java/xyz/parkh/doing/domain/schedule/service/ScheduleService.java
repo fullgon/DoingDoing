@@ -161,11 +161,11 @@ public class ScheduleService {
 
 
     // 일정 수정
-    public void updateSchedule(Long scheduleId, ScheduleChangeDto scheduleChangeDto) throws Exception {
+    public void updateSchedule(Long scheduleId, ScheduleChangeDto scheduleChangeDto) {
         Schedule schedule = scheduleRepository.findById(scheduleId).get();
         if (schedule.getScheduleType() == ScheduleType.HABIT) {
             if (scheduleChangeDto.getIsCompleted() != null) {
-                throw new Exception("습관 일정은 완료 여부를 수정할 수 없습니다.");
+                throw new NullPointerException("습관 일정은 완료 여부를 수정할 수 없습니다.");
             }
             ((HabitSchedule) schedule).updateSchedule(scheduleChangeDto);
         } else if (schedule.getScheduleType() == ScheduleType.TODO) {
@@ -177,7 +177,7 @@ public class ScheduleService {
     public void deleteSchedule(String targetId, String requesterId, Long scheduleId) {
         if (targetId.equals(requesterId)) {
             Optional<Schedule> findSchedule = scheduleRepository.findById(scheduleId);
-            if (findSchedule.isEmpty()){
+            if (findSchedule.isEmpty()) {
                 throw new NullPointerException("삭제할 일정이 없습니다.");
             }
             scheduleRepository.delete(findSchedule.get());

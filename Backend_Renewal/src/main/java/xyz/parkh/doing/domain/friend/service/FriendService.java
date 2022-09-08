@@ -26,17 +26,17 @@ public class FriendService {
     private final FriendshipRepository friendshipRepository;
     private final UserService userService;
 
-    public void requestFriendApplication(String requesterAuthId, String targetAuthId) throws Exception {
+    public void requestFriendApplication(String requesterAuthId, String targetAuthId){
         if (isFriend(requesterAuthId, targetAuthId)) {
-            throw new Exception("이미 친구");
+            throw new NullPointerException("이미 친구");
         }
 
         if (hasRequestFriendApplication(requesterAuthId, targetAuthId)) {
-            throw new Exception("이미 존재하는 요청");
+            throw new NullPointerException("이미 존재하는 요청");
         }
 
         if (hasRequestFriendApplication(targetAuthId, requesterAuthId)) {
-            throw new Exception("이미 상대방이 요청 함");
+            throw new NullPointerException("이미 상대방이 요청 함");
         }
 
 
