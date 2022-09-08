@@ -16,6 +16,7 @@ import xyz.parkh.doing.domain.user.service.UserService;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -29,22 +30,25 @@ public class ScheduleService {
     private final FriendService friendService;
 
     // 일정 생성
-    public void addSchedule(ScheduleDto scheduleDTO) {
+    public Schedule addSchedule(ScheduleAddDto scheduleAddDTO) {
         Schedule schedule = null;
 
-        if (scheduleDTO.getScheduleType() == ScheduleType.HABIT) {
-            schedule = scheduleDTO.convertHabitSchedule();
-        } else if (scheduleDTO.getScheduleType() == ScheduleType.TODO) {
-            schedule = scheduleDTO.convertToDoSchedule();
+        if (scheduleAddDTO.getScheduleType() == ScheduleType.HABIT) {
+            schedule = scheduleAddDTO.convertHabitSchedule();
+        } else if (scheduleAddDTO.getScheduleType() == ScheduleType.TODO) {
+            schedule = scheduleAddDTO.convertToDoSchedule();
         }
 
         if (schedule == null) {
             throw new NullPointerException("일정 형식이 잘 못 되었습니다.");
         }
-        scheduleRepository.save(schedule);
+
+        Schedule saveSchedule = scheduleRepository.save(schedule);
+
+        return saveSchedule;
     }
 
-    // 일정 목록 조회
+// 일정 목록 조회
 //    public List<Schedule> findScheduleList(ScheduleConditionDTO scheduleConditionDto) {
 //        // 요청하는 사람과 일정 주인의 관계 확인
 //        // - OpenScope.PRIVATE : 본인
@@ -71,7 +75,11 @@ public class ScheduleService {
 //    }
 
     // 권한에 따른 일정 조회
-    public List<Schedule> findAccessibleSchedule(String targetId, String requesterId, Period period) {
+    public List<Schedule> findAccessibleSchedule(ScheduleConditionDTO scheduleConditionDTO) {
+        String targetId = scheduleConditionDTO.getTargetId();
+        String requesterId = scheduleConditionDTO.getRequesterId();
+        Period period = scheduleConditionDTO.getPeriod();
+
         User target = userService.findByAuthId(targetId);
         if (target == null) {
             throw new NullPointerException("조회하려는 사용자가 없습니다.");
@@ -88,7 +96,6 @@ public class ScheduleService {
                     .filter(schedule -> schedule.getOpenScope() == OpenScope.PUBLIC
                             || schedule.getOpenScope() == OpenScope.FRIEND)
                     .collect(Collectors.toList());
-
         }
 
         return scheduleRepository.findAllByUserAndPeriod(target, period).stream()
@@ -124,14 +131,9 @@ public class ScheduleService {
 
     }
 
-
     // 일정 타입별 일정 조회
     public CategorizedScheduleList findCategorizedScheduleList(ScheduleConditionDTO scheduleConditionDto) {
-        String requesterId = scheduleConditionDto.getRequesterId();
-        String targetId = scheduleConditionDto.getTargetId();
-        Period period = scheduleConditionDto.getPeriod();
-
-        List<Schedule> scheduleList = findAccessibleSchedule(targetId, requesterId, period);
+        List<Schedule> scheduleList = findAccessibleSchedule(scheduleConditionDto);
         List<Schedule> habitList = scheduleList.stream()
                 .filter(schedule -> schedule.getScheduleType() == ScheduleType.HABIT)
                 .collect(Collectors.toList());
@@ -159,8 +161,28 @@ public class ScheduleService {
 
 
     // 일정 수정
+    public void updateSchedule(Long scheduleId, ScheduleChangeDto scheduleChangeDto) throws Exception {
+        Schedule schedule = scheduleRepository.findById(scheduleId).get();
+        if (schedule.getScheduleType() == ScheduleType.HABIT) {
+            if (scheduleChangeDto.getIsCompleted() != null) {
+                throw new Exception("습관 일정은 완료 여부를 수정할 수 없습니다.");
+            }
+            ((HabitSchedule) schedule).updateSchedule(scheduleChangeDto);
+        } else if (schedule.getScheduleType() == ScheduleType.TODO) {
+            ((ToDoSchedule) schedule).updateSchedule(scheduleChangeDto);
+        }
+    }
 
     // 일정 삭제
-
-
+    public void deleteSchedule(String targetId, String requesterId, Long scheduleId) {
+        if (targetId.equals(requesterId)) {
+            Optional<Schedule> findSchedule = scheduleRepository.findById(scheduleId);
+            if (findSchedule.isEmpty()){
+                throw new NullPointerException("삭제할 일정이 없습니다.");
+            }
+            scheduleRepository.delete(findSchedule.get());
+        } else {
+            throw new NullPointerException("삭제 권한이 없습니다.");
+        }
+    }
 }

@@ -31,13 +31,10 @@ public class UserService {
     }
 
     //
-    public UserSimpleInfo signUp(final UserDetailInfo userDetailInfo) {
+    public User signUp(final UserDetailInfo userDetailInfo) {
         User user = userDetailInfo.convertToUser();
         userRepository.save(user);
-
-        User findUser = userRepository.findById(user.getId()).get();
-        UserSimpleInfo findUserSimpleInfo = findUser.convertToUserSimpleInfo();
-        return findUserSimpleInfo;
+        return user;
     }
 
     public Boolean signIn(final Auth auth) {

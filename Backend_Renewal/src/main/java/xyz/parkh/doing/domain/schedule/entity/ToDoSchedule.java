@@ -1,6 +1,7 @@
 package xyz.parkh.doing.domain.schedule.entity;
 
 import lombok.*;
+import xyz.parkh.doing.domain.schedule.model.ScheduleChangeDto;
 import xyz.parkh.doing.domain.schedule.model.ScheduleType;
 import xyz.parkh.doing.domain.user.entity.User;
 import xyz.parkh.doing.domain.schedule.model.OpenScope;
@@ -24,5 +25,13 @@ public class ToDoSchedule extends Schedule {
     public ToDoSchedule(User user, String title, OpenScope openScope, Period period, Boolean isCompleted) {
         super(user, title, openScope, period, ScheduleType.TODO);
         this.isCompleted = isCompleted;
+    }
+
+    @Override
+    public void updateSchedule(ScheduleChangeDto scheduleChangeDto) {
+        super.updateSchedule(scheduleChangeDto);
+        if (scheduleChangeDto.getIsCompleted() != null) {
+            this.isCompleted = scheduleChangeDto.getIsCompleted();
+        }
     }
 }

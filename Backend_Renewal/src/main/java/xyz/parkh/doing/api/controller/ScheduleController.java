@@ -6,10 +6,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xyz.parkh.doing.api.model.request.AddScheduleRequest;
-import xyz.parkh.doing.api.model.request.GetScheduleRequest;
 import xyz.parkh.doing.api.model.response.Check;
 import xyz.parkh.doing.domain.schedule.model.AllCategorizedScheduleList;
-import xyz.parkh.doing.domain.schedule.model.ScheduleDto;
+import xyz.parkh.doing.domain.schedule.model.ScheduleAddDto;
 import xyz.parkh.doing.domain.schedule.service.ScheduleService;
 import xyz.parkh.doing.domain.user.entity.User;
 import xyz.parkh.doing.domain.user.service.UserService;
@@ -31,8 +30,8 @@ public class ScheduleController {
             @RequestBody AddScheduleRequest addScheduleRequest,
             String userInJwt) {
         User user = userService.findByAuthId(authId);
-        ScheduleDto scheduleDto = addScheduleRequest.convert(user);
-        scheduleService.addSchedule(scheduleDto);
+        ScheduleAddDto scheduleAddDto = addScheduleRequest.convert(user);
+        scheduleService.addSchedule(scheduleAddDto);
 
         return ResponseEntity.noContent().build();
     }

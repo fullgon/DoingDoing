@@ -3,12 +3,8 @@ package xyz.parkh.doing.domain.schedule.entity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.junit.experimental.categories.Categories;
-import xyz.parkh.doing.domain.schedule.model.ScheduleType;
+import xyz.parkh.doing.domain.schedule.model.*;
 import xyz.parkh.doing.domain.user.entity.User;
-import xyz.parkh.doing.domain.schedule.model.OpenScope;
-import xyz.parkh.doing.domain.schedule.model.Period;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -40,10 +36,6 @@ public abstract class Schedule {
     @Embedded
     private Period period;
 
-    // DiscriminatorColumn
-//    @Column(name = "SCHEDULE_TYPE", insertable = false, updatable = false)
-//    private String scheduleType;
-
     @Enumerated(value = EnumType.STRING)
     private ScheduleType scheduleType;
 
@@ -68,5 +60,20 @@ public abstract class Schedule {
     @Override
     public int hashCode() {
         return Objects.hash(id, title, openScope, period);
+    }
+
+    public void updateSchedule(ScheduleChangeDto scheduleChangeDto) {
+        if (scheduleChangeDto.getScheduleType() != null) {
+            this.scheduleType = scheduleChangeDto.getScheduleType();
+        }
+        if (scheduleChangeDto.getOpenScope() != null) {
+            this.openScope = scheduleChangeDto.getOpenScope();
+        }
+        if (scheduleChangeDto.getTitle() != null) {
+            this.title = scheduleChangeDto.getTitle();
+        }
+        if (scheduleChangeDto.getPeriod() != null) {
+            this.period = scheduleChangeDto.getPeriod();
+        }
     }
 }
