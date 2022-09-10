@@ -22,6 +22,9 @@ import xyz.parkh.doing.domain.user.repository.UserRepository;
 import xyz.parkh.doing.domain.user.service.UserService;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -53,7 +56,7 @@ public class ScheduleServiceTest {
 
 
     @Before
-    public void init(){
+    public void init() {
         if (userService.findByAuthId("authIdA") == null) {
             UserDetailInfo userDetailInfoA = new UserDetailInfo("authIdA", "passwordA", "nameA", "emailA@naver.com", "companyA");
             userA = userService.signUp(userDetailInfoA);
@@ -213,8 +216,32 @@ public class ScheduleServiceTest {
         Assertions.assertEquals(2, friendSchedule.getDaily().getHabitScheduleList().size());
     }
 
+    // TODO comparator 공부
+//    @Test
+    public void comparator_공부() {
+        AllCategorizedScheduleList privateSchedule = scheduleService.findAllCategorizedScheduleList(LocalDate.now(), userA.getAuthId(), userA.getAuthId());
+        List<ShortToDoSchedule> list = privateSchedule.getDaily().getToDoScheduleList();
+        System.out.println("Before");
+        for (ShortToDoSchedule shortToDoSchedule : list) {
+            System.out.println(shortToDoSchedule);
+        }
+
+        Collections.sort(list, (o1, o2) -> {
+            ShortToDoSchedule schedule1 = (ShortToDoSchedule) o1;
+            ShortToDoSchedule schedule2 = (ShortToDoSchedule) o2;
+            String title1 = schedule1.getTitle();
+            String title2 = schedule2.getTitle();
+            return title1.compareTo(title2);
+        });
+
+        System.out.println("After");
+        for (ShortToDoSchedule shortToDoSchedule : list) {
+            System.out.println(shortToDoSchedule);
+        }
+    }
+
     @Test
-    public void 할일_일정_수정(){
+    public void 할일_일정_수정() {
         ScheduleAddDto scheduleAddDto = ScheduleAddDto.createForToDoSchedule(userA, "dayToDoPublicTrue", OpenScope.PUBLIC, dailyPeriod, true);
         Schedule schedule = scheduleService.addSchedule(scheduleAddDto);
 
@@ -228,7 +255,7 @@ public class ScheduleServiceTest {
     }
 
     @Test
-    public void 습관_일정_수정(){
+    public void 습관_일정_수정() {
         Period dailyPeriod = Period.createDailyPeriod(LocalDate.now());
         ScheduleAddDto scheduleAddDto = ScheduleAddDto.createForHabitSchedule(userA, "dayHabitPublicTrue", OpenScope.PUBLIC, dailyPeriod);
         Schedule schedule = scheduleService.addSchedule(scheduleAddDto);

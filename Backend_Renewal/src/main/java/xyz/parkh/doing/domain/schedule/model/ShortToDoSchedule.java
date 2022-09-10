@@ -1,8 +1,10 @@
 package xyz.parkh.doing.domain.schedule.model;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class ShortToDoSchedule {
     private Long id;
     private String title;
