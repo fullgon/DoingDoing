@@ -14,4 +14,6 @@ public interface FriendRequestRepository extends JpaRepository<FriendApplication
     List<FriendApplication> findAllByRequesterAndFriendshipState(User requester, FriendshipState friendshipState);
 
     FriendApplication findByRequesterAndTargetAndFriendshipState(User requester, User target, FriendshipState friendshipState);
+
+    FriendApplication findTopByRequesterAndTargetOrderByIdDesc(User requester, User target);
 }

@@ -26,7 +26,7 @@ public class FriendService {
     private final FriendshipRepository friendshipRepository;
     private final UserService userService;
 
-    public void requestFriendApplication(String requesterAuthId, String targetAuthId){
+    public void requestFriendApplication(String requesterAuthId, String targetAuthId) {
         if (isFriend(requesterAuthId, targetAuthId)) {
             throw new NullPointerException("이미 친구");
         }
@@ -48,8 +48,11 @@ public class FriendService {
     }
 
 
-    public void requestCancelFriendApplication(Long friendApplicationId) {
-        FriendApplication friendApplication = friendRequestRepository.findById(friendApplicationId).get();
+    public void requestCancelFriendApplication(String requesterAuthId, String targetAuthId) {
+        FriendApplication friendApplication = getFriedApplication(requesterAuthId, targetAuthId);
+        if (friendApplication.getFriendshipState() != FriendshipState.REQUEST) {
+            throw new NullPointerException("진행 중인 친구 요청이 없습니다.");
+        }
         friendApplication.setFriendshipState(FriendshipState.CANCEL);
     }
 
@@ -149,4 +152,10 @@ public class FriendService {
         return friendList;
     }
 
+    public FriendApplication getFriedApplication(String requesterAuthId, String targetAuthId) {
+        User requester = userService.findByAuthId(requesterAuthId);
+        User target = userService.findByAuthId(targetAuthId);
+
+        return friendRequestRepository.findTopByRequesterAndTargetOrderByIdDesc(requester, target);
+    }
 }

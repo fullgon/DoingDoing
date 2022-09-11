@@ -2,12 +2,15 @@ package xyz.parkh.doing.service;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+import xyz.parkh.doing.domain.friend.entity.FriendApplication;
 import xyz.parkh.doing.domain.friend.model.FriendInfo;
+import xyz.parkh.doing.domain.friend.model.FriendshipState;
 import xyz.parkh.doing.domain.friend.repository.FriendRequestRepository;
 import xyz.parkh.doing.domain.friend.service.FriendService;
 import xyz.parkh.doing.domain.user.entity.User;
@@ -41,7 +44,7 @@ public class FriendServiceTest {
     private EntityManager em;
 
     @Before
-    public void 친구_요청(){
+    public void 친구_요청() {
         User userA = User.builder().name("userAName").authId("userAID").build();
         User userB = User.builder().name("userBName").authId("userBID").build();
         User userC = User.builder().name("userCName").authId("userCID").build();
@@ -61,14 +64,12 @@ public class FriendServiceTest {
 
     @Test
     public void 친구_요청_취소() {
-        List<FriendInfo> friendInfoList = friendService.getSendFriendApplicationList("userDID");
+        FriendApplication friendApplication = friendService.getFriedApplication("userDID", "userAID");
+        assertEquals(FriendshipState.REQUEST, friendApplication.getFriendshipState());
 
-        for (FriendInfo friendInfo : friendInfoList) {
-            friendService.requestCancelFriendApplication(friendInfo.getId());
-        }
-
-        friendInfoList = friendService.getSendFriendApplicationList("userDID");
-        assertEquals(friendInfoList.size(), 0);
+        friendService.requestCancelFriendApplication("userDID", "userAID");
+        friendApplication = friendService.getFriedApplication("userDID", "userAID");
+        assertEquals(FriendshipState.CANCEL, friendApplication.getFriendshipState());
     }
 
 
@@ -140,5 +141,15 @@ public class FriendServiceTest {
         }
         List<User> friendList = friendService.getFriendList("userAID");
         assertEquals(friendList.size(), 1);
+    }
+
+    @Test
+    public void 최근_친구_요청_단건_조회() {
+        FriendApplication firstFriedApplication = friendService.getFriedApplication("userAID", "userBID");
+        friendService.responseDecline(firstFriedApplication.getId());
+
+        friendService.requestFriendApplication("userAID", "userBID");
+        FriendApplication secondFriedApplication = friendService.getFriedApplication("userAID", "userBID");
+        Assertions.assertTrue(firstFriedApplication.getId() != secondFriedApplication.getId());
     }
 }
