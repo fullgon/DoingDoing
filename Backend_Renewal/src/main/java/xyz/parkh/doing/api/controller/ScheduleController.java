@@ -12,7 +12,9 @@ import xyz.parkh.doing.domain.schedule.model.*;
 import xyz.parkh.doing.domain.schedule.service.ScheduleService;
 import xyz.parkh.doing.domain.user.entity.User;
 import xyz.parkh.doing.domain.user.service.UserService;
+import xyz.parkh.doing.security.TokenProvider;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 
 @Slf4j
@@ -22,6 +24,8 @@ import java.time.LocalDate;
 public class ScheduleController {
     private final ScheduleService scheduleService;
     private final UserService userService;
+
+    private final TokenProvider tokenProvider;
 
     // 일정 추가
     @PostMapping("/{authId}")
@@ -41,9 +45,12 @@ public class ScheduleController {
     public ResponseEntity<AllCategorizedScheduleList> getAllScheduleByLocalDate(
             @PathVariable String authId,
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate,
-            String userInJwt) {
+            HttpServletRequest request) {
         String targetId = authId;
-        String requestId = userInJwt;
+
+        String token = tokenProvider.parseBearerToken(request);
+        String requestId = tokenProvider.validateAndGetAuthId(token);
+
         AllCategorizedScheduleList allCategorizedScheduleList = scheduleService.findAllCategorizedScheduleList(localDate, targetId, requestId);
 
         return ResponseEntity.ok(allCategorizedScheduleList);
