@@ -2,6 +2,8 @@ package xyz.parkh.doing.domain.user.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.parkh.doing.domain.user.entity.User;
@@ -33,16 +35,21 @@ public class UserService {
     //
     public User signUp(final UserDetailInfo userDetailInfo) {
         User user = userDetailInfo.convertToUser();
+        User findUser = findByAuthId(user.getAuthId());
+        if (findUser != null) {
+            throw new RuntimeException("이미 존재하는 아이디입니다.");
+        }
+
         userRepository.save(user);
         return user;
     }
 
     public Boolean signIn(final Auth auth) {
-        User findUser = userRepository.findByAuthId(auth.getAuthId());
-        String savedPassword = findUser.getPassword();
-        String requestPassword = auth.getPassword();
-
-        return savedPassword.equals(requestPassword);
+        User signInUser = getByCredentials(auth.getAuthId(), auth.getPassword());
+        if (signInUser == null) {
+            return false;
+        }
+        return true;
     }
 
     public void modifyUser(final UserSimpleInfo modifyUser) {
@@ -77,6 +84,15 @@ public class UserService {
 
     public Boolean isAbleSignUpEmail(final String email) {
         return !isExistUserByEmail(email);
+    }
+
+    public User getByCredentials(final String authId, final String password) {
+        final User oriUser = findByAuthId(authId);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if (oriUser != null && encoder.matches(password, oriUser.getPassword())) {
+            return oriUser;
+        }
+        return null;
     }
 
 }

@@ -78,10 +78,7 @@ public class User {
     }
 
     public UserDetailInfo convertToUserDetailInfo() {
-        UserDetailInfo individualDetailInfo = UserDetailInfo.builder()
-                .authId(authId).password(password).name(name)
-                .email(email).company(company).build();
-        return individualDetailInfo;
+        return new UserDetailInfo(authId, password, name, email, company);
     }
 
     public UserSimpleInfo convertToUserSimpleInfo() {

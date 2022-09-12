@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import xyz.parkh.doing.domain.user.entity.User;
 
 @Getter
@@ -16,10 +17,9 @@ public class UserDetailInfo {
     private String email;
     private String company;
 
-    @Builder
     public UserDetailInfo(String authId, String password, String name, String email, String company) {
         this.authId = authId;
-        this.password = password;
+        this.password = encodePassword(password);
         this.name = name;
         this.email = email;
         this.company = company;
@@ -35,5 +35,10 @@ public class UserDetailInfo {
         UserSimpleInfo userSimpleInfo = UserSimpleInfo.builder().authId(authId).name(name)
                 .email(email).company(company).build();
         return userSimpleInfo;
+    }
+
+    public String encodePassword(final String authId) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.encode(authId);
     }
 }

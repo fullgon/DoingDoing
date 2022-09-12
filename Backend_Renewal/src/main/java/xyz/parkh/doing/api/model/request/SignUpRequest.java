@@ -26,8 +26,6 @@ public class SignUpRequest {
     }
 
     public UserDetailInfo convertToUserInfoDetail() {
-        UserDetailInfo userDetailInfo = UserDetailInfo.builder().authId(authId).password(password)
-                .name(name).email(email).company(company).build();
-        return userDetailInfo;
+        return new UserDetailInfo(authId, password, name, email, company);
     }
 }

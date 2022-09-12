@@ -6,11 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xyz.parkh.doing.api.model.request.SignInRequest;
-import xyz.parkh.doing.api.model.request.SignUpRequest;
-import xyz.parkh.doing.api.model.response.Check;
 import xyz.parkh.doing.api.model.response.UserInfoResponse;
 import xyz.parkh.doing.domain.user.model.Auth;
-import xyz.parkh.doing.domain.user.model.UserDetailInfo;
 import xyz.parkh.doing.domain.user.model.UserSimpleInfo;
 import xyz.parkh.doing.domain.user.service.UserService;
 
@@ -22,40 +19,6 @@ import xyz.parkh.doing.domain.user.service.UserService;
 public class UserController {
 
     private final UserService userService;
-
-    @PostMapping("/sign-up")
-    public ResponseEntity signUp(@RequestBody SignUpRequest signUpRequest) {
-        UserDetailInfo userDetailInfo = signUpRequest.convertToUserInfoDetail();
-        userService.signUp(userDetailInfo);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/sign-in")
-    public ResponseEntity<Check> signIn(@RequestBody SignInRequest signInRequest) {
-        Auth auth = signInRequest.convertToAuth();
-        Boolean isSuccess = userService.signIn(auth);
-        return ResponseEntity.ok().body(new Check(isSuccess));
-    }
-
-    @PostMapping("/check/user-id")
-    public ResponseEntity<Check> checkUserId(@RequestBody String userId) {
-        Boolean isAbleSignUpUserId = userService.isAbleSignUpUserId(userId);
-        return ResponseEntity.ok().body(new Check(isAbleSignUpUserId));
-    }
-
-    @PostMapping("/check/email")
-    public ResponseEntity<Check> checkEmail(@RequestBody String email) {
-        Boolean isAbleSignUpEmail = userService.isAbleSignUpEmail(email);
-        return ResponseEntity.ok().body(new Check(isAbleSignUpEmail));
-    }
-
-    // TODO 추후 JWT 의 ID 확인 필요
-    @PostMapping("/check/password")
-    public ResponseEntity<Check> checkPassword(@RequestBody SignInRequest signInRequest) {
-        Auth auth = signInRequest.convertToAuth();
-        Boolean isCorrectPassword = userService.signIn(auth);
-        return ResponseEntity.ok().body(new Check(isCorrectPassword));
-    }
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserInfoResponse> getUserInfo(@PathVariable("userId") String userId) {
