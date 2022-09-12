@@ -37,9 +37,14 @@ public class ScheduleService {
         return schedule;
     }
 
-    // 일정 생성
-    public Schedule addSchedule(ScheduleAddDto scheduleAddDTO) {
+    // 본인 일정 생성
+    public Schedule addSchedule(String requesterId, ScheduleAddDto scheduleAddDTO) {
         Schedule schedule = null;
+        String targetId = scheduleAddDTO.getUser().getAuthId();
+
+        if (impossibleAdd(requesterId, targetId)) {
+            throw new NullPointerException("추가할 수 있는 권한이 없습니다.");
+        }
 
         if (scheduleAddDTO.getScheduleType() == ScheduleType.HABIT) {
             schedule = scheduleAddDTO.convertHabitSchedule();
@@ -47,13 +52,13 @@ public class ScheduleService {
             schedule = scheduleAddDTO.convertToDoSchedule();
         }
 
-        if (schedule == null) {
-            throw new NullPointerException("일정 형식이 잘 못 되었습니다.");
-        }
-
         Schedule saveSchedule = scheduleRepository.save(schedule);
 
         return saveSchedule;
+    }
+
+    private boolean impossibleAdd(String requesterId, String targetId) {
+        return !requesterId.equals(targetId);
     }
 
 // 일정 목록 조회

@@ -45,4 +45,8 @@ public class TokenProvider {
         return null;
     }
 
+    public String getUserIdAtBearerToken(String bearerToken) {
+        String token = bearerToken.substring(7);
+        return validateAndGetAuthId(token);
+    }
 }

@@ -33,13 +33,6 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/change/password")
-    public ResponseEntity modifyPassword(@RequestBody SignInRequest signInRequest) {
-        Auth auth = signInRequest.convertToAuth();
-        userService.modifyPassword(auth);
-        return ResponseEntity.noContent().build();
-    }
-
     // TODO 현재 로그인 한 사용자 만 삭제할 수 있도록 변경
     @DeleteMapping
     public ResponseEntity remove(@RequestBody String userId) {

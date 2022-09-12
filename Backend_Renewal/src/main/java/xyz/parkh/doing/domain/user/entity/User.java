@@ -1,6 +1,7 @@
 package xyz.parkh.doing.domain.user.entity;
 
 import lombok.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import xyz.parkh.doing.domain.team.entity.TeamUser;
 import xyz.parkh.doing.domain.user.model.Auth;
 import xyz.parkh.doing.domain.user.model.UserDetailInfo;
@@ -75,16 +76,6 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id, authId, password, name, email, company);
-    }
-
-    public UserDetailInfo convertToUserDetailInfo() {
-        return new UserDetailInfo(authId, password, name, email, company);
-    }
-
-    public UserSimpleInfo convertToUserSimpleInfo() {
-        UserSimpleInfo userSimpleInfo = UserSimpleInfo.builder().authId(authId).name(name)
-                .email(email).company(company).build();
-        return userSimpleInfo;
     }
 
     public void modifyPassword(Auth auth) {

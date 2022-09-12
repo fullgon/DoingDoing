@@ -22,7 +22,6 @@ import xyz.parkh.doing.domain.user.repository.UserRepository;
 import xyz.parkh.doing.domain.user.service.UserService;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -90,15 +89,15 @@ public class ScheduleServiceTest {
             ScheduleAddDto monthToDoFriendFalse = ScheduleAddDto.createForToDoSchedule(userA, "MonthToDoFriendTrue", OpenScope.FRIEND, monthlyPeriod, false);
             ScheduleAddDto monthHabitFriend = ScheduleAddDto.createForHabitSchedule(userA, "MonthHabitFriend", OpenScope.FRIEND, monthlyPeriod);
 
-            scheduleService.addSchedule(monthToDoPublicTrue);
-            scheduleService.addSchedule(monthToDoPublicFalse);
-            scheduleService.addSchedule(monthHabitPublic);
-            scheduleService.addSchedule(monthToDoPrivateFalse);
-            scheduleService.addSchedule(monthToDoPrivateTrue);
-            scheduleService.addSchedule(monthHabitPrivate);
-            scheduleService.addSchedule(monthToDoFriendFalse);
-            scheduleService.addSchedule(monthToDoFriendTrue);
-            scheduleService.addSchedule(monthHabitFriend);
+            scheduleService.addSchedule(userA.getAuthId(), monthToDoPublicTrue);
+            scheduleService.addSchedule(userA.getAuthId(), monthToDoPublicFalse);
+            scheduleService.addSchedule(userA.getAuthId(), monthHabitPublic);
+            scheduleService.addSchedule(userA.getAuthId(), monthToDoPrivateFalse);
+            scheduleService.addSchedule(userA.getAuthId(), monthToDoPrivateTrue);
+            scheduleService.addSchedule(userA.getAuthId(), monthHabitPrivate);
+            scheduleService.addSchedule(userA.getAuthId(), monthToDoFriendFalse);
+            scheduleService.addSchedule(userA.getAuthId(), monthToDoFriendTrue);
+            scheduleService.addSchedule(userA.getAuthId(), monthHabitFriend);
 
             ScheduleAddDto weekToDoPublicTrue = ScheduleAddDto.createForToDoSchedule(userA, "weekToDoPublicTrue", OpenScope.PUBLIC, weeklyPeriod, true);
             ScheduleAddDto weekToDoPublicFalse = ScheduleAddDto.createForToDoSchedule(userA, "weekToDoPublicFalse", OpenScope.PUBLIC, weeklyPeriod, false);
@@ -110,15 +109,15 @@ public class ScheduleServiceTest {
             ScheduleAddDto weekToDoFriendTrue = ScheduleAddDto.createForToDoSchedule(userA, "weekToDoFriendTrue", OpenScope.FRIEND, weeklyPeriod, true);
             ScheduleAddDto weekToDoFriendFalse = ScheduleAddDto.createForToDoSchedule(userA, "weekToDoFriendTrue", OpenScope.FRIEND, weeklyPeriod, false);
             ScheduleAddDto weekHabitFriend = ScheduleAddDto.createForHabitSchedule(userA, "weekHabitFriend", OpenScope.FRIEND, weeklyPeriod);
-            scheduleService.addSchedule(weekToDoPublicTrue);
-            scheduleService.addSchedule(weekToDoPublicFalse);
-            scheduleService.addSchedule(weekHabitPublic);
-            scheduleService.addSchedule(weekToDoPrivateTrue);
-            scheduleService.addSchedule(weekToDoPrivateFalse);
-            scheduleService.addSchedule(weekHabitPrivate);
-            scheduleService.addSchedule(weekToDoFriendTrue);
-            scheduleService.addSchedule(weekToDoFriendFalse);
-            scheduleService.addSchedule(weekHabitFriend);
+            scheduleService.addSchedule(userA.getAuthId(), weekToDoPublicTrue);
+            scheduleService.addSchedule(userA.getAuthId(), weekToDoPublicFalse);
+            scheduleService.addSchedule(userA.getAuthId(), weekHabitPublic);
+            scheduleService.addSchedule(userA.getAuthId(), weekToDoPrivateTrue);
+            scheduleService.addSchedule(userA.getAuthId(), weekToDoPrivateFalse);
+            scheduleService.addSchedule(userA.getAuthId(), weekHabitPrivate);
+            scheduleService.addSchedule(userA.getAuthId(), weekToDoFriendTrue);
+            scheduleService.addSchedule(userA.getAuthId(), weekToDoFriendFalse);
+            scheduleService.addSchedule(userA.getAuthId(), weekHabitFriend);
 
             ScheduleAddDto dayToDoPublicTrue = ScheduleAddDto.createForToDoSchedule(userA, "dayToDoPublicTrue", OpenScope.PUBLIC, dailyPeriod, true);
             ScheduleAddDto dayToDoPublicFalse = ScheduleAddDto.createForToDoSchedule(userA, "dayToDoPublicFalse", OpenScope.PUBLIC, dailyPeriod, false);
@@ -130,15 +129,15 @@ public class ScheduleServiceTest {
             ScheduleAddDto dayToDoFriendFalse = ScheduleAddDto.createForToDoSchedule(userA, "dayToDoFriendTrue", OpenScope.FRIEND, dailyPeriod, false);
             ScheduleAddDto dayHabitFriend = ScheduleAddDto.createForHabitSchedule(userA, "dayHabitFriend", OpenScope.FRIEND, dailyPeriod);
 
-            scheduleService.addSchedule(dayToDoPublicTrue);
-            scheduleService.addSchedule(dayToDoPublicFalse);
-            scheduleService.addSchedule(dayHabitPublic);
-            scheduleService.addSchedule(dayToDoPrivateTrue);
-            scheduleService.addSchedule(dayToDoPrivateFalse);
-            scheduleService.addSchedule(dayHabitPrivate);
-            scheduleService.addSchedule(dayToDoFriendTrue);
-            scheduleService.addSchedule(dayToDoFriendFalse);
-            scheduleService.addSchedule(dayHabitFriend);
+            scheduleService.addSchedule(userA.getAuthId(), dayToDoPublicTrue);
+            scheduleService.addSchedule(userA.getAuthId(), dayToDoPublicFalse);
+            scheduleService.addSchedule(userA.getAuthId(), dayHabitPublic);
+            scheduleService.addSchedule(userA.getAuthId(), dayToDoPrivateTrue);
+            scheduleService.addSchedule(userA.getAuthId(), dayToDoPrivateFalse);
+            scheduleService.addSchedule(userA.getAuthId(), dayHabitPrivate);
+            scheduleService.addSchedule(userA.getAuthId(), dayToDoFriendTrue);
+            scheduleService.addSchedule(userA.getAuthId(), dayToDoFriendFalse);
+            scheduleService.addSchedule(userA.getAuthId(), dayHabitFriend);
         }
     }
 
@@ -148,7 +147,7 @@ public class ScheduleServiceTest {
 
         ScheduleAddDto scheduleAddDTO = ScheduleAddDto.createForToDoSchedule(userA, "title", OpenScope.PUBLIC, period, true);
 
-        scheduleService.addSchedule(scheduleAddDTO);
+        scheduleService.addSchedule(userA.getAuthId(), scheduleAddDTO);
     }
 
     @Test
@@ -156,7 +155,7 @@ public class ScheduleServiceTest {
         Period period = Period.createMonthlyPeriod(2022, 8);
         ScheduleAddDto scheduleAddDTO = ScheduleAddDto.createForToDoSchedule(userA, "title", OpenScope.PUBLIC, period, true);
 
-        scheduleService.addSchedule(scheduleAddDTO);
+        scheduleService.addSchedule(userA.getAuthId(), scheduleAddDTO);
     }
 
     @Test
@@ -243,7 +242,7 @@ public class ScheduleServiceTest {
     @Test
     public void 할일_일정_수정() {
         ScheduleAddDto scheduleAddDto = ScheduleAddDto.createForToDoSchedule(userA, "dayToDoPublicTrue", OpenScope.PUBLIC, dailyPeriod, true);
-        Schedule schedule = scheduleService.addSchedule(scheduleAddDto);
+        Schedule schedule = scheduleService.addSchedule(userA.getAuthId(), scheduleAddDto);
 
         ScheduleChangeDto scheduleChangeDto = ScheduleChangeDto.builder()
                 .title("UpdateTitle")
@@ -258,7 +257,7 @@ public class ScheduleServiceTest {
     public void 습관_일정_수정() {
         Period dailyPeriod = Period.createDailyPeriod(LocalDate.now());
         ScheduleAddDto scheduleAddDto = ScheduleAddDto.createForHabitSchedule(userA, "dayHabitPublicTrue", OpenScope.PUBLIC, dailyPeriod);
-        Schedule schedule = scheduleService.addSchedule(scheduleAddDto);
+        Schedule schedule = scheduleService.addSchedule(userA.getAuthId(), scheduleAddDto);
 
         ScheduleChangeDto scheduleChangeDto = ScheduleChangeDto.builder()
                 .title("UpdateTitle")
@@ -272,7 +271,7 @@ public class ScheduleServiceTest {
     public void 일정_삭제() {
         Period dailyPeriod = Period.createDailyPeriod(LocalDate.now());
         ScheduleAddDto scheduleAddDto = ScheduleAddDto.createForHabitSchedule(userA, "dayHabitPublicTrue", OpenScope.PUBLIC, dailyPeriod);
-        Schedule schedule = scheduleService.addSchedule(scheduleAddDto);
+        Schedule schedule = scheduleService.addSchedule(userA.getAuthId(), scheduleAddDto);
 
         scheduleService.deleteSchedule(schedule.getId(), userA.getAuthId(), userA.getAuthId());
 

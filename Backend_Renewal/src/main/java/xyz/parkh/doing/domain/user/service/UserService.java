@@ -20,6 +20,8 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
     public User findByAuthId(final String authId) {
         User findByAuthId = userRepository.findByAuthId(authId);
         return findByAuthId;
@@ -27,15 +29,24 @@ public class UserService {
 
     public UserSimpleInfo findUser(final String userId) {
         User findUser = userRepository.findByAuthId(userId);
-        UserSimpleInfo findUserSimpleInfo = findUser.convertToUserSimpleInfo();
+
+        UserSimpleInfo findUserSimpleInfo = new UserSimpleInfo(findUser.getAuthId(), findUser.getName(),
+                findUser.getEmail(), findUser.getCompany());
 
         return findUserSimpleInfo;
     }
 
-    //
+    // 회원 가입
     public User signUp(final UserDetailInfo userDetailInfo) {
-        User user = userDetailInfo.convertToUser();
-        User findUser = findByAuthId(user.getAuthId());
+        String authId = userDetailInfo.getAuthId();
+        String password = encodePassword(userDetailInfo.getPassword()); // 암호화
+        String name = userDetailInfo.getName();
+        String email = userDetailInfo.getEmail();
+        String company = userDetailInfo.getCompany();
+
+        User user = new User(authId, password, name, email, company);
+
+        User findUser = findByAuthId(authId);
         if (findUser != null) {
             throw new RuntimeException("이미 존재하는 아이디입니다.");
         }
@@ -44,8 +55,9 @@ public class UserService {
         return user;
     }
 
+    // 로그인
     public Boolean signIn(final Auth auth) {
-        User signInUser = getByCredentials(auth.getAuthId(), auth.getPassword());
+        User signInUser = getByCredentials(auth);
         if (signInUser == null) {
             return false;
         }
@@ -86,13 +98,19 @@ public class UserService {
         return !isExistUserByEmail(email);
     }
 
-    public User getByCredentials(final String authId, final String password) {
+    public User getByCredentials(final Auth auth) {
+        final String authId = auth.getAuthId();
+        final String password = auth.getPassword();
         final User oriUser = findByAuthId(authId);
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
         if (oriUser != null && encoder.matches(password, oriUser.getPassword())) {
             return oriUser;
         }
         return null;
+    }
+
+    public String encodePassword(final String password) {
+        return encoder.encode(password);
     }
 
 }

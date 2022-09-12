@@ -14,7 +14,6 @@ import xyz.parkh.doing.domain.user.entity.User;
 import xyz.parkh.doing.domain.user.service.UserService;
 import xyz.parkh.doing.security.TokenProvider;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 
 @Slf4j
@@ -24,7 +23,6 @@ import java.time.LocalDate;
 public class ScheduleController {
     private final ScheduleService scheduleService;
     private final UserService userService;
-
     private final TokenProvider tokenProvider;
 
     // 일정 추가
@@ -32,10 +30,11 @@ public class ScheduleController {
     public ResponseEntity addSchedule(
             @PathVariable String authId,
             @RequestBody AddScheduleRequest addScheduleRequest,
-            String userInJwt) {
+            @RequestHeader("Authorization") String bearerToken) {
+        String requesterId = tokenProvider.getUserIdAtBearerToken(bearerToken);
         User user = userService.findByAuthId(authId);
         ScheduleAddDto scheduleAddDto = addScheduleRequest.convert(user);
-        scheduleService.addSchedule(scheduleAddDto);
+        scheduleService.addSchedule(requesterId, scheduleAddDto);
 
         return ResponseEntity.noContent().build();
     }
@@ -45,14 +44,11 @@ public class ScheduleController {
     public ResponseEntity<AllCategorizedScheduleList> getAllScheduleByLocalDate(
             @PathVariable String authId,
             @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate,
-            HttpServletRequest request) {
+            @RequestHeader("Authorization") String bearerToken) {
         String targetId = authId;
+        String requesterId = tokenProvider.getUserIdAtBearerToken(bearerToken);
 
-        String token = tokenProvider.parseBearerToken(request);
-        String requestId = tokenProvider.validateAndGetAuthId(token);
-
-        AllCategorizedScheduleList allCategorizedScheduleList = scheduleService.findAllCategorizedScheduleList(localDate, targetId, requestId);
-
+        AllCategorizedScheduleList allCategorizedScheduleList = scheduleService.findAllCategorizedScheduleList(localDate, targetId, requesterId);
         return ResponseEntity.ok(allCategorizedScheduleList);
     }
 
@@ -90,7 +86,7 @@ public class ScheduleController {
     }
 
     @Getter
-    static class UpdateScheduleRequest{
+    static class UpdateScheduleRequest {
         private String title;
         private OpenScope openScope;
         private Period period;
@@ -102,7 +98,7 @@ public class ScheduleController {
     @DeleteMapping("/{scheduleId}")
     public ResponseEntity removeSchedule(@PathVariable Long scheduleId,
                                          String userInJwt
-                                         ) {
+    ) {
         String targetId = scheduleService.findByScheduleId(scheduleId).getUser().getAuthId();
         String requesterId = userInJwt;
         scheduleService.deleteSchedule(scheduleId, targetId, requesterId);

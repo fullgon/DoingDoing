@@ -19,26 +19,9 @@ public class UserDetailInfo {
 
     public UserDetailInfo(String authId, String password, String name, String email, String company) {
         this.authId = authId;
-        this.password = encodePassword(password);
+        this.password = password;
         this.name = name;
         this.email = email;
         this.company = company;
-    }
-
-    public User convertToUser() {
-        User user = User.builder().authId(authId).password(password)
-                .name(name).email(email).company(company).build();
-        return user;
-    }
-
-    public UserSimpleInfo convertToUserInfo() {
-        UserSimpleInfo userSimpleInfo = UserSimpleInfo.builder().authId(authId).name(name)
-                .email(email).company(company).build();
-        return userSimpleInfo;
-    }
-
-    public String encodePassword(final String authId) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        return encoder.encode(authId);
     }
 }
