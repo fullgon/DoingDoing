@@ -1,18 +1,13 @@
 package xyz.parkh.doing.api.controller;
 
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xyz.parkh.doing.api.model.request.SignInRequest;
-import xyz.parkh.doing.api.model.request.SignUpRequest;
-import xyz.parkh.doing.api.model.response.Check;
-import xyz.parkh.doing.api.model.response.UserInfoResponse;
 import xyz.parkh.doing.domain.user.model.Auth;
 import xyz.parkh.doing.domain.user.model.UserDetailInfo;
-import xyz.parkh.doing.domain.user.model.UserSimpleInfo;
 import xyz.parkh.doing.domain.user.service.UserService;
 import xyz.parkh.doing.security.TokenProvider;
 
@@ -34,46 +29,86 @@ public class AuthController {
         return ResponseEntity.noContent().build();
     }
 
+    @Getter
+    static class SignUpRequest {
+        private String authId;
+        private String password;
+        private String name;
+        private String email;
+        private String company;
+
+        public UserDetailInfo convertToUserInfoDetail() {
+            return new UserDetailInfo(authId, password, name, email, company);
+        }
+    }
+
+
     @PostMapping("/sign-in")
-    public ResponseEntity<signIdResponse> signIn(@RequestBody SignInRequest signInRequest) {
+    public ResponseEntity<signInResponse> signIn(@RequestBody SignInRequest signInRequest) {
         Auth auth = signInRequest.convertToAuth();
         Boolean isSuccess = userService.signIn(auth);
         String token = null;
         if (isSuccess) {
             token = tokenProvider.create(auth.getAuthId());
         }
-        return ResponseEntity.ok().body(new signIdResponse(isSuccess, token));
+        return ResponseEntity.ok().body(new signInResponse(isSuccess, token));
     }
 
     @Getter
-    static class signIdResponse {
+    static class signInResponse {
         private boolean isSuccess;
         private String token;
 
-        public signIdResponse(boolean isSuccess, String token) {
+        public signInResponse(boolean isSuccess, String token) {
             this.isSuccess = isSuccess;
             this.token = token;
         }
     }
 
     @PostMapping("/check/user-id")
-    public ResponseEntity<Check> checkUserId(@RequestBody String userId) {
+    public ResponseEntity<CheckBasicResponse> checkUserId(@RequestBody String userId) {
         Boolean isAbleSignUpUserId = userService.isAbleSignUpUserId(userId);
-        return ResponseEntity.ok().body(new Check(isAbleSignUpUserId));
+        return ResponseEntity.ok().body(new CheckBasicResponse(isAbleSignUpUserId));
     }
 
     @PostMapping("/check/email")
-    public ResponseEntity<Check> checkEmail(@RequestBody String email) {
+    public ResponseEntity<CheckBasicResponse> checkEmail(@RequestBody String email) {
         Boolean isAbleSignUpEmail = userService.isAbleSignUpEmail(email);
-        return ResponseEntity.ok().body(new Check(isAbleSignUpEmail));
+        return ResponseEntity.ok().body(new CheckBasicResponse(isAbleSignUpEmail));
+    }
+
+    @Getter
+    static class CheckBasicResponse {
+        private Boolean check;
+
+        public CheckBasicResponse(Boolean check) {
+            this.check = check;
+        }
     }
 
     // TODO 추후 JWT 의 ID 확인 필요
     @PostMapping("/check/password")
-    public ResponseEntity<Check> checkPassword(@RequestBody SignInRequest signInRequest) {
+    public ResponseEntity<CheckJwtResponse> checkPassword(@RequestBody SignInRequest signInRequest) {
         Auth auth = signInRequest.convertToAuth();
         Boolean isCorrectPassword = userService.signIn(auth);
-        return ResponseEntity.ok().body(new Check(isCorrectPassword));
+
+        String token = null;
+        if (isCorrectPassword) {
+            token = tokenProvider.create(auth.getAuthId());
+        }
+        // 가능 하다면 기존 토큰 삭제
+        return ResponseEntity.ok().body(new CheckJwtResponse(isCorrectPassword, token));
+    }
+
+    @Getter
+    static class CheckJwtResponse {
+        private Boolean check;
+        private String token;
+
+        public CheckJwtResponse(Boolean check, String token) {
+            this.check = check;
+            this.token = token;
+        }
     }
 
     @PutMapping("/change/password")

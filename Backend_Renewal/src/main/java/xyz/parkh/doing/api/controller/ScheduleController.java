@@ -7,7 +7,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xyz.parkh.doing.api.model.request.AddScheduleRequest;
-import xyz.parkh.doing.api.model.response.Check;
 import xyz.parkh.doing.domain.schedule.model.*;
 import xyz.parkh.doing.domain.schedule.service.ScheduleService;
 import xyz.parkh.doing.domain.user.entity.User;
@@ -62,10 +61,13 @@ public class ScheduleController {
 
     // 일정이 존재 하는 날짜 조회
     @GetMapping("/exist/{authId}")
-    public ResponseEntity<Check> getExistScheduleLocalDate(@PathVariable String authId,
-                                                           String userInJwt) {
-
+    public ResponseEntity<GetExistScheduleLocalDateResponse> getExistScheduleLocalDate(@PathVariable String authId,
+                                                                                       String userInJwt) {
         return ResponseEntity.noContent().build();
+    }
+
+    static class GetExistScheduleLocalDateResponse {
+
     }
 
     // 일정 수정
