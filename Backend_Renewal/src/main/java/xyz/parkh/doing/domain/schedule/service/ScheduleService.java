@@ -38,11 +38,12 @@ public class ScheduleService {
     }
 
     // 본인 일정 생성
-    public Schedule addSchedule(String requesterId, ScheduleAddDto scheduleAddDTO) {
+    public Schedule addSchedule(ScheduleAddDto scheduleAddDTO) {
         Schedule schedule = null;
-        String targetId = scheduleAddDTO.getUser().getAuthId();
+        User target = scheduleAddDTO.getOwner();
+        User requester = scheduleAddDTO.getRequester();
 
-        if (impossibleAdd(requesterId, targetId)) {
+        if (impossibleAdd(requester, target)) {
             throw new NullPointerException("추가할 수 있는 권한이 없습니다.");
         }
 
@@ -57,8 +58,8 @@ public class ScheduleService {
         return saveSchedule;
     }
 
-    private boolean impossibleAdd(String requesterId, String targetId) {
-        return !requesterId.equals(targetId);
+    private boolean impossibleAdd(User requester, User target) {
+        return !requester.equals(target);
     }
 
 // 일정 목록 조회
@@ -89,22 +90,19 @@ public class ScheduleService {
 
     // 권한에 따른 일정 조회
     public List<Schedule> findAccessibleSchedule(ScheduleConditionDTO scheduleConditionDTO) {
-        String targetId = scheduleConditionDTO.getTargetId();
-        String requesterId = scheduleConditionDTO.getRequesterId();
+        User target = scheduleConditionDTO.getTarget();
+        User requester = scheduleConditionDTO.getRequester();
         Period period = scheduleConditionDTO.getPeriod();
 
-        User target = userService.findByAuthId(targetId);
         if (target == null) {
             throw new NullPointerException("조회하려는 사용자가 없습니다.");
         }
-
-        User requester = userService.findByAuthId(requesterId);
 
         if (target.equals(requester)) {
             return scheduleRepository.findAllByUserAndPeriod(target, period);
         }
 
-        if (friendService.isFriend(targetId, requesterId)) {
+        if (friendService.isFriend(target, requester)) {
             return scheduleRepository.findAllByUserAndPeriod(target, period).stream()
                     .filter(schedule -> schedule.getOpenScope() == OpenScope.PUBLIC
                             || schedule.getOpenScope() == OpenScope.FRIEND)
@@ -117,7 +115,7 @@ public class ScheduleService {
     }
 
 
-    public AllCategorizedScheduleList findAllCategorizedScheduleList(LocalDate localDate, String targetId, String requesterId) {
+    public AllCategorizedScheduleList findAllCategorizedScheduleList(LocalDate localDate, User target, User requester) {
         int year = localDate.getYear();
         int month = localDate.getMonth().getValue();
         int day = localDate.getDayOfMonth();
@@ -126,21 +124,21 @@ public class ScheduleService {
         Period weeklyPeriod = Period.createWeeklyPeriod(localDate);
         Period dailyPeriod = Period.createDailyPeriod(year, month, day);
 
-        ScheduleConditionDTO monthlyCondition = new ScheduleConditionDTO(targetId, requesterId, monthlyPeriod);
+        ScheduleConditionDTO monthlyCondition = new ScheduleConditionDTO(target, requester, monthlyPeriod);
         CategorizedScheduleList monthlySchedule = findCategorizedScheduleList(monthlyCondition);
 
-        ScheduleConditionDTO weeklyCondition = new ScheduleConditionDTO(targetId, requesterId, weeklyPeriod);
+        ScheduleConditionDTO weeklyCondition = new ScheduleConditionDTO(target, requester, weeklyPeriod);
         CategorizedScheduleList weeklySchedule = findCategorizedScheduleList(weeklyCondition);
 
-        ScheduleConditionDTO dailyCondition = new ScheduleConditionDTO(targetId, requesterId, dailyPeriod);
+        ScheduleConditionDTO dailyCondition = new ScheduleConditionDTO(target, requester, dailyPeriod);
         CategorizedScheduleList dailySchedule = findCategorizedScheduleList(dailyCondition);
 
         AllCategorizedScheduleList scheduleList = new AllCategorizedScheduleList(monthlySchedule, weeklySchedule, dailySchedule);
         return scheduleList;
     }
 
-    public AllCategorizedScheduleList findAllCategorizedScheduleList(LocalDate localDate, String targetId) {
-        return findAllCategorizedScheduleList(localDate, targetId, null);
+    public AllCategorizedScheduleList findAllCategorizedScheduleList(LocalDate localDate, User target) {
+        return findAllCategorizedScheduleList(localDate, target, null);
 
     }
 
@@ -174,13 +172,19 @@ public class ScheduleService {
 
 
     // 일정 수정
-    public void updateSchedule(Long scheduleId, ScheduleChangeDto scheduleChangeDto) {
+    public void updateSchedule(ScheduleChangeDto scheduleChangeDto) {
+        Long scheduleId = scheduleChangeDto.getScheduleId();
         // TODO 없는 일정 조회 시 에러 발생 Optional 공부 후 처리 변경
         Schedule schedule = scheduleRepository.findById(scheduleId).get();
 
         if (schedule == null) {
             throw new NullPointerException();
         }
+
+        if (schedule.getUser().equals(scheduleChangeDto.getRequester())) {
+            throw new NullPointerException("수정할 수 있는 권한이 없습니다.");
+        }
+
         if (schedule.getScheduleType() == ScheduleType.HABIT) {
             if (scheduleChangeDto.getIsCompleted() != null) {
                 throw new NullPointerException("습관 일정은 완료 여부를 수정할 수 없습니다.");
@@ -192,8 +196,8 @@ public class ScheduleService {
     }
 
     // 일정 삭제
-    public void deleteSchedule(Long scheduleId, String targetId, String requesterId) {
-        if (targetId.equals(requesterId)) {
+    public void deleteSchedule(Long scheduleId, User target, User requester) {
+        if (target.equals(requester)) {
             Optional<Schedule> findSchedule = scheduleRepository.findById(scheduleId);
             if (findSchedule.isEmpty()) {
                 throw new NullPointerException("삭제할 일정이 없습니다.");

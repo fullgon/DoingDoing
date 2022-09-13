@@ -76,7 +76,9 @@ public static Period getWeek(LocalDate date) {
 ## API
 
 ### 일정 전체 목록 조회
+
 * /api/schedules/authIdA/2022-09-07
+
 ```
 {
     "userInJwt":"authIdB"
@@ -84,7 +86,9 @@ public static Period getWeek(LocalDate date) {
 ```
 
 ### 일정 정보 등록
+
 * /api/schedules/authIdA
+
 ```
 {
     "title": "완료 O",
@@ -99,3 +103,30 @@ public static Period getWeek(LocalDate date) {
     "isCompleted": true
 }
 ```
+
+## 매개변수
+
+2022.09.14. 
+
+메서드가 많아질수록 꼬임,
+
+어떤 메서드는 엔티티를 받고, 어떤 메서드는 String 을 받음
+
+Controller 를 오직 service 호출용으로만 사용하려 했으나,
+
+편의를 위해 controller 에서 findBy~ 하기로 결정
+
+AS-IS
+
+```
+Controller 에서 호출하는 Service 는 String
+
+Serviece 에서 호출하는 Service 는 Entity
+```
+
+TO-BE
+
+```
+컨트롤러에서 findBy~ 후 서비스에 엔티티 넘겨줌
+```
+

@@ -9,23 +9,17 @@ import xyz.parkh.doing.domain.user.entity.User;
 @Getter
 @ToString
 public class ScheduleAddDto {
-    private User user;
+    private User requester;
+    private User owner;
     private String title;
     private OpenScope openScope;
     private Period period;
     private Boolean isCompleted;
     private ScheduleType scheduleType;
 
-    public ScheduleAddDto(User user, String title, OpenScope openScope, Period period, ScheduleType scheduleType) {
-        this.user = user;
-        this.title = title;
-        this.openScope = openScope;
-        this.period = period;
-        this.scheduleType = scheduleType;
-    }
-
-    public ScheduleAddDto(User user, String title, OpenScope openScope, Period period, Boolean isCompleted, ScheduleType scheduleType) {
-        this.user = user;
+    private ScheduleAddDto(User requester, User owner, String title, OpenScope openScope, Period period, Boolean isCompleted, ScheduleType scheduleType) {
+        this.requester = requester;
+        this.owner = owner;
         this.title = title;
         this.openScope = openScope;
         this.period = period;
@@ -33,19 +27,28 @@ public class ScheduleAddDto {
         this.scheduleType = scheduleType;
     }
 
+    private ScheduleAddDto(User requester, User owner, String title, OpenScope openScope, Period period, ScheduleType scheduleType) {
+        this.requester = requester;
+        this.owner = owner;
+        this.title = title;
+        this.openScope = openScope;
+        this.period = period;
+        this.scheduleType = scheduleType;
+    }
+
     public ToDoSchedule convertToDoSchedule() {
-        return new ToDoSchedule(user, title, openScope, period, isCompleted);
+        return new ToDoSchedule(owner, title, openScope, period, isCompleted);
     }
 
     public HabitSchedule convertHabitSchedule() {
-        return new HabitSchedule(user, title, openScope, period);
+        return new HabitSchedule(owner, title, openScope, period);
     }
 
-    public static ScheduleAddDto createForToDoSchedule(User user, String title, OpenScope openScope, Period period, Boolean isCompleted) {
-        return new ScheduleAddDto(user, title, openScope, period, isCompleted, ScheduleType.TODO);
+    public static ScheduleAddDto createForToDoSchedule(User requester, User owner, String title, OpenScope openScope, Period period, Boolean isCompleted) {
+        return new ScheduleAddDto(requester, owner, title, openScope, period, isCompleted, ScheduleType.TODO);
     }
 
-    public static ScheduleAddDto createForHabitSchedule(User user, String title, OpenScope openScope, Period period) {
-        return new ScheduleAddDto(user, title, openScope, period, ScheduleType.HABIT);
+    public static ScheduleAddDto createForHabitSchedule(User requester, User owner, String title, OpenScope openScope, Period period) {
+        return new ScheduleAddDto(requester, owner, title, openScope, period, ScheduleType.HABIT);
     }
 }

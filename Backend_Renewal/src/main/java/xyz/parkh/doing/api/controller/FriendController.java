@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import xyz.parkh.doing.domain.friend.entity.FriendApplication;
 import xyz.parkh.doing.domain.friend.service.FriendService;
 import xyz.parkh.doing.domain.user.entity.User;
+import xyz.parkh.doing.domain.user.service.UserService;
 
 import java.util.List;
 
@@ -14,12 +15,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FriendController {
 
+    private final UserService userService;
+
     private final FriendService friendService;
 
     // 친구 목록 조회
     @GetMapping
     public ResponseEntity getFriendList(String userInJwt) {
-        List<User> friendList = friendService.getFriendList(userInJwt);
+        User user = userService.findByAuthId(userInJwt);
+        List<User> friendList = friendService.getFriendList(user);
 
         return new ResponseEntity(null);
     }
@@ -28,7 +32,8 @@ public class FriendController {
     @GetMapping("/request/{targetId}")
     public ResponseEntity sendFriendRequest(@PathVariable String targetId,
                                             String userInJwt) {
-        friendService.requestFriendApplication(userInJwt, targetId);
+        User requester = userService.findByAuthId(userInJwt);
+        User target = userService.findByAuthId(targetId);
         return new ResponseEntity(null);
     }
 
@@ -36,7 +41,8 @@ public class FriendController {
     @GetMapping("/cancel/{targetId}")
     public ResponseEntity sendFriendRequestCancel(@PathVariable String targetId,
                                                   String userInJwt) {
-        friendService.requestCancelFriendApplication(userInJwt, targetId);
+        User requester = userService.findByAuthId(userInJwt);
+        User target = userService.findByAuthId(targetId);
         return new ResponseEntity(null);
     }
 

@@ -39,7 +39,7 @@ public class FriendshipRepositoryTest {
     private UserService userService;
 
     @Before
-    public void 친구_요청(){
+    public void 친구_요청() {
         User userA = User.builder().name("userAName").authId("userAID").build();
         User userB = User.builder().name("userBName").authId("userBID").build();
         User userC = User.builder().name("userCName").authId("userCID").build();
@@ -50,15 +50,15 @@ public class FriendshipRepositoryTest {
         userRepository.save(userC);
         userRepository.save(userD);
 
-        friendService.requestFriendApplication(userA.getAuthId(), userB.getAuthId());
-        friendService.requestFriendApplication(userA.getAuthId(), userC.getAuthId());
-        friendService.requestFriendApplication(userD.getAuthId(), userA.getAuthId());
+        friendService.requestFriendApplication(userA, userB);
+        friendService.requestFriendApplication(userA, userC);
+        friendService.requestFriendApplication(userD, userA);
     }
 
     @Test
     public void 친구_목록_조회() {
         User user = userRepository.findByAuthId("userAID");
-        List<FriendInfo> friendInfoList = friendService.getReceiveFriendApplicationList("userAID");
+        List<FriendInfo> friendInfoList = friendService.getReceiveFriendApplicationList(user);
         for (FriendInfo friendInfo : friendInfoList) {
             friendService.responseAccept(friendInfo.getId());
         }

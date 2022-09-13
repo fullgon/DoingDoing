@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import xyz.parkh.doing.api.model.request.AddScheduleRequest;
 import xyz.parkh.doing.domain.schedule.model.*;
 import xyz.parkh.doing.domain.schedule.service.ScheduleService;
 import xyz.parkh.doing.domain.user.entity.User;
@@ -31,12 +30,35 @@ public class ScheduleController {
             @RequestBody AddScheduleRequest addScheduleRequest,
             @RequestHeader("Authorization") String bearerToken) {
         String requesterId = tokenProvider.getUserIdAtBearerToken(bearerToken);
-        User user = userService.findByAuthId(authId);
-        ScheduleAddDto scheduleAddDto = addScheduleRequest.convert(user);
-        scheduleService.addSchedule(requesterId, scheduleAddDto);
+
+        User target = userService.findByAuthId(authId);
+        User requester = userService.findByAuthId(requesterId);
+        String title = addScheduleRequest.getTitle();
+        OpenScope openScope = addScheduleRequest.getOpenScope();
+        Boolean isCompleted = addScheduleRequest.getIsCompleted();
+        Period period = addScheduleRequest.getPeriod();
+        ScheduleType scheduleType = addScheduleRequest.getScheduleType();
+
+        ScheduleAddDto scheduleAddDto;
+        if (scheduleType == ScheduleType.TODO) {
+            scheduleAddDto = ScheduleAddDto.createForToDoSchedule(requester, target, title, openScope, period, isCompleted);
+        } else {
+            scheduleAddDto = ScheduleAddDto.createForHabitSchedule(requester, target, title, openScope, period);
+        }
+        scheduleService.addSchedule(scheduleAddDto);
 
         return ResponseEntity.noContent().build();
     }
+
+    @Getter
+    static class AddScheduleRequest {
+        private String title;
+        private OpenScope openScope;
+        private Period period;
+        private Boolean isCompleted;
+        private ScheduleType scheduleType;
+    }
+
 
     // 날짜 기준 모든 일정 조회
     @GetMapping("/{authId}/all/{localDate}")
@@ -47,7 +69,10 @@ public class ScheduleController {
         String targetId = authId;
         String requesterId = tokenProvider.getUserIdAtBearerToken(bearerToken);
 
-        AllCategorizedScheduleList allCategorizedScheduleList = scheduleService.findAllCategorizedScheduleList(localDate, targetId, requesterId);
+        User target = userService.findByAuthId(targetId);
+        User requester = userService.findByAuthId(requesterId);
+
+        AllCategorizedScheduleList allCategorizedScheduleList = scheduleService.findAllCategorizedScheduleList(localDate, target, requester);
         return ResponseEntity.ok(allCategorizedScheduleList);
     }
 
@@ -74,21 +99,25 @@ public class ScheduleController {
     @PatchMapping("/{scheduleId}")
     public ResponseEntity updateSchedule(@PathVariable Long scheduleId,
                                          @RequestBody UpdateScheduleRequest updateScheduleRequest,
-                                         String userInJwt) {
-        ScheduleChangeDto scheduleChangeDto = ScheduleChangeDto.builder()
-                .title(updateScheduleRequest.getTitle())
-                .openScope(updateScheduleRequest.getOpenScope())
-                .period(updateScheduleRequest.getPeriod())
-                .isCompleted(updateScheduleRequest.getIsCompleted())
-                .scheduleType(updateScheduleRequest.getScheduleType())
-                .build();
+                                         @RequestHeader("Authorization") String bearerToken) {
+        String requesterId = tokenProvider.getUserIdAtBearerToken(bearerToken);
+        User requester = userService.findByAuthId(requesterId);
 
-        scheduleService.updateSchedule(scheduleId, scheduleChangeDto);
+        String title = updateScheduleRequest.getTitle();
+        OpenScope openScope = updateScheduleRequest.getOpenScope();
+        Boolean isCompleted = updateScheduleRequest.getIsCompleted();
+        Period period = updateScheduleRequest.getPeriod();
+        ScheduleType scheduleType = updateScheduleRequest.getScheduleType();
+
+        ScheduleChangeDto scheduleChangeDto = new ScheduleChangeDto(scheduleId, requester, title, openScope, period, isCompleted, scheduleType);
+
+        scheduleService.updateSchedule(scheduleChangeDto);
         return ResponseEntity.noContent().build();
     }
 
     @Getter
     static class UpdateScheduleRequest {
+        private Long id;
         private String title;
         private OpenScope openScope;
         private Period period;
@@ -103,7 +132,11 @@ public class ScheduleController {
     ) {
         String targetId = scheduleService.findByScheduleId(scheduleId).getUser().getAuthId();
         String requesterId = userInJwt;
-        scheduleService.deleteSchedule(scheduleId, targetId, requesterId);
+
+        User target = userService.findByAuthId(targetId);
+        User requester = userService.findByAuthId(requesterId);
+
+        scheduleService.deleteSchedule(scheduleId, target, requester);
         return ResponseEntity.noContent().build();
     }
 
