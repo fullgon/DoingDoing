@@ -3,7 +3,10 @@ package xyz.parkh.doing.domain.schedule.entity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import xyz.parkh.doing.domain.schedule.model.*;
+import xyz.parkh.doing.domain.schedule.model.OpenScope;
+import xyz.parkh.doing.domain.schedule.model.Period;
+import xyz.parkh.doing.domain.schedule.model.ScheduleChangeDto;
+import xyz.parkh.doing.domain.schedule.model.ScheduleType;
 import xyz.parkh.doing.domain.user.entity.User;
 
 import javax.persistence.*;
@@ -49,12 +52,13 @@ public abstract class Schedule {
 
     @Override
     public boolean equals(Object o) {
-        // TODO LAZY 로딩으로 프록시 객체 조회 되어 비교에서 제외, 제대로 된 해결 방법 찾기
-        // TODO scheduleType 읽기 전용으로 추가
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Schedule)) return false;
         Schedule schedule = (Schedule) o;
-        return Objects.equals(id, schedule.id) && Objects.equals(title, schedule.title) && openScope == schedule.openScope && Objects.equals(period, schedule.period);
+        return Objects.equals(id, schedule.getId())
+                && Objects.equals(title, schedule.getTitle())
+                && Objects.equals(openScope, schedule.getOpenScope())
+                && Objects.equals(period, schedule.openScope);
     }
 
     @Override

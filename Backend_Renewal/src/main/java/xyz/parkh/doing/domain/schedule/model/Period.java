@@ -96,9 +96,13 @@ public class Period {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Period)) return false;
         Period period = (Period) o;
-        return year == period.year && month == period.month && week == period.week && day == period.day && periodType == period.periodType;
+        return year == period.getYear()
+                && month == period.getMonth()
+                && week == period.getWeek()
+                && day == period.getDay()
+                && periodType == period.getPeriodType();
     }
 
     @Override
