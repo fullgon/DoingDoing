@@ -1,8 +1,8 @@
 package xyz.parkh.doing.domain.friend.entity;
 
 import lombok.*;
-import xyz.parkh.doing.domain.user.entity.User;
 import xyz.parkh.doing.domain.friend.model.FriendshipState;
+import xyz.parkh.doing.domain.user.entity.User;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -45,10 +45,13 @@ public class FriendApplication {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof FriendApplication)) return false;
         FriendApplication that = (FriendApplication) o;
-        return Objects.equals(id, that.id) && Objects.equals(requester, that.requester)
-                && Objects.equals(target, that.target) && friendshipState == that.friendshipState;
+
+        return Objects.equals(this.id, that.getId())
+                && Objects.equals(requester, that.getRequester())
+                && Objects.equals(target, that.getTarget())
+                && this.friendshipState == that.getFriendshipState();
     }
 
     @Override

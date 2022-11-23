@@ -1,10 +1,8 @@
 package xyz.parkh.doing.domain.user.entity;
 
 import lombok.*;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import xyz.parkh.doing.domain.team.entity.TeamUser;
 import xyz.parkh.doing.domain.user.model.Auth;
-import xyz.parkh.doing.domain.user.model.UserDetailInfo;
 import xyz.parkh.doing.domain.user.model.UserSimpleInfo;
 
 import javax.persistence.*;
@@ -64,13 +62,46 @@ public class User {
         this.company = company;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        // TODO LAZY 로딩으로 프록시 객체 조회 되어 비교에서 제외, 제대로 된 해결 방법 찾기
+    /**
+     * 인텔리제이에서 equals 만들면 이런식으로 생성 되는데 이렇게 생성하면,
+     * 프록시를 이용한 지연 로딩으로 제대로된 비교가 되지 않음
+     */
+    public boolean equalsFail(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(authId, user.authId) && Objects.equals(password, user.password) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(company, user.company);
+
+        Long id = user.id;
+        String name = user.name;  // null
+        String getName = user.getName(); // name
+
+        return Objects.equals(id, user.id)
+                && Objects.equals(authId, user.authId)
+                && Objects.equals(password, user.password)
+                && Objects.equals(name, user.name)
+                && Objects.equals(email, user.email)
+                && Objects.equals(company, user.company)
+                && Objects.equals(teams, user.teams);
+    }
+
+    /**
+     * 엔티티의 equals 메서드
+     * <p>
+     * o == null || getClass() != o.getClass() -> !(o instanceof User)
+     * user.id -> user.getId()
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+
+        return Objects.equals(id, user.getId())
+                && Objects.equals(authId, user.getAuthId())
+                && Objects.equals(password, user.getPassword())
+                && Objects.equals(name, user.getName())
+                && Objects.equals(email, user.getEmail())
+                && Objects.equals(company, user.getCompany());
     }
 
     @Override
